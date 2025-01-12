@@ -5,7 +5,10 @@ import streamlit as st
 from qdrant_client import QdrantClient, models
 from fastembed import TextEmbedding, SparseTextEmbedding, LateInteractionTextEmbedding
 
-st.title("CrustData chatbot")
+
+st.set_page_config(page_title="CrustData Chatbot", page_icon="./assets/logo.svg")
+st.logo("./assets/full-logo.svg", size="large")
+st.title("CrustData chatbot :robot_face:")
 
 
 @st.cache_resource
@@ -140,7 +143,7 @@ for message in st.session_state.conversation:
         for part in message.parts:
             st.markdown(part.text)
 
-if query := st.chat_input("What is up?"):
+if query := st.chat_input("Ask me about CrustData API..."):
     with st.chat_message("user"):
         st.markdown(query)
 

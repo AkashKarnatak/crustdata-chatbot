@@ -46,7 +46,6 @@ def expand_query(conversation: list[types.Content], query: str) -> str:
 
     msg = "Rewrite the previous user query to include contextual information from the earlier conversation to make the final query a standalone query suitable for retrieval systems. Attempt to keep the final output as similar to the last user question as possible while enhancing it with contextual information from the conversation. Only output the final query."
     res = chat.send_message(msg)
-    print(res.text.strip())
     return query + '\n\n' + res.text.strip()
 
 

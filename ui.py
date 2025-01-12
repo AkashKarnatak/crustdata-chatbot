@@ -28,6 +28,9 @@ def init():
 
 gemini_client, qdrant_client, all_mini, bm25, colbert = init()
 
+with st.chat_message("assistant"):
+    st.markdown("How can I help you today?")
+
 
 def expand_query(conversation: list[types.Content], query: str) -> str:
     if len(conversation) == 0:
@@ -43,7 +46,8 @@ def expand_query(conversation: list[types.Content], query: str) -> str:
 
     msg = "Rewrite the previous user query to include contextual information from the earlier conversation to make the final query a standalone query suitable for retrieval systems. Attempt to keep the final output as similar to the last user question as possible while enhancing it with contextual information from the conversation. Only output the final query."
     res = chat.send_message(msg)
-    return res.text.strip()
+    print(res.text.strip())
+    return query + '\n\n' + res.text.strip()
 
 
 def fetch_context(conversation: list[types.Content], query: str) -> str:

@@ -8,6 +8,14 @@ const docsDir = path.join(import.meta.dirname, '../docs')
 
 // split the contents by heading (max depth 2) and create chunks
 const createChunks = (filePath) => {
+  const chunksDir = path.join(docsDir, `chunks/${path.parse(filePath).name}`)
+  if (!fs.existsSync(chunksDir)) {
+    fs.mkdirSync(chunksDir, { recursive: true })
+  } else {
+    console.log(`Skipping... Chunks already exist at ${chunksDir}`)
+    return
+  }
+
   const content = fs.readFileSync(filePath)
   const tree = fromMarkdown(content)
 
@@ -35,9 +43,6 @@ const createChunks = (filePath) => {
     }
     return tree
   }, [])
-
-  const chunksDir = path.join(docsDir, `chunks/${path.parse(filePath).name}`)
-  if (!fs.existsSync(chunksDir)) fs.mkdirSync(chunksDir, { recursive: true })
 
   tree.children.forEach((node, i) => {
     fs.writeFileSync(

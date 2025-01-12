@@ -19,36 +19,38 @@ cd crustdata-chatbot
 ### 3. Setup environment and install dependencies:
 
 ```bash
- uv sync
- cd markdown-chunker
- pnpm i
+cd markdown-chunker
+pnpm i
+cd ..
+uv sync
+export GEMINI_API_KEY=<YOUR-GEMINI-API-KEY>
 ```
 
 ### 4. Run database:
 
 Setup [QDrant locally](https://qdrant.tech/documentation/quickstart/#how-to-get-started-with-qdrant-locally)
 
-    ```bash
-    docker run -p 6333:6333 -p 6334:6334 \
-        -v $(pwd)/qdrant_storage:/qdrant/storage:z \
-        qdrant/qdrant
-    ```
+```bash
+docker run -p 6333:6333 -p 6334:6334 \
+    -v $(pwd)/qdrant_storage:/qdrant/storage:z \
+    qdrant/qdrant
+```
 
 ### 5. Seed vector database:
 
 Before we can chat with the chatbot we need to seed our vector database.
 
-    ```bash
-    uv run generate_embeddings.py
-    ```
+```bash
+uv run generate_embeddings.py
+```
 
 ### 6. Launch UI:
 
 Now we can launch the UI to chat with the chatbot.
 
-    ```bash
-    uv run streamlit run ui.py
-    ```
+```bash
+uv run streamlit run ui.py
+```
 
 ## License
 

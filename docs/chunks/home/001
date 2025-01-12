@@ -1,0 +1,5 @@
+# Introduction
+
+The Crustdata API gives you programmatic access to firmographic and growth metrics data for companies across the world from more than 16 datasets (Linkedin headcount, Glassdoor, Instagram, G2, Web Traffic, Apple App Store reviews, Google Play Store, News among others).
+
+This documentation describes various available API calls and schema of the response. If you have any questions, please reach out to <abhilash@crustdata.com>.

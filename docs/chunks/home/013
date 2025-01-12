@@ -1,0 +1,262 @@
+# People Endpoints
+
+## **LinkedIn Posts by Person API (real-time)**
+
+**Overview:** This endpoint retrieves recent LinkedIn posts and related engagement metrics for a specified person.
+
+Each request returns up-to 5 results per page. To paginate, increment the `page` query param.
+
+Required: authentication token `auth_token` for authorization.
+
+* **Request**
+  * **Use Case:** Ideal for users who want to fetch recent LinkedIn posts and engagement data for a specific company.
+  * **Note:** You can provide one company LinkedIn URL per request.
+  * Request Parameters:
+    * `person_linkedin_url` (required): LinkedIn profile url of the person. For example, any of these formats work [`https://linkedin.com/in/abhilash-chowdhary`](https://linkedin.com/in/abhilash-chowdhary)  (flagship url) or [`https://linkedin.com/in/ACoAAAAsKtMBHQPJ9rgxpUs8M6pSxrAYCXIX8oY`](https://linkedin.com/in/ACoAAAAsKtMBHQPJ9rgxpUs8M6pSxrAYCXIX8oY) (fsd\_profile url)
+    * `fields` (optional): comma separated list of fields which you want to get in response.
+      * all possible values:
+        * total\_reactions
+        * total\_comments
+        * text
+        * share\_urn
+        * share\_url
+        * reactors
+        * reactions\_by\_type.PRAISE
+        * reactions\_by\_type.LIKE
+        * reactions\_by\_type.INTEREST
+        * reactions\_by\_type.ENTERTAINMENT
+        * reactions\_by\_type.EMPATHY
+        * reactions\_by\_type.CURIOUS
+        * reactions\_by\_type.APPRECIATION
+        * reactions\_by\_type
+        * num\_shares
+        * hyperlinks.person\_linkedin\_urls
+        * hyperlinks.other\_urls
+        * hyperlinks.company\_linkedin\_urls
+        * hyperlinks
+        * date\_posted
+        * backend\_urn
+        * actor\_name
+        * year\_founded
+      * default: All fields except `reactors` :`total_reactions,total_comments,text,share_urn,share_url,reactions_by_type_PRAISE,reactions_by_type_LIKE,reactions_by_type_INTEREST,reactions_by_type_ENTERTAINMENT,reactions_by_type_EMPATHY,reactions_by_type_CURIOUS,reactions_by_type_APPRECIATION,reactions_by_type,num_shares,hyperlinks_person_linkedin_urls,hyperlinks_other_urls,hyperlinks_company_linkedin_urls,hyperlinks,date_posted,backend_urn,actor_name,year_founded`
+    * `page` (optional, default: 1): Page number for pagination
+    * `limit` (optional, default: 5): Limit the number of posts in a page
+    * `post_types` (optional, default: repost, original)
+      * All post types
+        * `original`: only original posts are returned
+        * `repost` : only reposted posts are returned
+  * **Example Request:**
+    * With default `fields` (without reactors)
+
+      ```bash
+      curl 'https://api.crustdata.com/screener/linkedin_posts?person_linkedin_url=https://linkedin.com/in/abhilash-chowdhary&page=1' \
+        --header 'Accept: application/json, text/plain, */*' \
+        --header 'Accept-Language: en-US,en;q=0.9' \
+        --header 'Authorization: Token $auth_token'
+      ```
+
+    * With default `fields` and reactors
+
+      ```bash
+      curl 'https://api.crustdata.com/screener/linkedin_posts?person_linkedin_url=https://linkedin.com/in/abhilash-chowdhary&page=1&fields=reactors' \
+        --header 'Accept: application/json, text/plain, */*' \
+        --header 'Accept-Language: en-US,en;q=0.9' \
+        --header 'Authorization: Token $auth_token'
+      ```
+
+    * With default `post_types`
+
+      ```bash
+      curl 'https://api.crustdata.com/screener/linkedin_posts?person_linkedin_url=https://linkedin.com/in/abhilash-chowdhary&page=1&post_types=post_types=repost%2C%20original' \
+        --header 'Accept: application/json, text/plain, */*' \
+        --header 'Accept-Language: en-US,en;q=0.9' \
+        --header 'Authorization: Token $auth_token'
+      ```
+* **Response**
+
+  The response provides a list of recent LinkedIn posts for the specified company, including post content, engagement metrics, and information about users who interacted with the posts.
+
+  Full sample: https://jsonhero.io/j/lGFH6zi5y9rP
+
+  * **Response Structure:**
+
+    ```json
+    {
+      "posts": [
+        {
+          "backend_urn": "urn:li:activity:7236812027275419648",
+          "share_urn": "urn:li:share:7236812026038083584",
+          "share_url": "https://www.linkedin.com/posts/crustdata_y-combinators-most-popular-startups-from-activity-7236812027275419648-4fyw?utm_source=combined_share_message&utm_medium=member_desktop",
+          "text": "Y Combinator’s most popular startups.\nFrom the current S24 batch.\n\nHow do you gauge the buzz around these startups when most are pre-product?\n\nWe’ve defined web traffic as the metric to go by.\n\nHere are the most popular startups from YC S24:  \n\n𝟭. 𝗡𝗲𝘅𝘁𝗨𝗜: Founded by Junior Garcia\n𝟮. 𝗪𝗼𝗿𝗱𝘄𝗮𝗿𝗲: Filip Kozera, Robert Chandler\n𝟯. 𝗨𝗻𝗿𝗶𝗱𝗱𝗹𝗲: Naveed Janmohamed\n𝟰. 𝗨𝗻𝗱𝗲𝗿𝗺𝗶𝗻𝗱: Thomas Hartke, Joshua Ramette\n𝟱. 𝗖𝗼𝗺𝗳𝘆𝗱𝗲𝗽𝗹𝗼𝘆: Nick Kao, Benny Kok\n𝟲. 𝗕𝗲𝗲𝗯𝗲𝘁𝘁𝗼𝗿: Jordan Murphy, Matthew Wolfe\n𝟳. 𝗠𝗲𝗿𝘀𝗲: Kumar A., Mark Rachapoom\n𝟴. 𝗟𝗮𝗺𝗶𝗻𝗮𝗿: Robert Kim, Din Mailibay, Temirlan Myrzakhmetov\n𝟵. 𝗠𝗶𝘁𝗼𝗛𝗲𝗮𝗹𝘁𝗵: Kenneth Lou, Tee-Ming C., Joel Kek, Ryan Ware\n𝟭𝟬. 𝗔𝘂𝘁𝗮𝗿𝗰: Etienne-Noel Krause,Thies Hansen, Marius Seufzer\n\n🤔 Interested in reading more about the YC S24 batch?\n\nRead our full breakdown from the link in the comments 👇",
+          "actor_name": "Crustdata",
+          "hyperlinks": {
+              "company_linkedin_urls": [],
+              "person_linkedin_urls": [
+                  "https://www.linkedin.com/in/ACoAAAKoldoBqSsiXY_DHsXdSk1slibabeTvDDY"
+              ],
+              "other_urls": []
+          },
+          "date_posted": "2024-09-03",
+          "total_reactions": 37,
+          "total_comments": 7,
+          "reactions_by_type": {
+            "LIKE": 28,
+            "EMPATHY": 4,
+            "PRAISE": 4,
+            "INTEREST": 1
+          },
+          "num_shares": 5,
+          "is_repost_without_thoughts": false,
+          "reactors": [
+            {
+              "name": "Courtney May",
+              "linkedin_profile_url": "https://www.linkedin.com/in/ACwAACkMyzkBYncrCuM2rzhc06iz6oj741NL-98",
+              "reaction_type": "LIKE",
+              "profile_image_url": "https://media.licdn.com/dms/image/v2/D5603AQF-8vL_c5H9Zg/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1690558480623?e=1730937600&v=beta&t=Lm2hHLTFiEVlHWdTt-Vh3vDYevK8U8SlPqaFdNu3R6A",
+              "title": "GTM @ Arc (YC W22)",
+              "additional_info": "3rd+",
+              "location": "San Francisco, California, United States",
+              "linkedin_profile_urn": "ACwAACkMyzkBYncrCuM2rzhc06iz6oj741NL-98",
+              "default_position_title": "GTM @ Arc (YC W22)",
+              "default_position_company_linkedin_id": "74725230",
+              "default_position_is_decision_maker": false,
+              "flagship_profile_url": "https://www.linkedin.com/in/courtney-may-8a178b172",
+              "profile_picture_url": "https://media.licdn.com/dms/image/v2/D5603AQF-8vL_c5H9Zg/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1690558480623?e=1730937600&v=beta&t=vHg233746zA00m3q2vHKSFcthL3YKiagTtVEZt1qqJI",
+              "headline": "GTM @ Arc (YC W22)",
+              "summary": null,
+              "num_of_connections": 786,
+              "related_colleague_company_id": 74725230,
+              "skills": [
+                "Marketing Strategy",
+                "Product Support",
+                "SOC 2",
+                ...
+              ],
+              "employer": [
+                {
+                  "title": "GTM @ Arc (YC W22)",
+                  "company_name": "Arc",
+                  "company_linkedin_id": "74725230",
+                  "start_date": "2024-07-01T00:00:00",
+                  "end_date": null,
+                  "description": null,
+                  "location": "San Francisco, California, United States",
+                  "rich_media": []
+                },
+                {
+                  "title": "Product Marketing & Operations Lead",
+                  "company_name": "Bits of Stock™",
+                  "company_linkedin_id": "10550545",
+                  "start_date": "2023-03-01T00:00:00",
+                  "end_date": "2024-07-01T00:00:00",
+                  "description": "● Spearheaded SOC 2 Certification and oversaw compliance organization for internal and external needs.\n● Leads a weekly operations call to manage customer support, new user onboarding, and other outstanding operational matters.\n● Wrote & launched: Product Blog with 6 different featured pieces; 2 Pricing Thought-Leadership pieces; & 2 Partner Press Releases; two of which were featured in the WSJ.\n● Managed marketing and logistics for 11 conferences and events all over the world, producing over 150 B2B qualified leads.\n● Created a company-wide marketing strategy and implemented it across the blog, LinkedIn, & Twitter leading to a 125% increased engagement rate & a 29% increase in followers.\n● Aided in sales and partner relations by preparing a Partner Marketing Guide, creating the user support section of the website and inbound email system, and investing education guide.",
+                  "location": "San Francisco Bay Area",
+                  "rich_media": []
+                },
+                ...
+              ],
+              "education_background": [
+                {
+                  "degree_name": "Bachelor of Applied Science - BASc",
+                  "institute_name": "Texas Christian University",
+                  "field_of_study": "Economics",
+                  "start_date": "2016-01-01T00:00:00",
+                  "end_date": "2020-01-01T00:00:00"
+                }
+              ],
+              "emails": [
+                "email@example.com"
+              ],
+              "websites": [],
+              "twitter_handle": null,
+              "languages": [],
+              "pronoun": null,
+              "current_title": "GTM @ Arc (YC W22)"
+            }, ...
+          ]
+        }
+      ]
+    }
+
+    ```
+
+    Each item in the `posts` array contains the following fields:
+
+    * `backend_urn` (string): Unique identifier for the post in LinkedIn's backend system.
+
+    * `share_urn` (string): Unique identifier for the shared content.
+
+    * `share_url` (string): Direct URL to the post on LinkedIn.
+
+    * `text` (string): The full content of the post.
+
+    * `actor_name` (string): Name of the company or person who created the post.
+
+    * `date_posted` (string): Date when the post was published, in "YYYY-MM-DD" format.
+
+    * `hyperlinks` (object): Contains the external links and Company/Person LinkedIn urls mentioned in the post
+      * `company_linkedin_urls` (array): List of Company LinkedIn urls mentioned in the post
+      * `person_linkedin_urls` (array): List of Person LinkedIn urls mentioned in the post
+
+    * `total_reactions` (integer): Total number of reactions on the post.
+
+    * `total_comments` (integer): Total number of comments on the post.
+
+    * `reactions_by_type` (object): Breakdown of reactions by type.
+      * Possible types include: "LIKE", "EMPATHY", "PRAISE", "INTEREST", etc.
+      * Each type is represented by its count (integer).
+      linkedin\_headcount\_and\_glassdoor\_ceo\_approval\_and\_g2
+
+    * `num_shares` (integer): Number of times the post has been shared.
+
+    * `reactors` (array): List of users who reacted to the post. Each reactor object contains:
+      * `name` (string): Full name of the person who reacted.
+      * `linkedin_profile_url` (string): URL to the reactor's LinkedIn profile.
+      * `reaction_type` (string): Type of reaction given (e.g., "LIKE", "EMPATHY").
+      * `profile_image_url` (string): URL to the reactor's profile image (100x100 size).
+      * `title` (string): Current professional title of the reactor.
+      * `additional_info` (string): Additional information, often indicating connection degree.
+      * `location` (string): Geographic location of the reactor.
+      * `linkedin_profile_urn` (string): Unique identifier for the reactor's LinkedIn profile.
+      * `default_position_title` (string): Primary job title.
+      * `default_position_company_linkedin_id` (string): LinkedIn ID of the reactor's primary company.
+      * `default_position_is_decision_maker` (boolean): Indicates if the reactor is in a decision-making role.
+      * `flagship_profile_url` (string): Another form of the reactor's LinkedIn profile URL.
+      * `profile_picture_url` (string): URL to a larger version of the profile picture (400x400 size).
+      * `headline` (string): Professional headline from the reactor's LinkedIn profile.
+      * `summary` (string or null): Brief professional summary, if available.
+      * `num_of_connections` (integer): Number of LinkedIn connections the reactor has.
+      * `related_colleague_company_id` (integer): LinkedIn ID of a related company, possibly current employer.
+      * `skills` (array of strings): List of professional skills listed on the reactor's profile.
+      * `employer` (array of objects): Employment history, each containing:
+        * `title` (string): Job title.
+        * `company_name` (string): Name of the employer.
+        * `company_linkedin_id` (string or null): LinkedIn ID of the company.
+        * `start_date` (string): Start date of employment in ISO format.
+        * `end_date` (string or null): End date of employment in ISO format, or null if current.
+        * `description` (string or null): Job description, if available.
+        * `location` (string or null): Job location.
+        * `rich_media` (array): Currently empty, may contain media related to the job.
+      * `education_background` (array of objects): Educational history, each containing:
+        * `degree_name` (string): Type of degree obtained.
+        * `institute_name` (string): Name of the educational institution.
+        * `field_of_study` (string): Area of study.
+        * `start_date` (string): Start date of education in ISO format.
+        * `end_date` (string): End date of education in ISO format.
+      * `emails` (array of strings): Known email addresses associated with the reactor.
+      * `websites` (array): Currently empty, may contain personal or professional websites.
+      * `twitter_handle` (string or null): Twitter username, if available.
+      * `languages` (array): Currently empty, may contain languages spoken.
+      * `pronoun` (string or null): Preferred pronouns, if specified.
+      * `current_title` (string): Current job title, often identical to `default_position_title`.
+* **Key Points**
+  * **Credits:**
+    * Without reactors (default): Each successful page request costs 5 credits
+    * With reactors: Each successful page request costs 25 credits
+  * **Pagination:**
+    * Increment the value of `page` query param to fetch the next set of posts.
+    * Most recent posts will be in first page and then so on.
+    * Currently, you can only fetch only upto 20 pages of latest posts. In case you want to fetch more, contact Crustdata team at <info@crustdata.com> .
+  * External urls or Company/Person LinkedIn urls mentioned in text:
+    * `hyperlinks` contains list of links (categorized as `company_linkedin_urls` , `person_linkedin_urls` and `other_urls` ) mentioned in the post
+  * **Latency:** The data is fetched in real-time from Linkedin and the latency for this endpoint is between 30 to 60 seconds depending on number of reactions for all the posts in the page

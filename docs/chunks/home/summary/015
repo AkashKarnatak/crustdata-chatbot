@@ -1,0 +1,1 @@
+This chunk describes the "Get remaining credits" endpoint within the Crustdata API documentation. It details how to make a request to check the user's remaining credits, specifying the required authentication token and the structure of the JSON response, which includes the number of credits available for the current billing period. This endpoint is part of the API Usage section.

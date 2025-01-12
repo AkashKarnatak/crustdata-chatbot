@@ -1,0 +1,407 @@
+# Company Endpoints
+
+## **Company Discovery: Screening API**
+
+**Overview:** The company screening API request allows you to screen and filter companies based on various growth and firmographic criteria.
+
+Required: authentication token `auth_token` for authorization.
+
+* **Request**
+
+  In the example below, we get companies that meet the following criteria:
+
+  * Have raised > $5,000,000 in total funding AND
+
+  * Have headcount > 50 AND
+
+  * Have largest headcount country as USA
+
+  * **cURL**
+
+    ```bash
+    curl 'https://api.crustdata.com/screener/screen/' \
+    -H 'Accept: application/json, text/plain, */*' \
+    -H 'Accept-Language: en-US,en;q=0.9' \
+    -H 'Authorization: Token $auth_token' \
+    -H 'Connection: keep-alive' \
+    -H 'Content-Type: application/json' \
+    -H 'Origin: https://crustdata.com' \
+    --data-raw '{
+        "metrics": [
+          {
+            "metric_name": "linkedin_headcount_and_glassdoor_ceo_approval_and_g2"
+          }
+        ],
+        "filters": {
+          "op": "and",
+          "conditions": [
+                    {
+                      "column": "crunchbase_total_investment_usd",
+                      "type": "=>",
+                      "value": 5000000,
+                      "allow_null": false
+                    },
+                    {
+                      "column": "linkedin_headcount",
+                      "type": "=>",
+                      "value": 50,
+                      "allow_null": false
+                    },
+                    {
+                      "column": "largest_headcount_country",
+                      "type": "(.)",
+                      "value": "USA",
+                      "allow_null": false
+                    }
+          ]
+        },
+        "hidden_columns": [],
+        "offset": 0,
+        "count": 100,
+        "sorts": []
+      }' \
+    --compressed
+    ```
+
+  * **Python**
+
+    ```python
+    import requests
+
+    headers = {
+        'Accept': 'application/json, text/plain, /',
+        'Accept-Language': 'en-US,en;q=0.9',
+        'Authorization': 'Token $auth_token', **# replace $auth_token**
+        'Connection': 'keep-alive',
+        'Content-Type': 'application/json',
+        'Origin': 'https://crustdata.com'
+    }
+
+    json_data = {
+        'metrics': [
+            {
+                'metric_name': 'linkedin_headcount_and_glassdoor_ceo_approval_and_g2',
+            },
+        ],
+        'filters': {
+            'op': 'and',
+            'conditions': [
+                {
+                    'column': 'crunchbase_total_investment_usd',
+                    'type': '=>',
+                    'value': 5000000,
+                    'allow_null': False,
+                },
+                {
+                    'column': 'linkedin_headcount',
+                    'type': '=>',
+                    'value': 50,
+                    'allow_null': False,
+                },
+                {
+                    'column': 'largest_headcount_country',
+                    'type': '(.)',
+                    'value': 'USA',
+                    'allow_null': False,
+                },
+            ],
+        },
+        'hidden_columns': [],
+        'offset': 0,
+        'count': 100,
+        'sorts': []
+    }
+
+    response = requests.post('https://api.crustdata.com/screener/screen/', headers=headers, json=json_data)
+    ```
+
+  * **Request Body Overview**
+
+    The request body is a JSON object that contains the following parameters:
+
+    | **Parameter** | **Description** | **Required** |
+    | --- | --- | --- |
+    | metrics | An array of metric objects containing the metric name. Value should always be
+    `[{"metric_name": "linkedin_headcount_and_glassdoor_ceo_approval_and_g2"}]` | Yes |
+    | filters | An object containing the filter conditions. | Yes |
+    | offset | The starting point of the result set. Default value is 0. | Yes |
+    | count | The number of results to return in a single request.
+    Maximum value is `100`.
+    Default value is `100`. | Yes |
+    | sorts | An array of sorting criteria. | No |
+
+    ### Parameters:
+
+    * **`metrics`**
+
+      Dictates the columns in the response. The only possible value is
+
+      ```bash
+      [{"metric_name": "linkedin_headcount_and_glassdoor_ceo_approval_and_g2"}]
+      ```
+
+    * **`filters`**
+
+      Example:
+
+      ```json
+      {
+          "op": "and",
+          "conditions": [
+      		    {
+      				    "op": "or",
+      				    "conditions": [
+      							   {"hq_country", "type": "(.)", "value": "USA"},
+      							   {"hq_country", "type": "(.)", "value": "IND"}
+      						],
+      				}
+              {"column": "crunchbase_total_investment_usd", "type": "=>", "value": "5000000"},
+              {"column": "largest_headcount_country", "type": "(.)", "value": "USA"}
+          ]
+      }
+      ```
+
+      The filters object contains the following parameters:
+
+      | **Parameter** | **Description** | **Required** |
+      | --- | --- | --- |
+      | op | The operator to apply on the conditions. The value can be `"and"` or `"or"`. | Yes |
+      | conditions | An array of complex filter objects or basic filter objects (see below) | Yes |
+
+    * **`conditions` parameter**
+
+      This has two possible types of values
+
+      1. **Basic Filter Object**
+
+         Example: `{"column": "linkedin_headcount", "type": "=>", "value": "50" }`
+
+         The object contains the following parameters:
+
+         | **Parameter** | **Description** | **Required** |
+         | --- | --- | --- |
+         | column | The name of the column to filter. | Yes |
+         | value | The filter value. | Yes |
+         | allow\_null | Whether to allow null values. The value can be "true" or "false". Default value is "false". | No |
+
+         * List of all `column` values
+
+           [Crustdata Data Dictionary](https://www.notion.so/Crustdata-Data-Dictionary-c265aa415fda41cb871090cbf7275922?pvs=21)
+
+         * List of all `type` values
+
+           | condition type | condition description | applicable column types | example |
+           | --- | --- | --- | --- |
+      2. **Complex Filter Object**
+
+         Example:
+
+         ```json
+         {
+         	 "op": "or",
+         	 "conditions": [
+         			 {"hq_country", "type": "(.)", "value": "USA"},
+         			 {"hq_country", "type": "(.)", "value": "IND"}
+         	 ]
+         }
+         ```
+
+         Same schema as the parent [**`filters`**](https://www.notion.so/filters-8a72acfe02a5455e895ea9a9dede08c4?pvs=21) parameter
+* **Response**
+
+  Example: https://jsonhero.io/j/ntHvSKVeZJIc
+
+  The response is JSON object that consists of two main components: `fields` and `rows`.
+
+  * **fields**: An array of objects representing the columns in the dataset.
+  * **rows**: An array of arrays, each representing a row of data.
+
+  The values in each of the `rows` elements are ordered in the same sequence as the fields in the `fields` array. For example, the `i`th value in a row corresponds to the `i`th field in the `fields` array.
+
+  * **Parsing the response**
+
+    Given the following response object
+
+    ```json
+    {
+      "fields": [
+        {"type": "string", "api_name": "company_name", "hidden": false},
+        {"type": "number", "api_name": "valuation_usd", "hidden": false},
+        {"type": "number", "api_name": "crunchbase_total_investment_usd", "hidden": false},
+        {"type": "string", "api_name": "markets", "hidden": false},
+        {"type": "number", "api_name": "days_since_last_fundraise", "hidden": false},
+        {"type": "number", "api_name": "linkedin_headcount", "hidden": false},
+        {"type": "number", "api_name": "linkedin_headcount_mom_percent", "hidden": false}
+      ],
+      "rows": [
+        ["Sketch", null, 20000000, "PRIVATE", 1619, 258, -11.64]
+      ]
+    }
+    ```
+
+    The first element in `rows` (i.e. `"Sketch"`) corresponds to `fields[0]["api_name"]` (i.e. `"company_name"`).
+
+    The second element in `rows` (i.e. `null`) corresponds to `fields[1]["api_name"]` (i.e. `"valuation_usd"`), and so on.
+
+    ### Pseudo code for mapping `fields` → `rows[i]`
+
+    Here's a pseudo code to help understand this mapping:
+
+    ```
+    for each row in rows:
+        for i in range(length(row)):
+            field_name = fields[i]["api_name"]
+            field_value = row[i]
+            # Map field_name to field_value
+    ```
+
+    In simple terms:
+
+    * For each row, iterate over each value.
+    * Map the `i`th value of the row to the `i`th `api_name` in the fields.
+
+  Here is the complete list of fields in the response for each company
+
+  * Complete list of columns
+    1. company\_name
+    2. company\_website
+    3. company\_website\_domain
+    4. linkedin\_profile\_url
+    5. monthly\_visitors
+    6. valuation\_usd
+    7. crunchbase\_total\_investment\_usd
+    8. markets
+    9. days\_since\_last\_fundraise
+    10. linkedin\_headcount
+    11. linkedin\_headcount\_mom\_percent
+    12. linkedin\_headcount\_qoq\_percent
+    13. linkedin\_headcount\_yoy\_percent
+    14. linkedin\_headcount\_mom\_absolute
+    15. linkedin\_headcount\_qoq\_absolute
+    16. linkedin\_headcount\_yoy\_absolute
+    17. glassdoor\_overall\_rating
+    18. glassdoor\_ceo\_approval\_pct
+    19. glassdoor\_business\_outlook\_pct
+    20. glassdoor\_review\_count
+    21. g2\_review\_count
+    22. g2\_average\_rating
+    23. company\_id
+    24. hq\_country
+    25. headquarters
+    26. largest\_headcount\_country
+    27. last\_funding\_round\_type
+    28. valuation\_date
+    29. linkedin\_categories
+    30. linkedin\_industries
+    31. crunchbase\_investors
+    32. crunchbase\_categories
+    33. acquisition\_status
+    34. company\_year\_founded
+    35. technology\_domains
+    36. founder\_names\_and\_profile\_urls
+    37. founders\_location
+    38. ceo\_location
+    39. founders\_education\_institute
+    40. founders\_degree\_name
+    41. founders\_previous\_company
+    42. founders\_previous\_title
+    43. monthly\_visitor\_mom\_pct
+    44. monthly\_visitor\_qoq\_pct
+    45. traffic\_source\_social\_pct
+    46. traffic\_source\_search\_pct
+    47. traffic\_source\_direct\_pct
+    48. traffic\_source\_paid\_referral\_pct
+    49. traffic\_source\_referral\_pct
+    50. meta\_total\_ads
+    51. meta\_active\_ads
+    52. meta\_ad\_platforms
+    53. meta\_ad\_url
+    54. meta\_ad\_id
+    55. average\_organic\_rank
+    56. monthly\_paid\_clicks
+    57. monthly\_organic\_clicks
+    58. average\_ad\_rank
+    59. total\_organic\_results
+    60. monthly\_google\_ads\_budget
+    61. monthly\_organic\_value
+    62. total\_ads\_purchased
+    63. lost\_ranks
+    64. gained\_ranks
+    65. newly\_ranked
+    66. paid\_competitors
+    67. organic\_competitors
+    68. linkedin\_followers
+    69. linkedin\_headcount\_engineering
+    70. linkedin\_headcount\_sales
+    71. linkedin\_headcount\_operations
+    72. linkedin\_headcount\_human\_resource
+    73. linkedin\_headcount\_india
+    74. linkedin\_headcount\_usa
+    75. linkedin\_headcount\_engineering\_percent
+    76. linkedin\_headcount\_sales\_percent
+    77. linkedin\_headcount\_operations\_percent
+    78. linkedin\_headcount\_human\_resource\_percent
+    79. linkedin\_headcount\_india\_percent
+    80. linkedin\_headcount\_usa\_percent
+    81. linkedin\_followers\_mom\_percent
+    82. linkedin\_followers\_qoq\_percent
+    83. linkedin\_followers\_yoy\_percent
+    84. linkedin\_all\_employee\_skill\_names
+    85. linkedin\_all\_employee\_skill\_count
+    86. linkedin\_employee\_skills\_0\_to\_10\_pct
+    87. linkedin\_employee\_skills\_11\_to\_30\_pct
+    88. linkedin\_employee\_skills\_31\_to\_50\_pct
+    89. linkedin\_employee\_skills\_51\_to\_70\_pct
+    90. linkedin\_employee\_skills\_71\_to\_100\_pct
+    91. glassdoor\_culture\_rating
+    92. glassdoor\_diversity\_rating
+    93. glassdoor\_work\_life\_balance\_rating
+    94. glassdoor\_senior\_management\_rating
+    95. glassdoor\_compensation\_rating
+    96. glassdoor\_career\_opportunities\_rating
+    97. glassdoor\_recommend\_to\_friend\_pct
+    98. glassdoor\_ceo\_approval\_mom\_pct
+    99. glassdoor\_ceo\_approval\_qoq\_pct
+    100. glassdoor\_ceo\_approval\_mom\_pct.1
+    101. glassdoor\_review\_count\_mom\_pct
+    102. glassdoor\_review\_count\_qoq\_pct
+    103. glassdoor\_review\_count\_yoy\_pct
+    104. g2\_review\_count\_mom\_pct
+    105. g2\_review\_count\_qoq\_pct
+    106. g2\_review\_count\_yoy\_pct
+    107. instagram\_followers (deprecated)
+    108. instagram\_posts (deprecated)
+    109. instagram\_followers\_mom\_pct (deprecated)
+    110. instagram\_followers\_qoq\_pct (deprecated)
+    111. instagram\_followers\_yoy\_pct (deprecated)
+    112. recent\_job\_openings\_title
+    113. recent\_job\_openings\_title\_count
+    114. job\_openings\_count
+    115. job\_openings\_count\_mom\_pct
+    116. job\_openings\_count\_qoq\_pct
+    117. job\_openings\_count\_yoy\_pct
+    118. job\_openings\_accounting\_qoq\_pct
+    119. job\_openings\_accounting\_six\_months\_growth\_pct
+    120. job\_openings\_art\_and\_design\_qoq\_pct
+    121. job\_openings\_art\_and\_design\_six\_months\_growth\_pct
+    122. job\_openings\_business\_development\_qoq\_pct
+    123. job\_openings\_business\_development\_six\_months\_growth\_pct
+    124. job\_openings\_engineering\_qoq\_pct
+    125. job\_openings\_engineering\_six\_months\_growth\_pct
+    126. job\_openings\_finance\_qoq\_pct
+    127. job\_openings\_finance\_six\_months\_growth\_pct
+    128. job\_openings\_human\_resource\_qoq\_pct
+    129. job\_openings\_human\_resource\_six\_months\_growth\_pct
+    130. job\_openings\_information\_technology\_qoq\_pct
+    131. job\_openings\_information\_technology\_six\_months\_growth\_pct
+    132. job\_openings\_marketing\_qoq\_pct
+    133. job\_openings\_marketing\_six\_months\_growth\_pct
+    134. job\_openings\_media\_and\_communication\_qoq\_pct
+    135. job\_openings\_media\_and\_communication\_six\_months\_growth\_pct
+    136. job\_openings\_operations\_qoq\_pct
+    137. job\_openings\_operations\_six\_months\_growth\_pct
+    138. job\_openings\_research\_qoq
+
+### Additional examples
+
+[Crustdata Company Screening API Detailed Examples](https://www.notion.so/Crustdata-Company-Screening-API-Detailed-Examples-375908d855464d87a01efd2c7a369750?pvs=21)

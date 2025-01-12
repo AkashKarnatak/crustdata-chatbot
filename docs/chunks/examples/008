@@ -1,0 +1,141 @@
+# Dataset API Endpoints
+
+## 8. Web Traffic
+
+Use this request to get historical web-traffic of a company by domain
+
+* **cURL**
+
+  ```bash
+  curl --request POST \
+    --url 'https://api.crustdata.com/data_lab/webtraffic/' \
+    --header 'Accept: */*' \
+    --header 'Accept-Language: en-GB,en-US;q=0.9,en;q=0.8' \
+    --header 'Authorization: Token $token' \
+    --header 'Content-Type: application/json' \
+    --data '{
+      "filters": {
+        "op": "or",
+        "conditions": [
+          {
+            "column": "company_website",
+            "type": "(.)",
+            "value": "wefitanyfurniture.com"
+          }
+        ]
+      },
+      "offset": 0,
+      "count": 100,
+      "sorts": []
+    }'
+  ```
+
+* **Result**
+
+  ```bash
+   {
+  	"fields": [
+  		{
+  			"type": "foreign_key",
+  			"api_name": "company_id",
+  			"hidden": false,
+  			"options": [],
+  			"summary": "",
+  			"local_metric": false,
+  			"display_name": "",
+  			"company_profile_name": "",
+  			"preview_description": "",
+  			"geocode": false
+  		},
+  		{
+  			"type": "string",
+  			"api_name": "company_website",
+  			"hidden": false,
+  			"options": [],
+  			"summary": "",
+  			"local_metric": false,
+  			"display_name": "",
+  			"company_profile_name": "",
+  			"preview_description": "",
+  			"geocode": false
+  		},
+  		{
+  			"type": "string",
+  			"api_name": "company_name",
+  			"hidden": false,
+  			"options": [],
+  			"summary": "",
+  			"local_metric": false,
+  			"display_name": "",
+  			"company_profile_name": "",
+  			"preview_description": "",
+  			"geocode": false
+  		},
+  		{
+  			"type": "array",
+  			"api_name": "similarweb_traffic_timeseries",
+  			"hidden": false,
+  			"options": [],
+  			"summary": "",
+  			"local_metric": false,
+  			"display_name": "",
+  			"company_profile_name": "",
+  			"preview_description": "",
+  			"geocode": false
+  		}
+  	],
+  	"rows": [
+  		[
+  			1411045,
+  			"wefitanyfurniture.com",
+  			"WeFitAnyFurniture",
+  			[
+  				{
+  					"date": "2024-07-01T00:00:00+00:00",
+  					"monthly_visitors": 355,
+  					"traffic_source_social_pct": null,
+  					"traffic_source_search_pct": null,
+  					"traffic_source_direct_pct": null,
+  					"traffic_source_paid_referral_pct": null,
+  					"traffic_source_referral_pct": null
+  				},
+  				{
+  					"date": "2024-08-01T00:00:00+00:00",
+  					"monthly_visitors": 1255,
+  					"traffic_source_social_pct": null,
+  					"traffic_source_search_pct": null,
+  					"traffic_source_direct_pct": null,
+  					"traffic_source_paid_referral_pct": null,
+  					"traffic_source_referral_pct": null
+  				},
+  				{
+  					"date": "2024-09-01T00:00:00+00:00",
+  					"monthly_visitors": 3728,
+  					"traffic_source_social_pct": 4.1587388254523585,
+  					"traffic_source_search_pct": 48.335395016304005,
+  					"traffic_source_direct_pct": 32.901089596227564,
+  					"traffic_source_paid_referral_pct": 0.9439998798176015,
+  					"traffic_source_referral_pct": 12.431220453595381
+  				}
+  			]
+  		]
+  	]
+  }
+  ```
+
+**Key Points:**
+
+* When querying a website, compute the domain (`$domain` ) and then pass it in the `conditions` object of the payload like
+
+  ```bash
+          [{
+            "column": "company_website",
+            "type": "(.)",
+            "value": "$domain"
+          }]
+  ```
+
+* If there is no data for the website, it will be auto-enriched in next 24 hours. Just query again.
+
+* For parsing the response, please follow:
+  * [https://www.notion.so/crustdata/Crustdata-Discovery-And-Enrichment-API-c66d5236e8ea40df8af114f6d447ab48?pvs=4#28de6e16940c4615b5872020a345766a](https://www.notion.so/Crustdata-Discovery-And-Enrichment-API-c66d5236e8ea40df8af114f6d447ab48?pvs=21)

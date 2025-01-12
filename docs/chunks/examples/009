@@ -1,0 +1,33 @@
+# Dataset API Endpoints
+
+## 9. Investor Portfolio
+
+Retrieve portfolio details for a specified investor. Each investor, as returned in the [company enrichment endpoint](https://www.notion.so/Crustdata-Discovery-And-Enrichment-API-c66d5236e8ea40df8af114f6d447ab48?pvs=21), has a unique identifier (UUID), name, and type. This API allows you to fetch the full portfolio of companies associated with an investor, using either the investor's `uuid` or `name` as an identifier.
+
+* **cURL**
+
+  **Example 1: query by investor uuid**
+
+  Note: uuid for an investor can be retrieved from `/screener/company` response. It is available in `funding_and_investment.crunchbase_investors_info_list[*].uuid` field
+
+  ```bash
+  curl 'https://api.crustdata.com/data_lab/investor_portfolio?investor_uuid=ce91bad7-b6d8-e56e-0f45-4763c6c5ca29' \
+    --header 'Accept: application/json, text/plain, */*' \
+    --header 'Accept-Language: en-US,en;q=0.9' \
+    --header 'Authorization: Token $auth_token'
+  ```
+
+  **Example 2: query by investor name**
+
+  Note: uuid for an investor can be retrieved from `/screener/company` response. It is available in `funding_and_investment.crunchbase_investors_info_list[*].uuid` field
+
+  ```bash
+  curl 'https://api.crustdata.com/data_lab/investor_portfolio?investor_name=Sequoia Capital' \
+    --header 'Accept: application/json, text/plain, */*' \
+    --header 'Accept-Language: en-US,en;q=0.9' \
+    --header 'Authorization: Token $auth_token'
+  ```
+
+* **Result**
+
+  Full sample: <https://jsonhero.io/j/hSEHVFgv68pz>

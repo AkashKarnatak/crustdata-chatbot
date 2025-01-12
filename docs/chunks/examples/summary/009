@@ -1,0 +1,1 @@
+This chunk details the "Investor Portfolio" endpoint of the Crustdata Dataset API. It explains how to retrieve a list of companies an investor has invested in, using either the investor's UUID or name. The chunk provides example cURL requests for both methods and links to a sample response, aiding users in understanding and utilizing this specific API endpoint.

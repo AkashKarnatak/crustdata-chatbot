@@ -1,0 +1,1 @@
+This chunk details the "Enrichment: Company Data API" within the Crustdata API documentation. It explains how to retrieve company information using domain, name, LinkedIn URL, or ID, and how to customize the response using the `fields` parameter. It also covers important notes on nested fields, default fields, user permissions, and provides examples of various request types.

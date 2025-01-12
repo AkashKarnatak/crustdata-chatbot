@@ -1,0 +1,65 @@
+# Company Endpoints
+
+## Company Identification API
+
+Given a company’s name, website or LinkedIn profile, you can identify the company in Crustdata’s database with company identification API
+
+The input to this API is any combination of the following fields
+
+* name of the company
+
+* website of the company
+
+* LinkedIn profile url of the company
+
+* **Request**
+
+  ```bash
+      curl 'https://api.crustdata.com/screener/identify/' \
+      --header 'Accept: application/json, text/plain, */*' \
+      --header 'Accept-Language: en-US,en;q=0.9' \
+      --header 'Authorization: Token $api_token' \
+      --header 'Connection: keep-alive' \
+      --header 'Content-Type: application/json' \
+      --header 'Origin: https://crustdata.com' \
+      --data '{"query_company_website": "serverobotics.com", "count": 1}'
+  ```
+
+  Payload fields (at least one of the query fields required):
+
+  * `query_company_name`  : name of the company
+  * `query_company_website` : website of the company
+  * `query_company_linkedin_url` : LinkedIn profile url of the company
+  * `count`  : maximum number of results. Default is 10.
+
+* **Result**
+
+  Example:
+
+  ```bash
+  [
+    {
+      "company_id": 628895,
+      "company_name": "Serve Robotics",
+      "company_website_domain": "serverobotics.com",
+      "company_website": "http://www.serverobotics.com",
+      "linkedin_profile_url": "https://www.linkedin.com/company/serverobotics",
+      "linkedin_headcount": 82,
+      "acquisition_status": null,
+      "score": 0.3
+    }
+  ]
+  ```
+
+  Each item in the result corresponds to a company record in Crustdata’s database. The records are ranked by the matching score, highest first. The score is maximum when all the query fields are provided and their values exactly matches the value of the corresponding company in Crustdata’s database.
+
+  Each result record contains the following fields for the company
+
+  * `company_id` : A unique identifier for the company in Crustdata’s database.
+  * `company_name` : Name of the company in Crustdata’s database
+  * `company_website_domain` : Website domain of the company as mentioned on its Linkedin page
+  * `company_website` : Website of the company
+  * `linkedin_profile_url` : LinkedIn profile url for the company
+  * `linkedin_headcount` : Latest headcount of the company in Crustdata’s database
+  * `acquisition_status` : Either `acquired` or `null`
+  * `score` : a relative score based on the query parameters provided and how well they match the company fields in Crustdata’s database

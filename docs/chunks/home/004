@@ -1,0 +1,455 @@
+# Company Endpoints
+
+## **Enrichment: Company Data API**
+
+**Overview:** This endpoint enriches company data by retrieving detailed information about one or multiple companies using either their domain, name, or ID.
+
+Required: authentication token `auth_token` for authorization.
+
+* **Request**
+
+  **Parameters**
+
+  * **company\_domain**: *string* (comma-separated list, up to 25 domains)
+    * **Description:** The domain(s) of the company(ies) you want to retrieve data for.
+    * **Example:** `company_domain=hubspot.com,google.com`
+  * **company\_name**: *string* (comma-separated list, up to 25 names; use double quotes if names contain commas)
+    * **Description:** The name(s) of the company(ies) you want to retrieve data for.
+    * **Example:** `company_name="Acme, Inc.","Widget Co"`
+  * **company\_linkedin\_url**: *string* (comma-separated list, up to 25 URLs)
+    * **Description:** The LinkedIn URL(s) of the company(ies).
+    * **Example:** `company_linkedin_url=https://linkedin.com/company/hubspot,https://linkedin.com/company/clay-hq`
+  * **company\_id**: *integer* (comma-separated list, up to 25 IDs)
+    * **Description:** The unique ID(s) of the company(ies) you want to retrieve data for.
+    * **Example:** `company_id=12345,67890`
+  * **fields**: *string* (comma-separated list of fields)
+    * **Description:** Specifies the fields you want to include in the response. Supports nested fields up to a certain level.
+    * **Example:** `fields=company_name,company_domain,glassdoor.glassdoor_review_count`
+  * **enrich\_realtime**: *boolean* (False by default)
+    * Description: When True and the requested company is not present in Crustdata’s database, the company is enriched within 10 minutes of the request
+
+  ### **Using the `fields` Parameter**
+
+  The `fields` parameter allows you to customize the response by specifying exactly which fields you want to retrieve. This can help reduce payload size and improve performance.
+
+  ### **Important Notes**
+
+  * **Nested Fields:** You can specify nested fields up to the levels defined in the response structure (see [Field Structure](https://www.notion.so/Crustdata-Discovery-And-Enrichment-API-c66d5236e8ea40df8af114f6d447ab48?pvs=21) below). Fields nested beyond the allowed levels or within lists (arrays) cannot be individually accessed.
+  * **Default Fields:**
+    * **Top-Level Non-Object Fields:** If you do not specify the `fields` parameter, the response will include all top-level non-object fields by default (e.g., `company_name`, `company_id`).
+    * **Object Fields:** By default, the response **will not include** object fields like `decision_makers` and `founders.profiles`, even if you have access to them. To include these fields, you must explicitly specify them using the `fields` parameter.
+  * **User Permissions:** Access to certain fields may be restricted based on your user permissions. If you request fields you do not have access to, the API will return an error indicating unauthorized access.
+
+  ### Examples
+
+  * **Request by Company Domain:**
+    * **Use Case:** Ideal for users who have one or more company website domains and need to fetch detailed profiles.
+    * **Note:** You can provide up to 25 domains in a comma-separated list.
+    * **Request:**
+
+      ```bash
+      curl 'https://api.crustdata.com/screener/company?company_domain=hubspot.com,google.com' \
+        --header 'Accept: application/json, text/plain, */*' \
+        --header 'Accept-Language: en-US,en;q=0.9' \
+        --header 'Authorization: Token $token'
+      ```
+  * **Request by Company Name:**
+    * **Use Case:** Suitable for users who have one or more company names and need to retrieve detailed profiles.
+    * **Note:** You can provide up to 25 names in a comma-separated list. If a company name contains a comma, enclose the name in double quotes.
+    * **Request:**
+
+      ```bash
+      curl 'https://api.crustdata.com/screener/company?company_name="HubSpot","Google, Inc."' \
+        --header 'Accept: application/json, text/plain, */*' \
+        --header 'Accept-Language: en-US,en;q=0.9' \
+        --header 'Authorization: Token $token'
+      ```
+  * **Request by Company LinkedIn URL:**
+    * **Use Case:** Suitable for users who have one or more company Linkedin urls and need to retrieve detailed profiles.
+    * **Note:** You can provide up to 25 names in a comma-separated list. If a company name contains a comma, enclose the name in double quotes.
+    * **Request:**
+
+      ```bash
+      curl 'https://api.crustdata.com/screener/company?company_linkedin_url=https://linkedin.com/company/hubspot,https://linkedin.com/company/clay-hq' \
+        --header 'Accept: application/json, text/plain, */*' \
+        --header 'Accept-Language: en-US,en;q=0.9' \
+        --header 'Authorization: Token $token'
+      ```
+  * **Request by Company ID:**
+    * **Use Case:** Suitable for users who have ingested one or more companies from Crustdata already and want to enrich their data by Crustdata’s `company_id`. Users generally use this when they want time-series data for specific companies after obtaining the `company_id` from the [screening endpoint](https://www.notion.so/Crustdata-Discovery-And-Enrichment-API-c66d5236e8ea40df8af114f6d447ab48?pvs=21).
+    * **Note:** You can provide up to 25 IDs in a comma-separated list.
+    * **Request:**
+
+      ```bash
+      curl 'https://api.crustdata.com/screener/company?company_id=631480,789001' \
+        --header 'Accept: application/json, text/plain, */*' \
+        --header 'Accept-Language: en-US,en;q=0.9' \
+        --header 'Authorization: Token $token'
+      ```
+  * **Request with Specific Fields**
+    * **Use Case:** Fetch only specific fields to tailor the response to your needs.
+
+    * **Request**
+
+      ```bash
+      curl 'https://api.crustdata.com/screener/company?company_domain=swiggy.com&fields=company_name,headcount.linkedin_headcount' \
+        --header 'Authorization: Token $token' \
+        --header 'Accept: application/json'
+      ```
+
+    * **More examples of Using `fields` parameter**
+
+      ### **Example 1: Request Specific Top-Level Fields**
+
+      **Request:**
+
+      ```bash
+      curl 'https://api.crustdata.com/screener/company?company_id=123&fields=company_name,company_website_domain' \
+        --header 'Authorization: Token $token' \
+        --header 'Accept: application/json'
+      ```
+
+      **Response Includes:**
+
+      * **company\_name**
+      * **company\_website\_domain**
+      * rest of [top-level fields](https://www.notion.so/Crustdata-Discovery-And-Enrichment-API-c66d5236e8ea40df8af114f6d447ab48?pvs=21)
+
+      ### **Example 2: Request Nested Fields**
+
+      **Request:**
+
+      ```bash
+      curl 'https://api.crustdata.com/screener/company?company_id=123&fields=glassdoor.glassdoor_overall_rating,glassdoor.glassdoor_review_count' \
+        --header 'Authorization: Token $token' \
+        --header 'Accept: application/json'
+      ```
+
+      **Response Includes:**
+
+      * **glassdoor**
+        * **glassdoor\_overall\_rating**
+        * **glassdoor\_review\_count**
+      * rest of [top-level fields](https://www.notion.so/Crustdata-Discovery-And-Enrichment-API-c66d5236e8ea40df8af114f6d447ab48?pvs=21)
+
+      ### **Example 3: Include 'decision\_makers' and 'founders.profiles'**
+
+      **Request:**
+
+      ```bash
+      curl 'https://api.crustdata.com/screener/company?company_id=123&fields=decision_makers,founders.profiles' \
+        --header 'Authorization: Token $token' \
+        --header 'Accept: application/json'
+      ```
+
+      **Response Includes:**
+
+      * **decision\_makers**: Full array of decision-maker profiles.
+      * **founders**
+        * **profiles**: Full array of founder profiles.
+      * rest of [top-level fields](https://www.notion.so/Crustdata-Discovery-And-Enrichment-API-c66d5236e8ea40df8af114f6d447ab48?pvs=21)
+
+      ### **Example 4: Requesting Unauthorized Fields**
+
+      Assuming you do not have access to the `headcount` field.
+
+      **Request:**
+
+      ```bash
+      curl 'https://api.crustdata.com/screener/company?company_id=123&fields=company_name,headcount' \
+        --header 'Authorization: Token $token' \
+        --header 'Accept: application/json'
+      ```
+
+      **Error Response:**
+
+      ```bash
+      {
+        "error": "Unauthorized access to field(s): headcount"
+      }
+
+      ```
+  * **Request with Realtime Enrichment**
+    * **Use Case:** For companies not tracked by Crustdata, you want to enrich them within 10 minutes of the request
+    ```bash
+    curl --location 'https://api.crustdata.com/screener/company?company_linkedin_url=https://www.linkedin.com/company/usebramble&enrich_realtime=True' \
+    --header 'Accept: application/json, text/plain, /' \
+    --header 'Accept-Language: en-US,en;q=0.9' \
+    --header 'Authorization: Token $token'
+    ```
+
+* **Response Structure**
+
+  The response is a JSON array containing company objects. Below is the structure of the response up to the levels where you can filter using the `fields` parameter.
+
+  ## **Top-Level Fields**
+
+  * **company\_id**: *integer*
+  * **company\_name**: *string*
+  * **linkedin\_profile\_url**: *string*
+  * **linkedin\_id**: *string*
+  * **linkedin\_logo\_url**: *string*
+  * **company\_twitter\_url**: *string*
+  * **company\_website\_domain**: *string*
+  * **hq\_country**: *string*
+  * **headquarters**: *string*
+  * **largest\_headcount\_country**: *string*
+  * **hq\_street\_address**: *string*
+  * **company\_website**: *string*
+  * **year\_founded**: *string* (ISO 8601 date)
+  * **fiscal\_year\_end**: *string*
+  * **estimated\_revenue\_lower\_bound\_usd**: *integer*
+  * **estimated\_revenue\_higher\_bound\_usd**: *integer*
+  * **employee\_count\_range**: *string*
+  * **company\_type**: *string*
+  * **linkedin\_company\_description**: *string*
+  * **acquisition\_status**: *string* or *null*
+  * **ceo\_location**: *string*
+
+  ## **Nested Objects**
+
+  You can filter up to the following nested levels:
+
+  ### **all\_office\_addresses**
+
+  * *array of strings*
+
+  ### **markets**
+
+  * *array of strings*
+
+  ### **stock\_symbols**
+
+  * *array of strings*
+
+  ### **taxonomy**
+
+  * **linkedin\_specialities**: *array of strings*
+  * **linkedin\_industries**: *array of strings*
+  * **crunchbase\_categories**: *array of strings*
+
+  ### **competitors**
+
+  * **competitor\_website\_domains**: *array of strings* or *null*
+  * **paid\_seo\_competitors\_website\_domains**: *array of strings*
+  * **organic\_seo\_competitors\_website\_domains**: *array of strings*
+
+  ### **headcount**
+
+  * **linkedin\_headcount**: *integer*
+  * **linkedin\_headcount\_total\_growth\_percent**
+    * **mom**: *float*
+    * **qoq**: *float*
+    * **six\_months**: *float*
+    * **yoy**: *float*
+    * **two\_years**: *float*
+  * **linkedin\_headcount\_total\_growth\_absolute**
+    * **mom**: *float*
+    * **qoq**: *float*
+    * **six\_months**: *float*
+    * **yoy**: *float*
+    * **two\_years**: *float*
+  * **linkedin\_headcount\_by\_role\_absolute**: *object*
+  * **linkedin\_headcount\_by\_role\_percent**: *object*
+  * **linkedin\_role\_metrics**
+    * **all\_roles**: *string*
+    * **0\_to\_10\_percent**: *string*
+    * **11\_to\_30\_percent**: *string*
+    * **31\_to\_50\_percent**: *string* or *null*
+    * **51\_to\_70\_percent**: *string* or *null*
+    * **71\_to\_100\_percent**: *string* or *null*
+  * **linkedin\_headcount\_by\_role\_six\_months\_growth\_percent**: *object*
+  * **linkedin\_headcount\_by\_role\_yoy\_growth\_percent**: *object*
+  * **linkedin\_headcount\_by\_region\_absolute**: *object*
+  * **linkedin\_headcount\_by\_region\_percent**: *object*
+  * **linkedin\_region\_metrics**
+    * **all\_regions**: *string*
+    * **0\_to\_10\_percent**: *string*
+    * **11\_to\_30\_percent**: *string*
+    * **31\_to\_50\_percent**: *string* or *null*
+    * **51\_to\_70\_percent**: *string* or *null*
+    * **71\_to\_100\_percent**: *string* or *null*
+  * **linkedin\_headcount\_by\_skill\_absolute**: *object*
+  * **linkedin\_headcount\_by\_skill\_percent**: *object*
+  * **linkedin\_skill\_metrics**
+    * **all\_skills**: *string*
+    * **0\_to\_10\_percent**: *string* or *null*
+    * **11\_to\_30\_percent**: *string*
+    * **31\_to\_50\_percent**: *string* or *null*
+    * **51\_to\_70\_percent**: *string* or *null*
+    * **71\_to\_100\_percent**: *string* or *null*
+  * **linkedin\_headcount\_timeseries**: *array of objects* (Cannot filter within this array)
+  * **linkedin\_headcount\_by\_function\_timeseries**: *object* (Cannot filter within this object)
+
+  ### **web\_traffic**
+
+  * **monthly\_visitors**: *integer*
+  * **monthly\_visitor\_mom\_pct**: *float*
+  * **monthly\_visitor\_qoq\_pct**: *float*
+  * **traffic\_source\_social\_pct**: *float*
+  * **traffic\_source\_search\_pct**: *float*
+  * **traffic\_source\_direct\_pct**: *float*
+  * **traffic\_source\_paid\_referral\_pct**: *float*
+  * **traffic\_source\_referral\_pct**: *float*
+  * **monthly\_visitors\_timeseries**: *array of objects* (Cannot filter within this array)
+  * **traffic\_source\_social\_pct\_timeseries**: *array of objects* (Cannot filter within this array)
+  * **traffic\_source\_search\_pct\_timeseries**: *array of objects* (Cannot filter within this array)
+  * **traffic\_source\_direct\_pct\_timeseries**: *array of objects* (Cannot filter within this array)
+  * **traffic\_source\_paid\_referral\_pct\_timeseries**: *array of objects* (Cannot filter within this array)
+  * **traffic\_source\_referral\_pct\_timeseries**: *array of objects* (Cannot filter within this array)
+
+  ### **glassdoor**
+
+  * **glassdoor\_overall\_rating**: *float*
+  * **glassdoor\_ceo\_approval\_pct**: *integer*
+  * **glassdoor\_business\_outlook\_pct**: *integer*
+  * **glassdoor\_review\_count**: *integer*
+  * **glassdoor\_senior\_management\_rating**: *float*
+  * **glassdoor\_compensation\_rating**: *float*
+  * **glassdoor\_career\_opportunities\_rating**: *float*
+  * **glassdoor\_culture\_rating**: *float* or *null*
+  * **glassdoor\_diversity\_rating**: *float* or *null*
+  * **glassdoor\_work\_life\_balance\_rating**: *float* or *null*
+  * **glassdoor\_recommend\_to\_friend\_pct**: *integer* or *null*
+  * **glassdoor\_ceo\_approval\_growth\_percent**
+    * **mom**: *float*
+    * **qoq**: *float*
+    * **yoy**: *float*
+  * **glassdoor\_review\_count\_growth\_percent**
+    * **mom**: *float*
+    * **qoq**: *float*
+    * **yoy**: *float*
+
+  ### **g2**
+
+  * **g2\_review\_count**: *integer*
+  * **g2\_average\_rating**: *float*
+  * **g2\_review\_count\_mom\_pct**: *float*
+  * **g2\_review\_count\_qoq\_pct**: *float*
+  * **g2\_review\_count\_yoy\_pct**: *float*
+
+  ### **linkedin\_followers**
+
+  * **linkedin\_followers**: *integer*
+  * **linkedin\_follower\_count\_timeseries**: *array of objects* (Cannot filter within this array)
+  * **linkedin\_followers\_mom\_percent**: *float*
+  * **linkedin\_followers\_qoq\_percent**: *float*
+  * **linkedin\_followers\_six\_months\_growth\_percent**: *float*
+  * **linkedin\_followers\_yoy\_percent**: *float*
+
+  ### **funding\_and\_investment**
+
+  * **crunchbase\_total\_investment\_usd**: *integer*
+  * **days\_since\_last\_fundraise**: *integer*
+  * **last\_funding\_round\_type**: *string*
+  * **crunchbase\_investors**: *array of strings*
+  * **last\_funding\_round\_investment\_usd**: *integer*
+  * **funding\_milestones\_timeseries**: *array of objects* (Cannot filter within this array)
+
+  ### **job\_openings**
+
+  * **recent\_job\_openings\_title**: *string* or *null*
+  * **job\_openings\_count**: *integer* or *null*
+  * **job\_openings\_count\_growth\_percent**
+    * **mom**: *float* or *null*
+    * **qoq**: *float* or *null*
+    * **yoy**: *float* or *null*
+  * **job\_openings\_by\_function\_qoq\_pct**: *object*
+  * **job\_openings\_by\_function\_six\_months\_growth\_pct**: *object*
+  * **open\_jobs\_timeseries**: *array of objects* (Cannot filter within this array)
+  * **recent\_job\_openings**: *array of objects* (Cannot filter within this array)
+
+  ### **seo**
+
+  * **average\_seo\_organic\_rank**: *integer*
+  * **monthly\_paid\_clicks**: *integer*
+  * **monthly\_organic\_clicks**: *integer*
+  * **average\_ad\_rank**: *integer*
+  * **total\_organic\_results**: *integer* or *float*
+  * **monthly\_google\_ads\_budget**: *integer* or *float*
+  * **monthly\_organic\_value**: *integer*
+  * **total\_ads\_purchased**: *integer*
+  * **lost\_ranked\_seo\_keywords**: *integer*
+  * **gained\_ranked\_seo\_keywords**: *integer*
+  * **newly\_ranked\_seo\_keywords**: *integer*
+
+  ### **founders**
+
+  * **founders\_locations**: *array of strings*
+  * **founders\_education\_institute**: *array of strings*
+  * **founders\_degree\_name**: *array of strings*
+  * **founders\_previous\_companies**: *array of strings*
+  * **founders\_previous\_titles**: *array of strings*
+  * **profiles**: *array of objects* (Cannot filter within this array)
+
+  ### **decision\_makers**
+
+  * **decision\_makers**: *array of objects* (Cannot filter within this array)
+
+  ### **news\_articles**
+
+  * **news\_articles**: *array of objects* (Cannot filter within this array)
+
+* **Response**
+
+  ### Examples
+
+  The response provides a comprehensive profile of the company, including firmographic details, social media links, headcount data, and growth metrics.
+
+  For a detailed response data structure, refer to this JSON https://jsonhero.io/j/QN8Qj7dg8MbW
+
+* **Key Points**
+
+  ### **Credits**
+
+  * **Database Enrichment:**
+    * **1 credits** per company.
+  * **Real-Time Enrichment (enrich\_realtime=True):**
+    * **4+1 credits** per company.
+
+  ### Enrichment Status
+
+  When you request data for a company not in our database, we start an enrichment process that takes up to **24 hours** (or **10 minutes** if `enrich_realtime` is `true`).
+
+  The API response includes a `status` field:
+
+  * `enriching` : The company is being processed, poll later to get the full company info
+  * `not_found` : Enrichment failed (e.g., no website or employees). You can stop polling for this company.
+
+  ```jsx
+  [
+    {
+      "status": "enriching",
+      "message": "The following companies will be enriched in the next 24 hours",
+      "companies": [
+        {
+          "identifier": "https://www.linkedin.com/company/123456",
+          "type": "linkedin_url"
+        }
+      ]
+    }
+  ]
+
+  ```
+
+  ### **Limitations on Nested Fields**
+
+  * **Maximum Nesting Level:** You can specify nested fields **only up to the levels defined above**
+  * **Default Exclusion of Certain Fields:** Even if you have access to fields like `decision_makers` and `founders.profiles`, they **will not be included** in the response by default when the `fields` parameter is not provided. You must explicitly request these fields using the `fields` parameter.
+    * **Example:**
+
+      ```bash
+      # Will not include 'decision_makers' or 'founders.profiles' by default
+      curl 'https://api.crustdata.com/screener/company?company_id=123' \
+        --header 'Authorization: Token $token' \
+        --header 'Accept: application/json'
+      ```
+
+      To include them, specify in `fields`:
+
+      ```bash
+      curl 'https://api.crustdata.com/screener/company?company_id=123&fields=decision_makers,founders.profiles' \
+        --header 'Authorization: Token $token' \
+        --header 'Accept: application/json'
+      ```
+  * **Unavailable Fields:** If you request a field that is not available or beyond the allowed nesting level, the API will return an error indicating that the field is not available for filtering.

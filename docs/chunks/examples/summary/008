@@ -1,0 +1,1 @@
+This chunk details the "Web Traffic" endpoint within the Crustdata Dataset API, explaining how to retrieve historical website traffic data using a company's domain. It provides a cURL request example, a sample JSON response, and key points on querying, data enrichment, and response parsing, all within the context of the broader API documentation.

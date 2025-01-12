@@ -1,0 +1,539 @@
+# Dataset API Endpoints
+
+## 1. Job Listings
+
+Crustdata’s company\_id is the unique identifier of a company in our database. It is unique and it never changes. It is numeric.
+
+Use this request to get job listings that were last updated by the company on 1st Feb, 2024 for all companies with  `company_id` equal to any one of \[680992, 673947, 631280, 636304, 631811]
+
+**Note**:
+
+1. To retrieve all the jobs listings, keep iterating over `offset` field in the payload.
+2. **Do not** increase `limit` beyond 100 as the result will be truncated without any ordering.
+3. Real-time Fetch (`sync_from_source`):
+   1. Allows fetching up to 100 jobs in real-time (*use `background_task` if all the jobs needs to be fetched)*
+   2. Works for **1 company** per request
+4. Background Task (`background_task`):
+   1. Updates job listings for up to **10 companies** at a time in the background
+   2. Returns a task ID in the response. Use this task ID to check the status or results via the endpoint `task/result/<task_id>`
+5. You need to provide `$auth_token` : Your Crustdata API Key/Auth Token. Reach out to support@crustdata.com through your company email if not available
+
+* **Request Body Overview**
+
+  The request body is a JSON object that contains the following parameters:
+
+  ### Parameters:
+
+  | **Parameter** | **Required** | **Description** |
+  | --- | --- | --- |
+  | filters | Yes | An object containing the filter conditions. |
+  | offset | Yes | The starting point of the result set. Default value is 0. |
+  | limit | Yes | The number of results to return in a single request.
+  Maximum value is `100`.
+  Default value is `100`. |
+  | sorts | No | An array of sorting criteria. |
+  | aggregations | No | \[Optional] List of column objects you want to aggregate on with aggregate type |
+  | functions | No | \[Optional] List of functions you want to apply |
+  | groups | No | \[Optional] List of group by you want to apply |
+  | background\_task | No | \[Optional] A boolean flag. If `true`, triggers a background task to update jobs for up to 10 companies at a time. Returns a task ID that can be used to fetch results later. |
+  | sync\_from\_source | No  | \[Optional] A boolean flag. If `true`, fetches up to 100 jobs in real-time. Requires a filter on `company_id` and only allows one `company_id` in the filter. |
+
+  * **`filters`**
+
+    Example:
+
+    ```json
+    {
+        "op": "and",
+        "conditions": [
+    		    {
+    				    "op": "or",
+    				    "conditions": [
+    							   {"largest_headcount_country", "type": "(.)", "value": "USA"},
+    							   {"largest_headcount_country", "type": "(.)", "value": "IND"}
+    						],
+    				}
+            {"column": "title", "type": "in", "value": [ "Sales Development Representative", "SDR", "Business Development Representative", "BDR", "Business Development Manager", "Account Development Representative", "ADR", "Account Development Manager", "Outbound Sales Representative", "Lead Generation Specialist", "Market Development Representative", "MDR", "Inside Sales Representative", "ISR", "Territory Development Representative", "Pipeline Development Representative", "New Business Development Representative", "Customer Acquisition Specialist" ]},
+            {"column": "description", "type": "(.)", "value": "Sales Development Representative"}
+        ]
+    }
+    ```
+
+    The filters object contains the following parameters:
+
+    | **Parameter** | **Description** | **Required** |
+    | --- | --- | --- |
+    | op | The operator to apply on the conditions. The value can be `"and"` or `"or"`. | Yes |
+    | conditions | An array of complex filter objects or basic filter objects (see below) | Yes |
+  * **`conditions` parameter**
+
+    This has two possible types of values
+
+    1. **Basic Filter Object**
+
+       Example: `{"column": "crunchbase_total_investment_usd", "type": "=>", "value": "50" }`
+
+       The object contains the following parameters:
+
+       | **Parameter** | **Description** | **Required** |
+       | --- | --- | --- |
+       | column | The name of the column to filter. | Yes |
+       | type | The filter type. The value can be "=>", "=<", "=", "!=", “in”, “(.)”, “\[.]” | Yes |
+       | value | The filter value. | Yes |
+       | allow\_null | Whether to allow null values. The value can be "true" or "false". Default value is "false". | No |
+
+       * List of all `column` values
+         * linkedin\_id
+         * company\_website
+         * fiscal\_year\_end
+         * company\_name
+         * markets
+         * company\_website\_domain
+         * largest\_headcount\_country
+         * crunchbase\_total\_investment\_usd
+         * acquisition\_status
+         * crunchbase\_valuation\_usd
+         * crunchbase\_valuation\_lower\_bound\_usd
+         * crunchbase\_valuation\_date
+         * crunchbase\_profile\_url
+         * title
+         * category
+         * url
+         * domain
+         * number\_of\_openings
+         * description
+         * date\_added
+         * date\_updated
+         * city
+         * location\_text
+         * workplace\_type
+         * reposted\_job
+         * dataset\_row\_id
+         * pin\_area\_name
+         * pincode
+         * district
+         * district\_geocode
+         * wikidata\_id
+         * state
+         * state\_geocode
+         * country
+         * country\_code
+         * company\_id
+       * List of all `type` values
+
+         | condition type | condition description | applicable column types | example |
+         | --- | --- | --- | --- |
+         | "=>" | Greater than or equal | number | { "column": "crunchbase\_total\_investment\_usd", "type": "=>", "value": "500000"} |
+         | "=<" | Lesser than or equal | number | { "column": "crunchbase\_total\_investment\_usd", "type": "=<", "value": "50"} |
+         | "=", | Equal | number | { "column": "crunchbase\_total\_investment\_usd", "type": "=", "value": "50"} |
+         | “<” | Lesser than | number | { "column": "crunchbase\_total\_investment\_usd", "type": "<", "value": "50"} |
+         | “>” | Greater than | number | { "column": "crunchbase\_total\_investment\_usd", "type": ">", "value": "50"} |
+         | “(.)” | Contains, case insensitive | string | { "column": "title", "type": "(.)", "value": "artificial intelligence"} |
+         | “\[.]” | Contains, case sensitive | string | { "column": "title", "type": "\[.]", "value": "Artificial Intelligence"} |
+         | "!=" | Not equals | number |  |
+         | “in” | Exactly matches atleast one of the elements of list | string, number | { "column": "company\_id", "type": "in", "value": \[123, 346. 564]} |
+    2. **Complex Filter Object**
+
+       Example:
+
+       ```json
+       {
+       	 "op": "or",
+       	 "conditions": [
+       			 {"largest_headcount_country", "type": "(.)", "value": "USA"},
+       			 {"largest_headcount_country", "type": "(.)", "value": "IND"}
+       	 ]
+       }
+       ```
+
+       Same schema as the parent [**`filters`**](https://www.notion.so/filters-8a72acfe02a5455e895ea9a9dede08c4?pvs=21) parameter
+
+* **Curl**
+
+  ```bash
+  curl --request POST \
+    --url https://api.crustdata.com/data_lab/job_listings/Table/ \
+    --header 'Accept: application/json, text/plain, */*' \
+    --header 'Accept-Language: en-US,en;q=0.9' \
+    --header 'Authorization: Token $token' \
+    --header 'Content-Type: application/json' \
+    --header 'Origin: https://crustdata.com' \
+    --header 'User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36' \
+    --data '{
+      "tickers": [],
+      "dataset": {
+        "name": "job_listings",
+        "id": "joblisting"
+      },
+      "filters": {
+        "op": "and",
+        "conditions": [
+          {"column": "company_id", "type": "in", "value": [7576, 680992, 673947, 631280, 636304, 631811]},
+          {"column": "date_updated", "type": ">", "value": "2024-02-01"}
+        ]
+      },
+      "groups": [],
+      "aggregations": [],
+      "functions": [],
+      "offset": 0,
+      "limit": 100,
+      "sorts": []
+    }'
+  ```
+
+* **Python**
+
+  ```python
+  import requests
+  import json
+
+  url = "https://api.crustdata.com/data_lab/job_listings/Table/"
+
+  headers = {
+      "Accept": "application/json, text/plain, */*",
+      "Accept-Language": "en-US,en;q=0.9",
+      "Authorization": "Token $token",
+      "Content-Type": "application/json",
+      "Origin": "https://crustdata.com",
+      "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36"
+  }
+
+  data = {
+      "tickers": [],
+      "dataset": {
+          "name": "job_listings",
+          "id": "joblisting"
+      },
+      "filters": {
+          "op": "and",
+          "conditions": [
+                      {"column": "company_id", "type": "in", "value": [7576, 680992, 673947, 631280, 636304, 631811]},
+  				            {"column": "date_updated", "type": ">", "value": "2024-02-01"}
+          ]
+      },
+      "groups": [],
+      "aggregations": [],
+      "functions": [],
+      "offset": 0,
+      "limit": 100,
+      "sorts": []
+  }
+
+  response = requests.post(url, headers=headers, data=json.dumps(data))
+
+  print(response.json())
+  ```
+
+* **Example requests**
+
+  1. Get all job listings that
+     * from a list of company domains AND
+     * posted after a specific data AND
+     * have specific keywords in title
+
+  ```bash
+  curl --location 'https://api.crustdata.com/data_lab/job_listings/Table/' \
+  --header 'Accept: application/json, text/plain, */*' \
+  --header 'Authorization: Token $token' \
+  --header 'Content-Type: application/json' \
+  --data '{
+      "tickers": [],
+      "dataset": {
+        "name": "job_listings",
+        "id": "joblisting"
+      },
+      "filters": {
+        "op": "and",
+        "conditions": [
+          {"column": "company_website_domain", "type": "(.)", "value": "ziphq.com"},
+          {"column": "date_updated", "type": ">", "value": "2024-08-01"},
+  		    {
+  				    "op": "or",
+  				    "conditions": [
+  							   {"column": "title", "type": "(.)", "value": "Sales Development Representative"},
+  							   {"column": "title", "type": "(.)", "value": "SDR"},
+  							   {"column": "title", "type": "(.)", "value": "Business Development Representative"}
+  						],
+  				}       
+        ]
+      },
+      "offset": 0,
+      "limit": 100,
+      "sorts": [],
+    }'
+  ```
+
+  1. Get real time job listings from the source for company Rippling
+
+     ```bash
+     curl --location 'https://api.crustdata.com/data_lab/job_listings/Table/' \
+     --header 'Accept: application/json, text/plain, */*' \
+     --header 'Authorization: Token $token' \
+     --header 'Content-Type: application/json' \
+     --data '{
+         "tickers": [],
+         "dataset": {
+           "name": "job_listings",
+           "id": "joblisting"
+         },
+         "filters": {
+           "op": "and",
+           "conditions": [
+     	        {"column": "company_id", "type": "in", "value": [634043]},      ]
+         },
+         "offset": 0,
+         "limit": 100,
+         "sorts": [],
+         "sync_from_source": true
+       }'
+     ```
+
+  2. Fetch job listings for list of company ids from the source in the background
+
+     **Request:**
+
+     ```bash
+     curl --location 'https://api.crustdata.com/data_lab/job_listings/Table/' \
+     --header 'Accept: application/json, text/plain, */*' \
+     --header 'Authorization: Token $token' \
+     --header 'Content-Type: application/json' \
+     --data '{
+         "tickers": [],
+         "dataset": {
+           "name": "job_listings",
+           "id": "joblisting"
+         },
+         "filters": {
+           "op": "and",
+           "conditions": [
+     	        {"column": "company_id", "type": "in", "value": [631394, 7576, 680992, 673947, 631280, 636304, 631811]},
+           ]
+         },
+         "offset": 0,
+         "limit": 10000,
+         "sorts": [],
+         "backgrond_task": true
+       }'
+     ```
+
+     * Response would be
+
+       ```bash
+       {
+           "task_id": "3d729bd0-a113-4b31-b09f-65eff79f06fe",
+           "task_type": "job_listings",
+           "status": "not_started",
+           "completed_task_result_endpoint": "/task/result/3d729bd0-a113-4b31-b09f-65eff79f06fe/",
+           "created_at": "2024-12-25T02:32:42.811843Z",
+           "started_at": null
+       }
+       ```
+
+  3. Get all job listings that are
+     * from a list of Crustdata company\_ids AND
+     * posted after a specific data AND
+     * exactly has one of the given titles
+
+  ```bash
+  curl --location 'https://api.crustdata.com/data_lab/job_listings/Table/' \
+  --header 'Accept: application/json, text/plain, */*' \
+  --header 'Authorization: Token $token' \
+  --header 'Content-Type: application/json' \
+  --data '{
+      "tickers": [],
+      "dataset": {
+        "name": "job_listings",
+        "id": "joblisting"
+      },
+      "filters": {
+        "op": "and",
+        "conditions": [
+  	        {"column": "company_id", "type": "in", "value": [631394, 7576, 680992, 673947, 631280, 636304, 631811]},
+          {"column": "date_updated", "type": ">", "value": "2024-08-01"},
+          {
+          "column": "title",
+          "type": "in",
+          "value": [
+            "Sales Development Representative",
+            "SDR",
+            "Business Development Representative",
+            "BDR",
+            "Business Development Manager",
+            "Account Development Representative",
+            "ADR",
+            "Account Development Manager",
+            "Outbound Sales Representative",
+            "Lead Generation Specialist",
+            "Market Development Representative",
+            "MDR",
+            "Inside Sales Representative",
+            "ISR",
+            "Territory Development Representative",
+            "Pipeline Development Representative",
+            "New Business Development Representative",
+            "Customer Acquisition Specialist"
+          ]
+        }
+        ]
+      },
+      "offset": 0,
+      "count": 100,
+      "sorts": []
+    }'
+  ```
+
+  1. **Get count of job listing meeting a criteria**
+
+     You can set `"count": 1` . The last value of the first (and the only) row would be the total count of jobs meeting the criteria
+
+     ```bash
+     curl --location 'https://api.crustdata.com/data_lab/job_listings/Table/' \
+     --header 'Accept: application/json, text/plain, */*' \
+     --header 'Accept-Language: en-US,en;q=0.9' \
+     --header 'Authorization: Token $token' \
+     --header 'Content-Type: application/json' \
+     --header 'Origin: https://crustdata.com' \
+     --data '{
+         "tickers": [],
+         "dataset": {
+           "name": "job_listings",
+           "id": "joblisting"
+         },
+         "filters": {
+           "op": "and",
+           "conditions": [
+             {"column": "company_id", "type": "in", "value": [631394]},
+             {
+                 "column": "title",
+                 "type": "in",
+                 "value": [
+                 "Sales Development Representative",
+                 "SDR",
+                 "Business Development Representative",
+                 "BDR",
+                 "Business Development Manager",
+                 "Account Development Representative",
+                 "ADR",
+                 "Account Development Manager",
+                 "Outbound Sales Representative",
+                 "Lead Generation Specialist",
+                 "Market Development Representative",
+                 "MDR",
+                 "Inside Sales Representative",
+                 "ISR",
+                 "Territory Development Representative",
+                 "Pipeline Development Representative",
+                 "New Business Development Representative",
+                 "Customer Acquisition Specialist"
+                 ]
+             }
+           ]
+         },
+         "offset": 0,
+         "count": 1,
+         "sorts": []
+       }'
+     ```
+
+     * Response would be
+
+       ```bash
+       {
+           "fields": [
+               {
+                   "type": "string",
+                   "api_name": "linkedin_id",
+                   "hidden": true,
+                   "options": [],
+                   "summary": "",
+                   "local_metric": false,
+                   "display_name": "",
+                   "company_profile_name": "",
+                   "preview_description": "",
+                   "geocode": false
+               },
+               {
+                   "type": "string",
+                   "api_name": "company_website",
+                   "hidden": false,
+                   "options": [],
+                   "summary": "",
+                   "local_metric": false,
+                   "display_name": "",
+                   "company_profile_name": "",
+                   "preview_description": "",
+                   "geocode": false
+               },
+       				...
+               {
+                   "type": "number",
+                   "api_name": "total_rows",
+                   "hidden": true,
+                   "options": [],
+                   "summary": "",
+                   "local_metric": false,
+                   "display_name": "",
+                   "company_profile_name": "",
+                   "preview_description": "",
+                   "geocode": false
+               }
+           ],
+           "rows": [
+               [
+                   "2135371",
+                   "https://stripe.com",
+                   null,
+                   "Stripe",
+                   "stripe",
+                   "PRIVATE",
+                   "stripe.com",
+                   "USA",
+                   9440247725,
+                   null,
+                   50000000000,
+                   10000000000,
+                   "2023-03-15",
+                   "https://crunchbase.com/organization/stripe",
+                   "Sales Development Representative",
+                   "Sales",
+                   "https://www.linkedin.com/jobs/view/3877324263",
+                   "www.linkedin.com",
+                   1,
+                   "Who we are\n\nAbout Stripe\n\nStripe is a financial infrastructure platform for businesses. Millions of companies—from the world’s largest enterprises to the most ambitious startups—use Stripe to accept payments, grow their revenue, and accelerate new business opportunities. Our mission is to increase the GDP of the internet, and we have a staggering amount of work ahead. That means you have an unprecedented opportunity to put the global economy within everyone’s reach while doing the most important work of your career.\n\nAbout The Team\n\nAs a Sales Development Representative (SDR) at Stripe, you will drive Stripe’s future growth engine by working with Demand Gen and the Account Executive team to qualify leads and collaboratively build Stripe’s sales pipeline. You get excited about engaging with prospects to better qualify needs. You are adept at identifying high value opportunities and capable of managing early sales funnel activities.You are used to delivering value in complex situations and are energized by learning about new and existing products. Finally, you enjoy building – you like to actively participate in the development of the demand generation and sales process, the articulation of Stripe’s value proposition, and the creation of key tools and assets. If you’re hungry, smart, persistent, and a great teammate, we want to hear from you!\n\nFor the first months, you’ll be part of the SD Associate program which is designed to accelerate your onboarding and ramp to full productivity as an SDR. This intensive program is built to help you quickly build and develop skills required to be successful in this role. Upon completion, you’ll continue learning and growing in your career as part of Stripe’s Sales Development Academy. These programs are endorsed and supported by sales leaders as an important part of investing in our people.\n\nWe take a data driven, analytical approach to sales development, and are looking for someone who is confident in both prospecting to customers and in helping design our strategy. If you’re hungry, smart, persistent, and a great teammate, we want to hear from you!\n\nWhat you’ll do\n\nResponsibilities\n\nResearch and create outreach materials for high value prospects, in partnership with SDRs and AEsFollow up with Marketing generated leads to qualify as sales opportunities. Move solid leads through the funnel connecting them to a salesperson, and arranging meetingsExecute outbound sales plays created by marketingInitiate contact with potential customers through cold-calling or responding to inquiries generated from MarketingDevelop relationships with prospects to uncover needs through effective questioning to qualify interest and viability to prepare hand-off to salesFollow-up with potential customers who expressed interest but did not initially result in a sales opportunityEffectively work through lead list meeting/exceeding SLAs, consistently update activity and contact information within the CRM system and support weekly reporting effortsCollaborate and provide feedback and insights to Marketing to help improve targeting and messaging\n\n\nWho you are\n\nWe’re looking for someone who meets the minimum requirements to be considered for the role. If you meet these requirements, you are encouraged to apply.\n\nMinimum Requirements\n\nA track record of top performance or prior successSuperior verbal and written communication skillsSelf starter who is able to operate in a hyper growth environmentThis role requires in-office participation three (3) days per week in our Chicago office \n\n\nPreferred Qualifications\n\nProfessional experience\n\n\nHybrid work at Stripe\n\nOffice-assigned Stripes spend at least 50% of the time in a given month in their local office or with users. This hits a balance between bringing people together for in-person collaboration and learning from each other, while supporting flexibility about how to do this in a way that makes sense for individuals and their teams.\n\nPay and benefits\n\nThe annual US base salary range for this role is $65,600 - $98,300. For sales roles, the range provided is the role’s On Target Earnings (\"OTE\") range, meaning that the range includes both the sales commissions/sales bonuses target and annual base salary for the role. This salary range may be inclusive of several career levels at Stripe and will be narrowed during the interview process based on a number of factors, including the candidate’s experience, qualifications, and location. Applicants interested in this role and who are not located in the US may request the annual salary range for their location during the interview process.\n\nAdditional benefits for this role may include: equity, company bonus or sales commissions/bonuses; 401(k) plan; medical, dental, and vision benefits; and wellness stipends.",
+                   "2024-03-29T22:35:22Z",
+                   "2024-12-05T00:00:00Z",
+                   "chicago",
+                   "Chicago, Illinois, United States",
+                   "On-site",
+                   "True",
+                   13385453,
+                   null,
+                   null,
+                   null,
+                   null,
+                   null,
+                   null,
+                   null,
+                   "United States of America (the)",
+                   "USA",
+                   "840",
+                   631394,
+                   3
+               ]
+           ]
+       }
+       ```
+
+     And total count of results matching the search query would be:  `response[rows][0][-1]`  (`-1` refers to last item of the row), which would be 3 in the case above
+
+* **Response**
+
+  https://jsonhero.io/j/3ZQ16TON5oUV
+
+  [JSON Hero](https://jsonhero.io/j/gTebm3gqR4em/tree)
+
+  **Parsing the response**
+
+  The response format is same as that of Company Discovery: Screening API.
+
+  You refer here on how to parse the response [**Parsing the response**](https://www.notion.so/Parsing-the-response-28de6e16940c4615b5872020a345766a?pvs=21)

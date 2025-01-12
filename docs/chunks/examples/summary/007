@@ -1,0 +1,1 @@
+This chunk details the "G2 Profile Metrics" endpoint within the Crustdata Dataset API, explaining how to retrieve company product ratings and review counts from G2. It provides a cURL request example, outlining the required parameters and filters, and includes a sample JSON response with field descriptions for parsing the data.

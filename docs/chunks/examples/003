@@ -1,0 +1,312 @@
+# Dataset API Endpoints
+
+## 3. Decision Makers/People Info
+
+* All decision makers: for a given `company_id=632328`
+
+  Decision makers include the people with following titles
+
+  * Included decision maker titles
+
+    ### Founders
+
+    * CEO
+    * Founder
+    * Co-founder
+    * Co founder
+    * Cofounder
+    * Co-fondateur
+    * Fondateur
+    * Cofondateur
+    * Cofondatrice
+    * Co-fondatrice
+    * Fondatrice
+
+    ### Executive Officers
+
+    * Chief Executive Officer
+    * Chief Technical Officer
+    * Chief Technology Officer
+    * Chief Financial Officer
+    * Chief Marketing Officer
+    * Chief Sales Officer
+    * Chief Marketing and Digital Officer
+    * Chief Market Officer
+
+    ### Technical Leadership
+
+    * CTO
+    * VP Engineering
+    * VP of Engineering
+    * Vice President Engineering
+    * Vice President of Engineering
+    * Head Engineering
+    * Head of Engineering
+
+    ### Marketing Leadership
+
+    * CMO
+    * Chief Marketing Officer
+    * Chief Marketing and Digital Officer
+    * Chief Market Officer
+    * VP Marketing
+    * VP of Marketing
+    * Vice President Marketing
+    * Vice President of Marketing
+
+    ### Sales Leadership
+
+    * Chief Sales Officer
+    * VP Sales
+    * VP of Sales
+    * Vice President Sales
+    * Vice President of Sales
+    * Vice President (Sales & Pre-Sales)
+    * Head Sales
+    * Head of Sales
+
+    ### Product Leadership
+
+    * VP Product
+    * VP of Product
+    * Vice President Product
+    * Vice President of Product
+    * Head of Product
+    * Head Product
+
+    ### Software Leadership
+
+    * VP Software
+    * VP of Software
+    * Vice President Software
+    * Vice President of Software
+
+    ### Financial Leadership
+
+    * CFO
+    * Chief Financial Officer
+
+  * **Curl**
+
+    ```bash
+    curl --request POST \
+          --url https://api.crustdata.com/data_lab/decision_makers/ \
+          --header 'Accept: application/json, text/plain, */*' \
+          --header 'Accept-Language: en-US,en;q=0.9' \
+          --header 'Authorization: Token $auth_token' \
+          --header 'Content-Type: application/json' \
+          --header 'Origin: http://localhost:3000' \
+          --header 'Referer: http://localhost:3000/' \
+          --data '{"filters":{"op": "and", "conditions": [{"column": "company_id", "type": "in", "value": [632328]}] },"offset":0,"count":100,"sorts":[]}'
+    ```
+
+  * **Python**
+
+    ```python
+    import requests
+    import json
+
+    url = "https://api.crustdata.com/data_lab/decision_makers/"
+    headers = {
+        'Accept': 'application/json, text/plain, */*',
+        'Accept-Language': 'en-US,en;q=0.9',
+        'Authorization': 'Token $auth_token',  # Replace with your actual token
+        'Content-Type': 'application/json',
+        'Origin': 'http://localhost:3000',
+        'Referer': 'http://localhost:3000/'
+    }
+
+    data = {
+        "filters": {
+            "op": "or",
+            "conditions": [
+                {"column": "company_id", "type": "in", "value": [632328]}
+            ]
+        },
+        "offset": 0,
+        "count": 100,
+        "sorts": []
+    }
+
+    response = requests.post(url, headers=headers, data=json.dumps(data))
+    print(response.text)
+    ```
+
+* Decision makers with specific titles: for a given `company_id=632328`
+
+  For example, get all decision makers “vice president” and “chief” in their title
+
+  * **Curl**
+
+    ```bash
+    curl --request POST \
+      --url https://api.crustdata.com/data_lab/decision_makers/ \
+      --header 'Accept: application/json, text/plain, */*' \
+      --header 'Accept-Language: en-US,en;q=0.9' \
+      --header 'Authorization: Token $auth_token' \
+      --data '{
+        "filters": {
+          "op": "or",
+          "conditions": [
+            {
+              "column": "company_id",
+              "type": "in",
+              "value": [632328]
+            },
+            {
+              "column": "title",
+              "type": "in",
+              "value": ["vice president", "chief"]
+            }
+          ]
+        },
+        "offset": 0,
+        "count": 100,
+        "sorts": []
+      }'
+
+    ```
+
+  * **Python**
+
+    ```python
+    import requests
+
+    url = "https://api.crustdata.com/data_lab/decision_makers/"
+
+    headers = {
+        "Accept": "application/json, text/plain, */*",
+        "Accept-Language": "en-US,en;q=0.9",
+        "Authorization": "Token YOUR_AUTH_TOKEN"
+    }
+
+    payload = {
+        "filters": {
+            "op": "or",
+            "conditions": [
+                {
+                    "column": "company_id",
+                    "type": "in",
+                    "value": [632328]
+                },
+                {
+                    "column": "title",
+                    "type": "in",
+                    "value": ["vice president", "chief"]
+                }
+            ]
+        },
+        "offset": 0,
+        "count": 100,
+        "sorts": []
+    }
+
+    response = requests.post(url, headers=headers, json=payload)
+
+    # Print the response status and data
+    print(f"Status Code: {response.status_code}")
+    print(f"Response: {response.json()}")
+
+    ```
+
+* People profiles by their LinkedIn’s “flagship\_url”
+
+  For example, decision makers with LinkedIn profile url as "https://www.linkedin.com/in/alikashani"
+
+  * **Curl**
+
+    ```bash
+    curl --request POST \
+          --url https://api.crustdata.com/data_lab/decision_makers/ \
+          --header 'Accept: application/json, text/plain, */*' \
+          --header 'Accept-Language: en-US,en;q=0.9' \
+          --header 'Authorization: Token $auth_token' \
+          --header 'Content-Type: application/json' \
+          --data '{"filters":{"op": "and", "conditions": [{"column": "linkedin_flagship_profile_url", "type": "in", "value": ["https://www.linkedin.com/in/alikashani"]}] },"offset":0,"count":100,"sorts":[]}'
+    ```
+
+  * **Python**
+
+    ```python
+    import requests
+    import json
+
+    url = "https://api.crustdata.com/data_lab/decision_makers/"
+    headers = {
+        'Accept': 'application/json, text/plain, */*',
+        'Accept-Language': 'en-US,en;q=0.9',
+        'Authorization': 'Token $auth_token',  # Replace with your actual token
+        'Content-Type': 'application/json',
+        'Origin': 'http://localhost:3000',
+        'Referer': 'http://localhost:3000/'
+    }
+
+    data = {
+        "filters": {
+            "op": "or",
+            "conditions": [
+                {"column": "linkedin_flagship_profile_url", "type": "in", "value": ["https://www.linkedin.com/in/alikashani"]}
+            ]
+        },
+        "offset": 0,
+        "count": 100,
+        "sorts": []
+    }
+
+    response = requests.post(url, headers=headers, data=json.dumps(data))
+    print(response.text)
+    ```
+
+* People profiles by their “linkedin\_urn”
+
+  For example, decision makers with `linkedin_urn` as "ACwAAAVhcDEBbTdJtuc-KHsdYfPU1JAdBmHkh8I" . `linkedin_urn` is a 30-40 character alphanumeric sequence that includes both uppercase letters and numbers
+
+  * **Curl**
+
+    ```bash
+    curl --request POST \
+          --url https://api.crustdata.com/data_lab/decision_makers/ \
+          --header 'Accept: application/json, text/plain, */*' \
+          --header 'Accept-Language: en-US,en;q=0.9' \
+          --header 'Authorization: Token $auth_token' \
+          --header 'Content-Type: application/json' \
+          --header 'Origin: http://localhost:3000' \
+          --header 'Referer: http://localhost:3000/' \
+          --data '{"filters":{"op": "or", "conditions": [{"column": "linkedin_profile_urn", "type": "in", "value": ["ACwAAAVhcDEBbTdJtuc-KHsdYfPU1JAdBmHkh8I"]}] },"offset":0,"count":100,"sorts":[]}'
+    ```
+
+  * **Python**
+
+    ```python
+    import requests
+    import json
+
+    url = "https://api.crustdata.com/data_lab/decision_makers/"
+    headers = {
+        'Accept': 'application/json, text/plain, */*',
+        'Accept-Language': 'en-US,en;q=0.9',
+        'Authorization': 'Token $auth_token',  # Replace with your actual token
+        'Content-Type': 'application/json',
+        'Origin': 'http://localhost:3000',
+        'Referer': 'http://localhost:3000/'
+    }
+
+    data = {
+        "filters": {
+            "op": "or",
+            "conditions": [
+                {"column": "linkedin_profile_urn", "type": "in", "value": ["ACwAAAVhcDEBbTdJtuc-KHsdYfPU1JAdBmHkh8I"]}
+            ]
+        },
+        "offset": 0,
+        "count": 100,
+        "sorts": []
+    }
+
+    response = requests.post(url, headers=headers, data=json.dumps(data))
+    print(response.text)
+    ```
+
+* **Response**
+
+  https://jsonhero.io/j/QSAlhbuflhie

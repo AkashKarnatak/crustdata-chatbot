@@ -1,0 +1,4180 @@
+# Dataset API Endpoints
+
+## 4. LinkedIn Employee Headcount and LinkedIn Follower Count
+
+Use this request to get weekly and monthly timeseries of employee headcount as a JSON blob.
+
+You either provide with list a list of Crustdata `company_id`  or `linkedin_id` or `company_website_domain`
+
+In the following example, we request the employee headcount timeseries of companies with  `company_id` equal to any one of \[680992, 673947, 631280, 636304, 631811]
+
+* **CUrl**
+
+  ```bash
+  curl 'https://api.crustdata.com/data_lab/headcount_timeseries/' \
+    -H 'Accept: application/json, text/plain, */*' \
+    -H 'Accept-Language: en-US,en;q=0.9' \
+    -H 'Authorization: Token $auth_token' \
+    -H 'Content-Type: application/json' \
+    -H 'Origin: https://crustdata.com' \
+    -H 'Referer: https://crustdata.com' \
+    --data-raw '{
+      "filters": {
+          "op": "or",
+          "conditions": [
+                      {
+                          "column": "company_id",
+                          "type": "=",
+                          "value": 634995
+                      },
+                      {
+                          "column": "company_id",
+                          "type": "=",
+                          "value": 680992
+                      },
+                      {
+                          "column": "company_id",
+                          "type": "=",
+                          "value": 673947
+                      },
+                      {
+                          "column": "company_id",
+                          "type": "=",
+                          "value": 631811
+                      }
+          ]
+      },
+      "offset": 0,
+      "count": 100,
+      "sorts": []
+  }' \
+    --compressed
+  ```
+
+* **Python**
+
+  ```python
+  import requests
+
+  headers = {
+      'Accept': 'application/json, text/plain, */*',
+      'Accept-Language': 'en-US,en;q=0.9',
+      'Authorization': 'Token $auth_token',
+      'Content-Type': 'application/json',
+      'Origin': 'https://crustdata.com',
+      'Referer': 'https://crustdata.com',
+  }
+
+  json_data = {
+      'filters': {
+          'op': 'and',
+          'conditions': [
+              {
+                  'op': 'or',
+                  'conditions': [
+                      {
+                          'column': 'company_id',
+                          'type': '=',
+                          'value': 634995,
+                      },
+                      {
+                          'column': 'company_id',
+                          'type': '=',
+                          'value': 680992,
+                      },
+                      {
+                          'column': 'company_id',
+                          'type': '=',
+                          'value': 673947,
+                      },
+                      {
+                          'column': 'company_id',
+                          'type': '=',
+                          'value': 631811,
+                      },
+                  ],
+              },
+          ],
+      },
+      'offset': 0,
+      'count': 100,
+      'sorts': [],
+  }
+
+  response = requests.post('https://api.crustdata.com/data_lab/headcount_timeseries/', headers=headers, json=json_data)
+  ```
+
+* **Response**
+
+  [JSON Hero](https://jsonhero.io/j/bd2OKMSu8ZQ0/editor)
+
+  ```json
+  {
+    "fields": [
+      {
+        "type": "foreign_key",
+        "api_name": "company_id",
+        "hidden": false,
+        "options": [],
+        "summary": "",
+        "local_metric": false,
+        "display_name": "",
+        "company_profile_name": "",
+        "geocode": false
+      },
+      {
+        "type": "string",
+        "api_name": "company_website",
+        "hidden": false,
+        "options": [],
+        "summary": "",
+        "local_metric": false,
+        "display_name": "",
+        "company_profile_name": "",
+        "geocode": false
+      },
+      {
+        "type": "string",
+        "api_name": "linkedin_id",
+        "hidden": false,
+        "options": [],
+        "summary": "",
+        "local_metric": false,
+        "display_name": "",
+        "company_profile_name": "",
+        "geocode": false
+      },
+      {
+        "type": "string",
+        "api_name": "company_website_domain",
+        "hidden": false,
+        "options": [],
+        "summary": "",
+        "local_metric": false,
+        "display_name": "",
+        "company_profile_name": "",
+        "geocode": false
+      },
+      {
+        "type": "array",
+        "api_name": "headcount_timeseries",
+        "hidden": false,
+        "options": [],
+        "summary": "",
+        "local_metric": false,
+        "display_name": "",
+        "company_profile_name": "",
+        "geocode": false
+      },
+      {
+        "type": "number",
+        "api_name": "total_rows",
+        "hidden": true,
+        "options": [],
+        "summary": "",
+        "local_metric": false,
+        "display_name": "",
+        "company_profile_name": "",
+        "geocode": false
+      }
+    ],
+    "rows": [
+      [
+        631280,
+        "https://www.lacework.com",
+        "17932068",
+        "lacework.com",
+        [
+          {
+            "date": "2021-08-01T00:00:00+00:00",
+            "employee_count": 643,
+            "follower_count": null
+          },
+          {
+            "date": "2021-08-02T00:00:00+00:00",
+            "employee_count": 643,
+            "follower_count": null
+          },
+          {
+            "date": "2021-08-09T00:00:00+00:00",
+            "employee_count": 643,
+            "follower_count": null
+          },
+          {
+            "date": "2021-08-16T00:00:00+00:00",
+            "employee_count": 643,
+            "follower_count": null
+          },
+          {
+            "date": "2021-08-23T00:00:00+00:00",
+            "employee_count": 643,
+            "follower_count": null
+          },
+          {
+            "date": "2021-08-30T00:00:00+00:00",
+            "employee_count": 643,
+            "follower_count": null
+          },
+          {
+            "date": "2021-09-01T00:00:00+00:00",
+            "employee_count": 687,
+            "follower_count": null
+          },
+          {
+            "date": "2021-09-06T00:00:00+00:00",
+            "employee_count": 687,
+            "follower_count": null
+          },
+          {
+            "date": "2021-09-13T00:00:00+00:00",
+            "employee_count": 687,
+            "follower_count": null
+          },
+          {
+            "date": "2021-09-20T00:00:00+00:00",
+            "employee_count": 687,
+            "follower_count": null
+          },
+          {
+            "date": "2021-09-27T00:00:00+00:00",
+            "employee_count": 687,
+            "follower_count": null
+          },
+          {
+            "date": "2021-10-01T00:00:00+00:00",
+            "employee_count": 737,
+            "follower_count": null
+          },
+          {
+            "date": "2021-10-04T00:00:00+00:00",
+            "employee_count": 737,
+            "follower_count": null
+          },
+          {
+            "date": "2021-10-11T00:00:00+00:00",
+            "employee_count": 737,
+            "follower_count": null
+          },
+          {
+            "date": "2021-10-18T00:00:00+00:00",
+            "employee_count": 737,
+            "follower_count": null
+          },
+          {
+            "date": "2021-10-25T00:00:00+00:00",
+            "employee_count": 737,
+            "follower_count": null
+          },
+          {
+            "date": "2021-11-01T00:00:00+00:00",
+            "employee_count": 805,
+            "follower_count": null
+          },
+          {
+            "date": "2021-11-08T00:00:00+00:00",
+            "employee_count": 805,
+            "follower_count": null
+          },
+          {
+            "date": "2021-11-15T00:00:00+00:00",
+            "employee_count": 805,
+            "follower_count": null
+          },
+          {
+            "date": "2021-11-22T00:00:00+00:00",
+            "employee_count": 805,
+            "follower_count": null
+          },
+          {
+            "date": "2021-11-29T00:00:00+00:00",
+            "employee_count": 805,
+            "follower_count": null
+          },
+          {
+            "date": "2021-12-01T00:00:00+00:00",
+            "employee_count": 853,
+            "follower_count": null
+          },
+          {
+            "date": "2021-12-06T00:00:00+00:00",
+            "employee_count": 853,
+            "follower_count": null
+          },
+          {
+            "date": "2021-12-13T00:00:00+00:00",
+            "employee_count": 853,
+            "follower_count": null
+          },
+          {
+            "date": "2021-12-20T00:00:00+00:00",
+            "employee_count": 853,
+            "follower_count": null
+          },
+          {
+            "date": "2021-12-27T00:00:00+00:00",
+            "employee_count": 853,
+            "follower_count": null
+          },
+          {
+            "date": "2022-01-01T00:00:00+00:00",
+            "employee_count": 919,
+            "follower_count": null
+          },
+          {
+            "date": "2022-01-03T00:00:00+00:00",
+            "employee_count": 919,
+            "follower_count": null
+          },
+          {
+            "date": "2022-01-10T00:00:00+00:00",
+            "employee_count": 919,
+            "follower_count": null
+          },
+          {
+            "date": "2022-01-17T00:00:00+00:00",
+            "employee_count": 919,
+            "follower_count": null
+          },
+          {
+            "date": "2022-01-24T00:00:00+00:00",
+            "employee_count": 919,
+            "follower_count": null
+          },
+          {
+            "date": "2022-01-31T00:00:00+00:00",
+            "employee_count": 919,
+            "follower_count": null
+          },
+          {
+            "date": "2022-02-01T00:00:00+00:00",
+            "employee_count": 996,
+            "follower_count": null
+          },
+          {
+            "date": "2022-02-07T00:00:00+00:00",
+            "employee_count": 996,
+            "follower_count": null
+          },
+          {
+            "date": "2022-02-14T00:00:00+00:00",
+            "employee_count": 996,
+            "follower_count": null
+          },
+          {
+            "date": "2022-02-21T00:00:00+00:00",
+            "employee_count": 996,
+            "follower_count": null
+          },
+          {
+            "date": "2022-02-28T00:00:00+00:00",
+            "employee_count": 996,
+            "follower_count": null
+          },
+          {
+            "date": "2022-03-01T00:00:00+00:00",
+            "employee_count": 1069,
+            "follower_count": null
+          },
+          {
+            "date": "2022-03-07T00:00:00+00:00",
+            "employee_count": 1069,
+            "follower_count": null
+          },
+          {
+            "date": "2022-03-14T00:00:00+00:00",
+            "employee_count": 1069,
+            "follower_count": null
+          },
+          {
+            "date": "2022-03-21T00:00:00+00:00",
+            "employee_count": 1069,
+            "follower_count": null
+          },
+          {
+            "date": "2022-03-28T00:00:00+00:00",
+            "employee_count": 1069,
+            "follower_count": null
+          },
+          {
+            "date": "2022-04-01T00:00:00+00:00",
+            "employee_count": 1121,
+            "follower_count": null
+          },
+          {
+            "date": "2022-04-04T00:00:00+00:00",
+            "employee_count": 1121,
+            "follower_count": null
+          },
+          {
+            "date": "2022-04-11T00:00:00+00:00",
+            "employee_count": 1121,
+            "follower_count": null
+          },
+          {
+            "date": "2022-04-18T00:00:00+00:00",
+            "employee_count": 1121,
+            "follower_count": null
+          },
+          {
+            "date": "2022-04-25T00:00:00+00:00",
+            "employee_count": 1121,
+            "follower_count": null
+          },
+          {
+            "date": "2022-05-01T00:00:00+00:00",
+            "employee_count": 1160,
+            "follower_count": null
+          },
+          {
+            "date": "2022-05-02T00:00:00+00:00",
+            "employee_count": 1160,
+            "follower_count": null
+          },
+          {
+            "date": "2022-05-09T00:00:00+00:00",
+            "employee_count": 1160,
+            "follower_count": null
+          },
+          {
+            "date": "2022-05-16T00:00:00+00:00",
+            "employee_count": 1160,
+            "follower_count": null
+          },
+          {
+            "date": "2022-05-23T00:00:00+00:00",
+            "employee_count": 1160,
+            "follower_count": null
+          },
+          {
+            "date": "2022-05-30T00:00:00+00:00",
+            "employee_count": 1160,
+            "follower_count": null
+          },
+          {
+            "date": "2022-06-01T00:00:00+00:00",
+            "employee_count": 1085,
+            "follower_count": null
+          },
+          {
+            "date": "2022-06-06T00:00:00+00:00",
+            "employee_count": 1085,
+            "follower_count": null
+          },
+          {
+            "date": "2022-06-13T00:00:00+00:00",
+            "employee_count": 1085,
+            "follower_count": null
+          },
+          {
+            "date": "2022-06-20T00:00:00+00:00",
+            "employee_count": 1085,
+            "follower_count": null
+          },
+          {
+            "date": "2022-06-27T00:00:00+00:00",
+            "employee_count": 1085,
+            "follower_count": null
+          },
+          {
+            "date": "2022-07-01T00:00:00+00:00",
+            "employee_count": 1053,
+            "follower_count": null
+          },
+          {
+            "date": "2022-07-04T00:00:00+00:00",
+            "employee_count": 1053,
+            "follower_count": null
+          },
+          {
+            "date": "2022-07-11T00:00:00+00:00",
+            "employee_count": 1053,
+            "follower_count": null
+          },
+          {
+            "date": "2022-07-18T00:00:00+00:00",
+            "employee_count": 1053,
+            "follower_count": null
+          },
+          {
+            "date": "2022-07-25T00:00:00+00:00",
+            "employee_count": 1053,
+            "follower_count": null
+          },
+          {
+            "date": "2022-08-01T00:00:00+00:00",
+            "employee_count": 1008,
+            "follower_count": null
+          },
+          {
+            "date": "2022-08-08T00:00:00+00:00",
+            "employee_count": 1008,
+            "follower_count": null
+          },
+          {
+            "date": "2022-08-15T00:00:00+00:00",
+            "employee_count": 1008,
+            "follower_count": null
+          },
+          {
+            "date": "2022-08-22T00:00:00+00:00",
+            "employee_count": 1008,
+            "follower_count": null
+          },
+          {
+            "date": "2022-08-29T00:00:00+00:00",
+            "employee_count": 1008,
+            "follower_count": null
+          },
+          {
+            "date": "2022-09-01T00:00:00+00:00",
+            "employee_count": 994,
+            "follower_count": null
+          },
+          {
+            "date": "2022-09-05T00:00:00+00:00",
+            "employee_count": 994,
+            "follower_count": null
+          },
+          {
+            "date": "2022-09-12T00:00:00+00:00",
+            "employee_count": 994,
+            "follower_count": null
+          },
+          {
+            "date": "2022-09-19T00:00:00+00:00",
+            "employee_count": 994,
+            "follower_count": null
+          },
+          {
+            "date": "2022-09-26T00:00:00+00:00",
+            "employee_count": 994,
+            "follower_count": null
+          },
+          {
+            "date": "2022-10-01T00:00:00+00:00",
+            "employee_count": 993,
+            "follower_count": null
+          },
+          {
+            "date": "2022-10-03T00:00:00+00:00",
+            "employee_count": 993,
+            "follower_count": null
+          },
+          {
+            "date": "2022-10-10T00:00:00+00:00",
+            "employee_count": 993,
+            "follower_count": null
+          },
+          {
+            "date": "2022-10-17T00:00:00+00:00",
+            "employee_count": 993,
+            "follower_count": null
+          },
+          {
+            "date": "2022-10-24T00:00:00+00:00",
+            "employee_count": 993,
+            "follower_count": null
+          },
+          {
+            "date": "2022-10-31T00:00:00+00:00",
+            "employee_count": 993,
+            "follower_count": null
+          },
+          {
+            "date": "2022-11-01T00:00:00+00:00",
+            "employee_count": 977,
+            "follower_count": null
+          },
+          {
+            "date": "2022-11-07T00:00:00+00:00",
+            "employee_count": 977,
+            "follower_count": null
+          },
+          {
+            "date": "2022-11-14T00:00:00+00:00",
+            "employee_count": 977,
+            "follower_count": null
+          },
+          {
+            "date": "2022-11-21T00:00:00+00:00",
+            "employee_count": 977,
+            "follower_count": null
+          },
+          {
+            "date": "2022-11-28T00:00:00+00:00",
+            "employee_count": 977,
+            "follower_count": null
+          },
+          {
+            "date": "2022-12-01T00:00:00+00:00",
+            "employee_count": 968,
+            "follower_count": null
+          },
+          {
+            "date": "2022-12-05T00:00:00+00:00",
+            "employee_count": 968,
+            "follower_count": null
+          },
+          {
+            "date": "2022-12-12T00:00:00+00:00",
+            "employee_count": 968,
+            "follower_count": null
+          },
+          {
+            "date": "2022-12-19T00:00:00+00:00",
+            "employee_count": 968,
+            "follower_count": null
+          },
+          {
+            "date": "2022-12-26T00:00:00+00:00",
+            "employee_count": 968,
+            "follower_count": null
+          },
+          {
+            "date": "2023-01-01T00:00:00+00:00",
+            "employee_count": 975,
+            "follower_count": null
+          },
+          {
+            "date": "2023-01-02T00:00:00+00:00",
+            "employee_count": 975,
+            "follower_count": null
+          },
+          {
+            "date": "2023-01-09T00:00:00+00:00",
+            "employee_count": 975,
+            "follower_count": null
+          },
+          {
+            "date": "2023-01-16T00:00:00+00:00",
+            "employee_count": 975,
+            "follower_count": null
+          },
+          {
+            "date": "2023-01-23T00:00:00+00:00",
+            "employee_count": 975,
+            "follower_count": null
+          },
+          {
+            "date": "2023-01-30T00:00:00+00:00",
+            "employee_count": 975,
+            "follower_count": null
+          },
+          {
+            "date": "2023-02-01T00:00:00+00:00",
+            "employee_count": 979,
+            "follower_count": null
+          },
+          {
+            "date": "2023-02-06T00:00:00+00:00",
+            "employee_count": 979,
+            "follower_count": null
+          },
+          {
+            "date": "2023-02-13T00:00:00+00:00",
+            "employee_count": 979,
+            "follower_count": null
+          },
+          {
+            "date": "2023-02-20T00:00:00+00:00",
+            "employee_count": 979,
+            "follower_count": null
+          },
+          {
+            "date": "2023-02-27T00:00:00+00:00",
+            "employee_count": 979,
+            "follower_count": null
+          },
+          {
+            "date": "2023-03-01T00:00:00+00:00",
+            "employee_count": 987,
+            "follower_count": null
+          },
+          {
+            "date": "2023-03-06T00:00:00+00:00",
+            "employee_count": 987,
+            "follower_count": null
+          },
+          {
+            "date": "2023-03-13T00:00:00+00:00",
+            "employee_count": 987,
+            "follower_count": null
+          },
+          {
+            "date": "2023-03-20T00:00:00+00:00",
+            "employee_count": 987,
+            "follower_count": null
+          },
+          {
+            "date": "2023-03-27T00:00:00+00:00",
+            "employee_count": 987,
+            "follower_count": null
+          },
+          {
+            "date": "2023-04-01T00:00:00+00:00",
+            "employee_count": 988,
+            "follower_count": null
+          },
+          {
+            "date": "2023-04-03T00:00:00+00:00",
+            "employee_count": 988,
+            "follower_count": null
+          },
+          {
+            "date": "2023-04-10T00:00:00+00:00",
+            "employee_count": 988,
+            "follower_count": null
+          },
+          {
+            "date": "2023-04-17T00:00:00+00:00",
+            "employee_count": 988,
+            "follower_count": null
+          },
+          {
+            "date": "2023-04-24T00:00:00+00:00",
+            "employee_count": 988,
+            "follower_count": null
+          },
+          {
+            "date": "2023-05-01T00:00:00+00:00",
+            "employee_count": 1027,
+            "follower_count": null
+          },
+          {
+            "date": "2023-05-08T00:00:00+00:00",
+            "employee_count": 1027,
+            "follower_count": null
+          },
+          {
+            "date": "2023-05-15T00:00:00+00:00",
+            "employee_count": 1027,
+            "follower_count": null
+          },
+          {
+            "date": "2023-05-22T00:00:00+00:00",
+            "employee_count": 1027,
+            "follower_count": null
+          },
+          {
+            "date": "2023-05-29T00:00:00+00:00",
+            "employee_count": 1027,
+            "follower_count": null
+          },
+          {
+            "date": "2023-06-01T00:00:00+00:00",
+            "employee_count": 1009,
+            "follower_count": null
+          },
+          {
+            "date": "2023-06-05T00:00:00+00:00",
+            "employee_count": 1009,
+            "follower_count": null
+          },
+          {
+            "date": "2023-06-12T00:00:00+00:00",
+            "employee_count": 1009,
+            "follower_count": null
+          },
+          {
+            "date": "2023-06-19T00:00:00+00:00",
+            "employee_count": 1009,
+            "follower_count": null
+          },
+          {
+            "date": "2023-06-26T00:00:00+00:00",
+            "employee_count": 1009,
+            "follower_count": null
+          },
+          {
+            "date": "2023-07-01T00:00:00+00:00",
+            "employee_count": 989,
+            "follower_count": null
+          },
+          {
+            "date": "2023-07-03T00:00:00+00:00",
+            "employee_count": 989,
+            "follower_count": null
+          },
+          {
+            "date": "2023-07-10T00:00:00+00:00",
+            "employee_count": 1009,
+            "follower_count": 37367
+          },
+          {
+            "date": "2023-07-17T00:00:00+00:00",
+            "employee_count": 1005,
+            "follower_count": null
+          },
+          {
+            "date": "2023-07-24T00:00:00+00:00",
+            "employee_count": 1005,
+            "follower_count": 37680
+          },
+          {
+            "date": "2023-07-31T00:00:00+00:00",
+            "employee_count": 1005,
+            "follower_count": 37680
+          },
+          {
+            "date": "2023-08-01T00:00:00+00:00",
+            "employee_count": 994,
+            "follower_count": 38148
+          },
+          {
+            "date": "2023-08-07T00:00:00+00:00",
+            "employee_count": 983,
+            "follower_count": 38303
+          },
+          {
+            "date": "2023-08-14T00:00:00+00:00",
+            "employee_count": 973,
+            "follower_count": 38583
+          },
+          {
+            "date": "2023-08-21T00:00:00+00:00",
+            "employee_count": 966,
+            "follower_count": 38780
+          },
+          {
+            "date": "2023-08-28T00:00:00+00:00",
+            "employee_count": 956,
+            "follower_count": 39043
+          },
+          {
+            "date": "2023-09-01T00:00:00+00:00",
+            "employee_count": 955,
+            "follower_count": 39072
+          },
+          {
+            "date": "2023-09-04T00:00:00+00:00",
+            "employee_count": 955,
+            "follower_count": 39072
+          },
+          {
+            "date": "2023-09-11T00:00:00+00:00",
+            "employee_count": 946,
+            "follower_count": 39307
+          },
+          {
+            "date": "2023-09-18T00:00:00+00:00",
+            "employee_count": 939,
+            "follower_count": 39543
+          },
+          {
+            "date": "2023-09-25T00:00:00+00:00",
+            "employee_count": 939,
+            "follower_count": 39543
+          },
+          {
+            "date": "2023-10-01T00:00:00+00:00",
+            "employee_count": 905,
+            "follower_count": 40190
+          },
+          {
+            "date": "2023-10-02T00:00:00+00:00",
+            "employee_count": 905,
+            "follower_count": 40190
+          },
+          {
+            "date": "2023-10-09T00:00:00+00:00",
+            "employee_count": 905,
+            "follower_count": 40385
+          },
+          {
+            "date": "2023-10-16T00:00:00+00:00",
+            "employee_count": 894,
+            "follower_count": 40732
+          },
+          {
+            "date": "2023-10-23T00:00:00+00:00",
+            "employee_count": 878,
+            "follower_count": 41285
+          },
+          {
+            "date": "2023-10-30T00:00:00+00:00",
+            "employee_count": 878,
+            "follower_count": 41507
+          },
+          {
+            "date": "2023-11-01T00:00:00+00:00",
+            "employee_count": 878,
+            "follower_count": 41616
+          },
+          {
+            "date": "2023-11-06T00:00:00+00:00",
+            "employee_count": 863,
+            "follower_count": 41025
+          },
+          {
+            "date": "2023-11-13T00:00:00+00:00",
+            "employee_count": 854,
+            "follower_count": 41048
+          },
+          {
+            "date": "2023-11-20T00:00:00+00:00",
+            "employee_count": 845,
+            "follower_count": 41259
+          },
+          {
+            "date": "2023-11-27T00:00:00+00:00",
+            "employee_count": 843,
+            "follower_count": 43498
+          },
+          {
+            "date": "2023-12-01T00:00:00+00:00",
+            "employee_count": 843,
+            "follower_count": 43498
+          },
+          {
+            "date": "2023-12-04T00:00:00+00:00",
+            "employee_count": 832,
+            "follower_count": 43685
+          },
+          {
+            "date": "2023-12-11T00:00:00+00:00",
+            "employee_count": 829,
+            "follower_count": 43805
+          },
+          {
+            "date": "2023-12-18T00:00:00+00:00",
+            "employee_count": 826,
+            "follower_count": 44118
+          },
+          {
+            "date": "2023-12-25T00:00:00+00:00",
+            "employee_count": 826,
+            "follower_count": 46066
+          },
+          {
+            "date": "2024-01-01T00:00:00+00:00",
+            "employee_count": 823,
+            "follower_count": 47044
+          },
+          {
+            "date": "2024-01-08T00:00:00+00:00",
+            "employee_count": 818,
+            "follower_count": 47582
+          },
+          {
+            "date": "2024-01-15T00:00:00+00:00",
+            "employee_count": 811,
+            "follower_count": 47646
+          },
+          {
+            "date": "2024-01-22T00:00:00+00:00",
+            "employee_count": 808,
+            "follower_count": 47917
+          },
+          {
+            "date": "2024-01-29T00:00:00+00:00",
+            "employee_count": 804,
+            "follower_count": 48116
+          },
+          {
+            "date": "2024-02-01T00:00:00+00:00",
+            "employee_count": 799,
+            "follower_count": 49145
+          },
+          {
+            "date": "2024-02-05T00:00:00+00:00",
+            "employee_count": 799,
+            "follower_count": 49145
+          },
+          {
+            "date": "2024-02-12T00:00:00+00:00",
+            "employee_count": 791,
+            "follower_count": 50425
+          },
+          {
+            "date": "2024-02-19T00:00:00+00:00",
+            "employee_count": 778,
+            "follower_count": 50568
+          },
+          {
+            "date": "2024-02-26T00:00:00+00:00",
+            "employee_count": 770,
+            "follower_count": 50849
+          },
+          {
+            "date": "2024-03-01T00:00:00+00:00",
+            "employee_count": 769,
+            "follower_count": 50972
+          }
+        ],
+        5
+      ],
+      [
+        631811,
+        "http://jumpcloud.com",
+        "3033823",
+        "jumpcloud.com",
+        [
+          {
+            "date": "2021-08-01T00:00:00+00:00",
+            "employee_count": 390,
+            "follower_count": null
+          },
+          {
+            "date": "2021-08-02T00:00:00+00:00",
+            "employee_count": 390,
+            "follower_count": null
+          },
+          {
+            "date": "2021-08-09T00:00:00+00:00",
+            "employee_count": 390,
+            "follower_count": null
+          },
+          {
+            "date": "2021-08-16T00:00:00+00:00",
+            "employee_count": 390,
+            "follower_count": null
+          },
+          {
+            "date": "2021-08-23T00:00:00+00:00",
+            "employee_count": 390,
+            "follower_count": null
+          },
+          {
+            "date": "2021-08-30T00:00:00+00:00",
+            "employee_count": 390,
+            "follower_count": null
+          },
+          {
+            "date": "2021-09-01T00:00:00+00:00",
+            "employee_count": 409,
+            "follower_count": null
+          },
+          {
+            "date": "2021-09-06T00:00:00+00:00",
+            "employee_count": 409,
+            "follower_count": null
+          },
+          {
+            "date": "2021-09-13T00:00:00+00:00",
+            "employee_count": 409,
+            "follower_count": null
+          },
+          {
+            "date": "2021-09-20T00:00:00+00:00",
+            "employee_count": 409,
+            "follower_count": null
+          },
+          {
+            "date": "2021-09-27T00:00:00+00:00",
+            "employee_count": 409,
+            "follower_count": null
+          },
+          {
+            "date": "2021-10-01T00:00:00+00:00",
+            "employee_count": 420,
+            "follower_count": null
+          },
+          {
+            "date": "2021-10-04T00:00:00+00:00",
+            "employee_count": 420,
+            "follower_count": null
+          },
+          {
+            "date": "2021-10-11T00:00:00+00:00",
+            "employee_count": 420,
+            "follower_count": null
+          },
+          {
+            "date": "2021-10-18T00:00:00+00:00",
+            "employee_count": 420,
+            "follower_count": null
+          },
+          {
+            "date": "2021-10-25T00:00:00+00:00",
+            "employee_count": 420,
+            "follower_count": null
+          },
+          {
+            "date": "2021-11-01T00:00:00+00:00",
+            "employee_count": 477,
+            "follower_count": null
+          },
+          {
+            "date": "2021-11-08T00:00:00+00:00",
+            "employee_count": 477,
+            "follower_count": null
+          },
+          {
+            "date": "2021-11-15T00:00:00+00:00",
+            "employee_count": 477,
+            "follower_count": null
+          },
+          {
+            "date": "2021-11-22T00:00:00+00:00",
+            "employee_count": 477,
+            "follower_count": null
+          },
+          {
+            "date": "2021-11-29T00:00:00+00:00",
+            "employee_count": 477,
+            "follower_count": null
+          },
+          {
+            "date": "2021-12-01T00:00:00+00:00",
+            "employee_count": 487,
+            "follower_count": null
+          },
+          {
+            "date": "2021-12-06T00:00:00+00:00",
+            "employee_count": 487,
+            "follower_count": null
+          },
+          {
+            "date": "2021-12-13T00:00:00+00:00",
+            "employee_count": 487,
+            "follower_count": null
+          },
+          {
+            "date": "2021-12-20T00:00:00+00:00",
+            "employee_count": 487,
+            "follower_count": null
+          },
+          {
+            "date": "2021-12-27T00:00:00+00:00",
+            "employee_count": 487,
+            "follower_count": null
+          },
+          {
+            "date": "2022-01-01T00:00:00+00:00",
+            "employee_count": 538,
+            "follower_count": null
+          },
+          {
+            "date": "2022-01-03T00:00:00+00:00",
+            "employee_count": 538,
+            "follower_count": null
+          },
+          {
+            "date": "2022-01-10T00:00:00+00:00",
+            "employee_count": 538,
+            "follower_count": null
+          },
+          {
+            "date": "2022-01-17T00:00:00+00:00",
+            "employee_count": 538,
+            "follower_count": null
+          },
+          {
+            "date": "2022-01-24T00:00:00+00:00",
+            "employee_count": 538,
+            "follower_count": null
+          },
+          {
+            "date": "2022-01-31T00:00:00+00:00",
+            "employee_count": 538,
+            "follower_count": null
+          },
+          {
+            "date": "2022-02-01T00:00:00+00:00",
+            "employee_count": 569,
+            "follower_count": null
+          },
+          {
+            "date": "2022-02-07T00:00:00+00:00",
+            "employee_count": 569,
+            "follower_count": null
+          },
+          {
+            "date": "2022-02-14T00:00:00+00:00",
+            "employee_count": 569,
+            "follower_count": null
+          },
+          {
+            "date": "2022-02-21T00:00:00+00:00",
+            "employee_count": 569,
+            "follower_count": null
+          },
+          {
+            "date": "2022-02-28T00:00:00+00:00",
+            "employee_count": 569,
+            "follower_count": null
+          },
+          {
+            "date": "2022-03-01T00:00:00+00:00",
+            "employee_count": 600,
+            "follower_count": null
+          },
+          {
+            "date": "2022-03-07T00:00:00+00:00",
+            "employee_count": 600,
+            "follower_count": null
+          },
+          {
+            "date": "2022-03-14T00:00:00+00:00",
+            "employee_count": 600,
+            "follower_count": null
+          },
+          {
+            "date": "2022-03-21T00:00:00+00:00",
+            "employee_count": 600,
+            "follower_count": null
+          },
+          {
+            "date": "2022-03-28T00:00:00+00:00",
+            "employee_count": 600,
+            "follower_count": null
+          },
+          {
+            "date": "2022-04-01T00:00:00+00:00",
+            "employee_count": 614,
+            "follower_count": null
+          },
+          {
+            "date": "2022-04-04T00:00:00+00:00",
+            "employee_count": 614,
+            "follower_count": null
+          },
+          {
+            "date": "2022-04-11T00:00:00+00:00",
+            "employee_count": 614,
+            "follower_count": null
+          },
+          {
+            "date": "2022-04-18T00:00:00+00:00",
+            "employee_count": 614,
+            "follower_count": null
+          },
+          {
+            "date": "2022-04-25T00:00:00+00:00",
+            "employee_count": 614,
+            "follower_count": null
+          },
+          {
+            "date": "2022-05-01T00:00:00+00:00",
+            "employee_count": 631,
+            "follower_count": null
+          },
+          {
+            "date": "2022-05-02T00:00:00+00:00",
+            "employee_count": 631,
+            "follower_count": null
+          },
+          {
+            "date": "2022-05-09T00:00:00+00:00",
+            "employee_count": 631,
+            "follower_count": null
+          },
+          {
+            "date": "2022-05-16T00:00:00+00:00",
+            "employee_count": 631,
+            "follower_count": null
+          },
+          {
+            "date": "2022-05-23T00:00:00+00:00",
+            "employee_count": 631,
+            "follower_count": null
+          },
+          {
+            "date": "2022-05-30T00:00:00+00:00",
+            "employee_count": 631,
+            "follower_count": null
+          },
+          {
+            "date": "2022-06-01T00:00:00+00:00",
+            "employee_count": 641,
+            "follower_count": null
+          },
+          {
+            "date": "2022-06-06T00:00:00+00:00",
+            "employee_count": 641,
+            "follower_count": null
+          },
+          {
+            "date": "2022-06-13T00:00:00+00:00",
+            "employee_count": 641,
+            "follower_count": null
+          },
+          {
+            "date": "2022-06-20T00:00:00+00:00",
+            "employee_count": 641,
+            "follower_count": null
+          },
+          {
+            "date": "2022-06-27T00:00:00+00:00",
+            "employee_count": 641,
+            "follower_count": null
+          },
+          {
+            "date": "2022-07-01T00:00:00+00:00",
+            "employee_count": 659,
+            "follower_count": null
+          },
+          {
+            "date": "2022-07-04T00:00:00+00:00",
+            "employee_count": 659,
+            "follower_count": null
+          },
+          {
+            "date": "2022-07-11T00:00:00+00:00",
+            "employee_count": 659,
+            "follower_count": null
+          },
+          {
+            "date": "2022-07-18T00:00:00+00:00",
+            "employee_count": 659,
+            "follower_count": null
+          },
+          {
+            "date": "2022-07-25T00:00:00+00:00",
+            "employee_count": 659,
+            "follower_count": null
+          },
+          {
+            "date": "2022-08-01T00:00:00+00:00",
+            "employee_count": 656,
+            "follower_count": null
+          },
+          {
+            "date": "2022-08-08T00:00:00+00:00",
+            "employee_count": 656,
+            "follower_count": null
+          },
+          {
+            "date": "2022-08-15T00:00:00+00:00",
+            "employee_count": 656,
+            "follower_count": null
+          },
+          {
+            "date": "2022-08-22T00:00:00+00:00",
+            "employee_count": 656,
+            "follower_count": null
+          },
+          {
+            "date": "2022-08-29T00:00:00+00:00",
+            "employee_count": 656,
+            "follower_count": null
+          },
+          {
+            "date": "2022-09-01T00:00:00+00:00",
+            "employee_count": 654,
+            "follower_count": null
+          },
+          {
+            "date": "2022-09-05T00:00:00+00:00",
+            "employee_count": 654,
+            "follower_count": null
+          },
+          {
+            "date": "2022-09-12T00:00:00+00:00",
+            "employee_count": 654,
+            "follower_count": null
+          },
+          {
+            "date": "2022-09-19T00:00:00+00:00",
+            "employee_count": 654,
+            "follower_count": null
+          },
+          {
+            "date": "2022-09-26T00:00:00+00:00",
+            "employee_count": 654,
+            "follower_count": null
+          },
+          {
+            "date": "2022-10-01T00:00:00+00:00",
+            "employee_count": 657,
+            "follower_count": null
+          },
+          {
+            "date": "2022-10-03T00:00:00+00:00",
+            "employee_count": 657,
+            "follower_count": null
+          },
+          {
+            "date": "2022-10-10T00:00:00+00:00",
+            "employee_count": 657,
+            "follower_count": null
+          },
+          {
+            "date": "2022-10-17T00:00:00+00:00",
+            "employee_count": 657,
+            "follower_count": null
+          },
+          {
+            "date": "2022-10-24T00:00:00+00:00",
+            "employee_count": 657,
+            "follower_count": null
+          },
+          {
+            "date": "2022-10-31T00:00:00+00:00",
+            "employee_count": 657,
+            "follower_count": null
+          },
+          {
+            "date": "2022-11-01T00:00:00+00:00",
+            "employee_count": 669,
+            "follower_count": null
+          },
+          {
+            "date": "2022-11-07T00:00:00+00:00",
+            "employee_count": 669,
+            "follower_count": null
+          },
+          {
+            "date": "2022-11-14T00:00:00+00:00",
+            "employee_count": 669,
+            "follower_count": null
+          },
+          {
+            "date": "2022-11-21T00:00:00+00:00",
+            "employee_count": 669,
+            "follower_count": null
+          },
+          {
+            "date": "2022-11-28T00:00:00+00:00",
+            "employee_count": 669,
+            "follower_count": null
+          },
+          {
+            "date": "2022-12-01T00:00:00+00:00",
+            "employee_count": 672,
+            "follower_count": null
+          },
+          {
+            "date": "2022-12-05T00:00:00+00:00",
+            "employee_count": 672,
+            "follower_count": null
+          },
+          {
+            "date": "2022-12-12T00:00:00+00:00",
+            "employee_count": 672,
+            "follower_count": null
+          },
+          {
+            "date": "2022-12-19T00:00:00+00:00",
+            "employee_count": 672,
+            "follower_count": null
+          },
+          {
+            "date": "2022-12-26T00:00:00+00:00",
+            "employee_count": 672,
+            "follower_count": null
+          },
+          {
+            "date": "2023-01-01T00:00:00+00:00",
+            "employee_count": 620,
+            "follower_count": null
+          },
+          {
+            "date": "2023-01-02T00:00:00+00:00",
+            "employee_count": 620,
+            "follower_count": null
+          },
+          {
+            "date": "2023-01-09T00:00:00+00:00",
+            "employee_count": 620,
+            "follower_count": null
+          },
+          {
+            "date": "2023-01-16T00:00:00+00:00",
+            "employee_count": 620,
+            "follower_count": null
+          },
+          {
+            "date": "2023-01-23T00:00:00+00:00",
+            "employee_count": 620,
+            "follower_count": null
+          },
+          {
+            "date": "2023-01-30T00:00:00+00:00",
+            "employee_count": 620,
+            "follower_count": null
+          },
+          {
+            "date": "2023-02-01T00:00:00+00:00",
+            "employee_count": 626,
+            "follower_count": null
+          },
+          {
+            "date": "2023-02-06T00:00:00+00:00",
+            "employee_count": 626,
+            "follower_count": null
+          },
+          {
+            "date": "2023-02-13T00:00:00+00:00",
+            "employee_count": 626,
+            "follower_count": null
+          },
+          {
+            "date": "2023-02-20T00:00:00+00:00",
+            "employee_count": 626,
+            "follower_count": null
+          },
+          {
+            "date": "2023-02-27T00:00:00+00:00",
+            "employee_count": 626,
+            "follower_count": null
+          },
+          {
+            "date": "2023-03-01T00:00:00+00:00",
+            "employee_count": 638,
+            "follower_count": null
+          },
+          {
+            "date": "2023-03-06T00:00:00+00:00",
+            "employee_count": 638,
+            "follower_count": null
+          },
+          {
+            "date": "2023-03-13T00:00:00+00:00",
+            "employee_count": 638,
+            "follower_count": null
+          },
+          {
+            "date": "2023-03-20T00:00:00+00:00",
+            "employee_count": 638,
+            "follower_count": null
+          },
+          {
+            "date": "2023-03-27T00:00:00+00:00",
+            "employee_count": 638,
+            "follower_count": null
+          },
+          {
+            "date": "2023-04-01T00:00:00+00:00",
+            "employee_count": 648,
+            "follower_count": null
+          },
+          {
+            "date": "2023-04-03T00:00:00+00:00",
+            "employee_count": 648,
+            "follower_count": null
+          },
+          {
+            "date": "2023-04-10T00:00:00+00:00",
+            "employee_count": 648,
+            "follower_count": null
+          },
+          {
+            "date": "2023-04-17T00:00:00+00:00",
+            "employee_count": 648,
+            "follower_count": null
+          },
+          {
+            "date": "2023-04-24T00:00:00+00:00",
+            "employee_count": 648,
+            "follower_count": null
+          },
+          {
+            "date": "2023-05-01T00:00:00+00:00",
+            "employee_count": 656,
+            "follower_count": null
+          },
+          {
+            "date": "2023-05-08T00:00:00+00:00",
+            "employee_count": 656,
+            "follower_count": null
+          },
+          {
+            "date": "2023-05-15T00:00:00+00:00",
+            "employee_count": 656,
+            "follower_count": null
+          },
+          {
+            "date": "2023-05-22T00:00:00+00:00",
+            "employee_count": 656,
+            "follower_count": null
+          },
+          {
+            "date": "2023-05-29T00:00:00+00:00",
+            "employee_count": 656,
+            "follower_count": null
+          },
+          {
+            "date": "2023-06-01T00:00:00+00:00",
+            "employee_count": 663,
+            "follower_count": null
+          },
+          {
+            "date": "2023-06-05T00:00:00+00:00",
+            "employee_count": 663,
+            "follower_count": null
+          },
+          {
+            "date": "2023-06-12T00:00:00+00:00",
+            "employee_count": 663,
+            "follower_count": null
+          },
+          {
+            "date": "2023-06-19T00:00:00+00:00",
+            "employee_count": 663,
+            "follower_count": null
+          },
+          {
+            "date": "2023-06-26T00:00:00+00:00",
+            "employee_count": 663,
+            "follower_count": null
+          },
+          {
+            "date": "2023-07-01T00:00:00+00:00",
+            "employee_count": 672,
+            "follower_count": null
+          },
+          {
+            "date": "2023-07-03T00:00:00+00:00",
+            "employee_count": 672,
+            "follower_count": null
+          },
+          {
+            "date": "2023-07-10T00:00:00+00:00",
+            "employee_count": 665,
+            "follower_count": 23350
+          },
+          {
+            "date": "2023-07-17T00:00:00+00:00",
+            "employee_count": 665,
+            "follower_count": 23457
+          },
+          {
+            "date": "2023-07-24T00:00:00+00:00",
+            "employee_count": 666,
+            "follower_count": 23543
+          },
+          {
+            "date": "2023-07-31T00:00:00+00:00",
+            "employee_count": 666,
+            "follower_count": 23543
+          },
+          {
+            "date": "2023-08-01T00:00:00+00:00",
+            "employee_count": 670,
+            "follower_count": 24043
+          },
+          {
+            "date": "2023-08-07T00:00:00+00:00",
+            "employee_count": 671,
+            "follower_count": 24424
+          },
+          {
+            "date": "2023-08-14T00:00:00+00:00",
+            "employee_count": 672,
+            "follower_count": 24717
+          },
+          {
+            "date": "2023-08-21T00:00:00+00:00",
+            "employee_count": 669,
+            "follower_count": 24888
+          },
+          {
+            "date": "2023-08-28T00:00:00+00:00",
+            "employee_count": 671,
+            "follower_count": 25203
+          },
+          {
+            "date": "2023-09-01T00:00:00+00:00",
+            "employee_count": 671,
+            "follower_count": 25276
+          },
+          {
+            "date": "2023-09-04T00:00:00+00:00",
+            "employee_count": 671,
+            "follower_count": 25276
+          },
+          {
+            "date": "2023-09-11T00:00:00+00:00",
+            "employee_count": 673,
+            "follower_count": 25428
+          },
+          {
+            "date": "2023-09-18T00:00:00+00:00",
+            "employee_count": 676,
+            "follower_count": 25563
+          },
+          {
+            "date": "2023-09-25T00:00:00+00:00",
+            "employee_count": 676,
+            "follower_count": 25563
+          },
+          {
+            "date": "2023-10-01T00:00:00+00:00",
+            "employee_count": 684,
+            "follower_count": 25827
+          },
+          {
+            "date": "2023-10-02T00:00:00+00:00",
+            "employee_count": 684,
+            "follower_count": 25827
+          },
+          {
+            "date": "2023-10-09T00:00:00+00:00",
+            "employee_count": 684,
+            "follower_count": 25957
+          },
+          {
+            "date": "2023-10-16T00:00:00+00:00",
+            "employee_count": 687,
+            "follower_count": 26155
+          },
+          {
+            "date": "2023-10-23T00:00:00+00:00",
+            "employee_count": 690,
+            "follower_count": 26264
+          },
+          {
+            "date": "2023-10-30T00:00:00+00:00",
+            "employee_count": 690,
+            "follower_count": 26378
+          },
+          {
+            "date": "2023-11-01T00:00:00+00:00",
+            "employee_count": 690,
+            "follower_count": 26495
+          },
+          {
+            "date": "2023-11-06T00:00:00+00:00",
+            "employee_count": 700,
+            "follower_count": 26509
+          },
+          {
+            "date": "2023-11-13T00:00:00+00:00",
+            "employee_count": 700,
+            "follower_count": 26616
+          },
+          {
+            "date": "2023-11-20T00:00:00+00:00",
+            "employee_count": 700,
+            "follower_count": 26690
+          },
+          {
+            "date": "2023-11-27T00:00:00+00:00",
+            "employee_count": 696,
+            "follower_count": 26769
+          },
+          {
+            "date": "2023-12-01T00:00:00+00:00",
+            "employee_count": 697,
+            "follower_count": 26420
+          },
+          {
+            "date": "2023-12-04T00:00:00+00:00",
+            "employee_count": 697,
+            "follower_count": 26469
+          },
+          {
+            "date": "2023-12-11T00:00:00+00:00",
+            "employee_count": 701,
+            "follower_count": 26584
+          },
+          {
+            "date": "2023-12-18T00:00:00+00:00",
+            "employee_count": 700,
+            "follower_count": 28131
+          },
+          {
+            "date": "2023-12-25T00:00:00+00:00",
+            "employee_count": 699,
+            "follower_count": 28430
+          },
+          {
+            "date": "2024-01-01T00:00:00+00:00",
+            "employee_count": 697,
+            "follower_count": 28743
+          },
+          {
+            "date": "2024-01-08T00:00:00+00:00",
+            "employee_count": 699,
+            "follower_count": 29264
+          },
+          {
+            "date": "2024-01-15T00:00:00+00:00",
+            "employee_count": 693,
+            "follower_count": 29661
+          },
+          {
+            "date": "2024-01-22T00:00:00+00:00",
+            "employee_count": 695,
+            "follower_count": 29836
+          },
+          {
+            "date": "2024-01-29T00:00:00+00:00",
+            "employee_count": 697,
+            "follower_count": 29966
+          },
+          {
+            "date": "2024-02-01T00:00:00+00:00",
+            "employee_count": 697,
+            "follower_count": 30080
+          },
+          {
+            "date": "2024-02-05T00:00:00+00:00",
+            "employee_count": 697,
+            "follower_count": 30080
+          },
+          {
+            "date": "2024-02-12T00:00:00+00:00",
+            "employee_count": 700,
+            "follower_count": 30409
+          },
+          {
+            "date": "2024-02-19T00:00:00+00:00",
+            "employee_count": 703,
+            "follower_count": 30516
+          },
+          {
+            "date": "2024-02-26T00:00:00+00:00",
+            "employee_count": 701,
+            "follower_count": 30763
+          }
+        ],
+        5
+      ],
+      [
+        636304,
+        "http://www.nowsecure.com",
+        "336243",
+        "nowsecure.com",
+        [
+          {
+            "date": "2021-10-01T00:00:00+00:00",
+            "employee_count": 124,
+            "follower_count": null
+          },
+          {
+            "date": "2021-10-04T00:00:00+00:00",
+            "employee_count": 124,
+            "follower_count": null
+          },
+          {
+            "date": "2021-10-11T00:00:00+00:00",
+            "employee_count": 124,
+            "follower_count": null
+          },
+          {
+            "date": "2021-10-18T00:00:00+00:00",
+            "employee_count": 124,
+            "follower_count": null
+          },
+          {
+            "date": "2021-10-25T00:00:00+00:00",
+            "employee_count": 124,
+            "follower_count": null
+          },
+          {
+            "date": "2021-11-01T00:00:00+00:00",
+            "employee_count": 134,
+            "follower_count": null
+          },
+          {
+            "date": "2021-11-08T00:00:00+00:00",
+            "employee_count": 134,
+            "follower_count": null
+          },
+          {
+            "date": "2021-11-15T00:00:00+00:00",
+            "employee_count": 134,
+            "follower_count": null
+          },
+          {
+            "date": "2021-11-22T00:00:00+00:00",
+            "employee_count": 134,
+            "follower_count": null
+          },
+          {
+            "date": "2021-11-29T00:00:00+00:00",
+            "employee_count": 134,
+            "follower_count": null
+          },
+          {
+            "date": "2021-12-01T00:00:00+00:00",
+            "employee_count": 141,
+            "follower_count": null
+          },
+          {
+            "date": "2021-12-06T00:00:00+00:00",
+            "employee_count": 141,
+            "follower_count": null
+          },
+          {
+            "date": "2021-12-13T00:00:00+00:00",
+            "employee_count": 141,
+            "follower_count": null
+          },
+          {
+            "date": "2021-12-20T00:00:00+00:00",
+            "employee_count": 141,
+            "follower_count": null
+          },
+          {
+            "date": "2021-12-27T00:00:00+00:00",
+            "employee_count": 141,
+            "follower_count": null
+          },
+          {
+            "date": "2022-01-01T00:00:00+00:00",
+            "employee_count": 144,
+            "follower_count": null
+          },
+          {
+            "date": "2022-01-03T00:00:00+00:00",
+            "employee_count": 144,
+            "follower_count": null
+          },
+          {
+            "date": "2022-01-10T00:00:00+00:00",
+            "employee_count": 144,
+            "follower_count": null
+          },
+          {
+            "date": "2022-01-17T00:00:00+00:00",
+            "employee_count": 144,
+            "follower_count": null
+          },
+          {
+            "date": "2022-01-24T00:00:00+00:00",
+            "employee_count": 144,
+            "follower_count": null
+          },
+          {
+            "date": "2022-01-31T00:00:00+00:00",
+            "employee_count": 144,
+            "follower_count": null
+          },
+          {
+            "date": "2022-02-01T00:00:00+00:00",
+            "employee_count": 143,
+            "follower_count": null
+          },
+          {
+            "date": "2022-02-07T00:00:00+00:00",
+            "employee_count": 143,
+            "follower_count": null
+          },
+          {
+            "date": "2022-02-14T00:00:00+00:00",
+            "employee_count": 143,
+            "follower_count": null
+          },
+          {
+            "date": "2022-02-21T00:00:00+00:00",
+            "employee_count": 143,
+            "follower_count": null
+          },
+          {
+            "date": "2022-02-28T00:00:00+00:00",
+            "employee_count": 143,
+            "follower_count": null
+          },
+          {
+            "date": "2022-03-01T00:00:00+00:00",
+            "employee_count": 147,
+            "follower_count": null
+          },
+          {
+            "date": "2022-03-07T00:00:00+00:00",
+            "employee_count": 147,
+            "follower_count": null
+          },
+          {
+            "date": "2022-03-14T00:00:00+00:00",
+            "employee_count": 147,
+            "follower_count": null
+          },
+          {
+            "date": "2022-03-21T00:00:00+00:00",
+            "employee_count": 147,
+            "follower_count": null
+          },
+          {
+            "date": "2022-03-28T00:00:00+00:00",
+            "employee_count": 147,
+            "follower_count": null
+          },
+          {
+            "date": "2022-04-01T00:00:00+00:00",
+            "employee_count": 147,
+            "follower_count": null
+          },
+          {
+            "date": "2022-04-04T00:00:00+00:00",
+            "employee_count": 147,
+            "follower_count": null
+          },
+          {
+            "date": "2022-04-11T00:00:00+00:00",
+            "employee_count": 147,
+            "follower_count": null
+          },
+          {
+            "date": "2022-04-18T00:00:00+00:00",
+            "employee_count": 147,
+            "follower_count": null
+          },
+          {
+            "date": "2022-04-25T00:00:00+00:00",
+            "employee_count": 147,
+            "follower_count": null
+          },
+          {
+            "date": "2022-05-01T00:00:00+00:00",
+            "employee_count": 152,
+            "follower_count": null
+          },
+          {
+            "date": "2022-05-02T00:00:00+00:00",
+            "employee_count": 152,
+            "follower_count": null
+          },
+          {
+            "date": "2022-05-09T00:00:00+00:00",
+            "employee_count": 152,
+            "follower_count": null
+          },
+          {
+            "date": "2022-05-16T00:00:00+00:00",
+            "employee_count": 152,
+            "follower_count": null
+          },
+          {
+            "date": "2022-05-23T00:00:00+00:00",
+            "employee_count": 152,
+            "follower_count": null
+          },
+          {
+            "date": "2022-05-30T00:00:00+00:00",
+            "employee_count": 152,
+            "follower_count": null
+          },
+          {
+            "date": "2022-06-01T00:00:00+00:00",
+            "employee_count": 159,
+            "follower_count": null
+          },
+          {
+            "date": "2022-06-06T00:00:00+00:00",
+            "employee_count": 159,
+            "follower_count": null
+          },
+          {
+            "date": "2022-06-13T00:00:00+00:00",
+            "employee_count": 159,
+            "follower_count": null
+          },
+          {
+            "date": "2022-06-20T00:00:00+00:00",
+            "employee_count": 159,
+            "follower_count": null
+          },
+          {
+            "date": "2022-06-27T00:00:00+00:00",
+            "employee_count": 159,
+            "follower_count": null
+          },
+          {
+            "date": "2022-07-01T00:00:00+00:00",
+            "employee_count": 163,
+            "follower_count": null
+          },
+          {
+            "date": "2022-07-04T00:00:00+00:00",
+            "employee_count": 163,
+            "follower_count": null
+          },
+          {
+            "date": "2022-07-11T00:00:00+00:00",
+            "employee_count": 163,
+            "follower_count": null
+          },
+          {
+            "date": "2022-07-18T00:00:00+00:00",
+            "employee_count": 163,
+            "follower_count": null
+          },
+          {
+            "date": "2022-07-25T00:00:00+00:00",
+            "employee_count": 163,
+            "follower_count": null
+          },
+          {
+            "date": "2022-08-01T00:00:00+00:00",
+            "employee_count": 163,
+            "follower_count": null
+          },
+          {
+            "date": "2022-08-08T00:00:00+00:00",
+            "employee_count": 163,
+            "follower_count": null
+          },
+          {
+            "date": "2022-08-15T00:00:00+00:00",
+            "employee_count": 163,
+            "follower_count": null
+          },
+          {
+            "date": "2022-08-22T00:00:00+00:00",
+            "employee_count": 163,
+            "follower_count": null
+          },
+          {
+            "date": "2022-08-29T00:00:00+00:00",
+            "employee_count": 163,
+            "follower_count": null
+          },
+          {
+            "date": "2022-09-01T00:00:00+00:00",
+            "employee_count": 165,
+            "follower_count": null
+          },
+          {
+            "date": "2022-09-05T00:00:00+00:00",
+            "employee_count": 165,
+            "follower_count": null
+          },
+          {
+            "date": "2022-09-12T00:00:00+00:00",
+            "employee_count": 165,
+            "follower_count": null
+          },
+          {
+            "date": "2022-09-19T00:00:00+00:00",
+            "employee_count": 165,
+            "follower_count": null
+          },
+          {
+            "date": "2022-09-26T00:00:00+00:00",
+            "employee_count": 165,
+            "follower_count": null
+          },
+          {
+            "date": "2022-10-01T00:00:00+00:00",
+            "employee_count": 164,
+            "follower_count": null
+          },
+          {
+            "date": "2022-10-03T00:00:00+00:00",
+            "employee_count": 164,
+            "follower_count": null
+          },
+          {
+            "date": "2022-10-10T00:00:00+00:00",
+            "employee_count": 164,
+            "follower_count": null
+          },
+          {
+            "date": "2022-10-17T00:00:00+00:00",
+            "employee_count": 164,
+            "follower_count": null
+          },
+          {
+            "date": "2022-10-24T00:00:00+00:00",
+            "employee_count": 164,
+            "follower_count": null
+          },
+          {
+            "date": "2022-10-31T00:00:00+00:00",
+            "employee_count": 164,
+            "follower_count": null
+          },
+          {
+            "date": "2022-11-01T00:00:00+00:00",
+            "employee_count": 166,
+            "follower_count": null
+          },
+          {
+            "date": "2022-11-07T00:00:00+00:00",
+            "employee_count": 166,
+            "follower_count": null
+          },
+          {
+            "date": "2022-11-14T00:00:00+00:00",
+            "employee_count": 166,
+            "follower_count": null
+          },
+          {
+            "date": "2022-11-21T00:00:00+00:00",
+            "employee_count": 166,
+            "follower_count": null
+          },
+          {
+            "date": "2022-11-28T00:00:00+00:00",
+            "employee_count": 166,
+            "follower_count": null
+          },
+          {
+            "date": "2022-12-01T00:00:00+00:00",
+            "employee_count": 161,
+            "follower_count": null
+          },
+          {
+            "date": "2022-12-05T00:00:00+00:00",
+            "employee_count": 161,
+            "follower_count": null
+          },
+          {
+            "date": "2022-12-12T00:00:00+00:00",
+            "employee_count": 161,
+            "follower_count": null
+          },
+          {
+            "date": "2022-12-19T00:00:00+00:00",
+            "employee_count": 161,
+            "follower_count": null
+          },
+          {
+            "date": "2022-12-26T00:00:00+00:00",
+            "employee_count": 161,
+            "follower_count": null
+          },
+          {
+            "date": "2023-01-01T00:00:00+00:00",
+            "employee_count": 163,
+            "follower_count": null
+          },
+          {
+            "date": "2023-01-02T00:00:00+00:00",
+            "employee_count": 163,
+            "follower_count": null
+          },
+          {
+            "date": "2023-01-09T00:00:00+00:00",
+            "employee_count": 163,
+            "follower_count": null
+          },
+          {
+            "date": "2023-01-16T00:00:00+00:00",
+            "employee_count": 163,
+            "follower_count": null
+          },
+          {
+            "date": "2023-01-23T00:00:00+00:00",
+            "employee_count": 163,
+            "follower_count": null
+          },
+          {
+            "date": "2023-01-30T00:00:00+00:00",
+            "employee_count": 163,
+            "follower_count": null
+          },
+          {
+            "date": "2023-02-01T00:00:00+00:00",
+            "employee_count": 164,
+            "follower_count": null
+          },
+          {
+            "date": "2023-02-06T00:00:00+00:00",
+            "employee_count": 164,
+            "follower_count": null
+          },
+          {
+            "date": "2023-02-13T00:00:00+00:00",
+            "employee_count": 164,
+            "follower_count": null
+          },
+          {
+            "date": "2023-02-20T00:00:00+00:00",
+            "employee_count": 164,
+            "follower_count": null
+          },
+          {
+            "date": "2023-02-27T00:00:00+00:00",
+            "employee_count": 164,
+            "follower_count": null
+          },
+          {
+            "date": "2023-03-01T00:00:00+00:00",
+            "employee_count": 164,
+            "follower_count": null
+          },
+          {
+            "date": "2023-03-06T00:00:00+00:00",
+            "employee_count": 164,
+            "follower_count": null
+          },
+          {
+            "date": "2023-03-13T00:00:00+00:00",
+            "employee_count": 164,
+            "follower_count": null
+          },
+          {
+            "date": "2023-03-20T00:00:00+00:00",
+            "employee_count": 164,
+            "follower_count": null
+          },
+          {
+            "date": "2023-03-27T00:00:00+00:00",
+            "employee_count": 164,
+            "follower_count": null
+          },
+          {
+            "date": "2023-04-01T00:00:00+00:00",
+            "employee_count": 159,
+            "follower_count": null
+          },
+          {
+            "date": "2023-04-03T00:00:00+00:00",
+            "employee_count": 159,
+            "follower_count": null
+          },
+          {
+            "date": "2023-04-10T00:00:00+00:00",
+            "employee_count": 159,
+            "follower_count": null
+          },
+          {
+            "date": "2023-04-17T00:00:00+00:00",
+            "employee_count": 159,
+            "follower_count": null
+          },
+          {
+            "date": "2023-04-24T00:00:00+00:00",
+            "employee_count": 159,
+            "follower_count": null
+          },
+          {
+            "date": "2023-05-01T00:00:00+00:00",
+            "employee_count": 152,
+            "follower_count": null
+          },
+          {
+            "date": "2023-05-08T00:00:00+00:00",
+            "employee_count": 152,
+            "follower_count": null
+          },
+          {
+            "date": "2023-05-15T00:00:00+00:00",
+            "employee_count": 152,
+            "follower_count": null
+          },
+          {
+            "date": "2023-05-22T00:00:00+00:00",
+            "employee_count": 152,
+            "follower_count": null
+          },
+          {
+            "date": "2023-05-29T00:00:00+00:00",
+            "employee_count": 152,
+            "follower_count": null
+          },
+          {
+            "date": "2023-06-01T00:00:00+00:00",
+            "employee_count": 147,
+            "follower_count": null
+          },
+          {
+            "date": "2023-06-05T00:00:00+00:00",
+            "employee_count": 147,
+            "follower_count": null
+          },
+          {
+            "date": "2023-06-12T00:00:00+00:00",
+            "employee_count": 147,
+            "follower_count": null
+          },
+          {
+            "date": "2023-06-19T00:00:00+00:00",
+            "employee_count": 147,
+            "follower_count": null
+          },
+          {
+            "date": "2023-06-26T00:00:00+00:00",
+            "employee_count": 147,
+            "follower_count": null
+          },
+          {
+            "date": "2023-07-01T00:00:00+00:00",
+            "employee_count": 145,
+            "follower_count": null
+          },
+          {
+            "date": "2023-07-03T00:00:00+00:00",
+            "employee_count": 145,
+            "follower_count": null
+          },
+          {
+            "date": "2023-07-10T00:00:00+00:00",
+            "employee_count": 149,
+            "follower_count": 15659
+          },
+          {
+            "date": "2023-07-17T00:00:00+00:00",
+            "employee_count": 146,
+            "follower_count": 15809
+          },
+          {
+            "date": "2023-07-24T00:00:00+00:00",
+            "employee_count": 146,
+            "follower_count": 15837
+          },
+          {
+            "date": "2023-07-31T00:00:00+00:00",
+            "employee_count": 146,
+            "follower_count": 15837
+          },
+          {
+            "date": "2023-08-01T00:00:00+00:00",
+            "employee_count": 145,
+            "follower_count": 15883
+          },
+          {
+            "date": "2023-08-07T00:00:00+00:00",
+            "employee_count": 145,
+            "follower_count": 15892
+          },
+          {
+            "date": "2023-08-14T00:00:00+00:00",
+            "employee_count": 143,
+            "follower_count": 15921
+          },
+          {
+            "date": "2023-08-21T00:00:00+00:00",
+            "employee_count": 144,
+            "follower_count": 15936
+          },
+          {
+            "date": "2023-08-28T00:00:00+00:00",
+            "employee_count": 144,
+            "follower_count": 15936
+          },
+          {
+            "date": "2023-09-01T00:00:00+00:00",
+            "employee_count": 143,
+            "follower_count": 15963
+          },
+          {
+            "date": "2023-09-04T00:00:00+00:00",
+            "employee_count": 143,
+            "follower_count": 15963
+          },
+          {
+            "date": "2023-09-11T00:00:00+00:00",
+            "employee_count": 140,
+            "follower_count": 16098
+          },
+          {
+            "date": "2023-09-18T00:00:00+00:00",
+            "employee_count": 140,
+            "follower_count": 16129
+          },
+          {
+            "date": "2023-09-25T00:00:00+00:00",
+            "employee_count": 140,
+            "follower_count": 16129
+          },
+          {
+            "date": "2023-10-01T00:00:00+00:00",
+            "employee_count": 140,
+            "follower_count": 16290
+          },
+          {
+            "date": "2023-10-02T00:00:00+00:00",
+            "employee_count": 140,
+            "follower_count": 16290
+          },
+          {
+            "date": "2023-10-09T00:00:00+00:00",
+            "employee_count": 140,
+            "follower_count": 16381
+          },
+          {
+            "date": "2023-10-16T00:00:00+00:00",
+            "employee_count": 140,
+            "follower_count": 16466
+          },
+          {
+            "date": "2023-10-23T00:00:00+00:00",
+            "employee_count": 139,
+            "follower_count": null
+          },
+          {
+            "date": "2023-10-30T00:00:00+00:00",
+            "employee_count": 139,
+            "follower_count": 16525
+          },
+          {
+            "date": "2023-11-01T00:00:00+00:00",
+            "employee_count": 139,
+            "follower_count": 16584
+          },
+          {
+            "date": "2023-11-06T00:00:00+00:00",
+            "employee_count": 139,
+            "follower_count": 16133
+          },
+          {
+            "date": "2023-11-13T00:00:00+00:00",
+            "employee_count": 139,
+            "follower_count": 16165
+          },
+          {
+            "date": "2023-11-20T00:00:00+00:00",
+            "employee_count": 139,
+            "follower_count": 16173
+          },
+          {
+            "date": "2023-11-27T00:00:00+00:00",
+            "employee_count": 139,
+            "follower_count": 16179
+          },
+          {
+            "date": "2023-12-01T00:00:00+00:00",
+            "employee_count": 139,
+            "follower_count": 16179
+          },
+          {
+            "date": "2023-12-04T00:00:00+00:00",
+            "employee_count": 139,
+            "follower_count": 16191
+          },
+          {
+            "date": "2023-12-11T00:00:00+00:00",
+            "employee_count": 138,
+            "follower_count": 16202
+          },
+          {
+            "date": "2023-12-18T00:00:00+00:00",
+            "employee_count": 137,
+            "follower_count": 16224
+          },
+          {
+            "date": "2023-12-25T00:00:00+00:00",
+            "employee_count": 137,
+            "follower_count": 16223
+          },
+          {
+            "date": "2024-01-01T00:00:00+00:00",
+            "employee_count": 137,
+            "follower_count": 16229
+          },
+          {
+            "date": "2024-01-08T00:00:00+00:00",
+            "employee_count": 134,
+            "follower_count": 16231
+          },
+          {
+            "date": "2024-01-15T00:00:00+00:00",
+            "employee_count": 133,
+            "follower_count": 16238
+          },
+          {
+            "date": "2024-01-22T00:00:00+00:00",
+            "employee_count": 134,
+            "follower_count": 16241
+          },
+          {
+            "date": "2024-01-29T00:00:00+00:00",
+            "employee_count": 133,
+            "follower_count": 16265
+          },
+          {
+            "date": "2024-02-01T00:00:00+00:00",
+            "employee_count": 133,
+            "follower_count": 16265
+          },
+          {
+            "date": "2024-02-05T00:00:00+00:00",
+            "employee_count": 132,
+            "follower_count": 16273
+          },
+          {
+            "date": "2024-02-12T00:00:00+00:00",
+            "employee_count": 132,
+            "follower_count": 16276
+          },
+          {
+            "date": "2024-02-19T00:00:00+00:00",
+            "employee_count": 130,
+            "follower_count": 16276
+          },
+          {
+            "date": "2024-02-26T00:00:00+00:00",
+            "employee_count": 130,
+            "follower_count": 16279
+          }
+        ],
+        5
+      ],
+      [
+        673947,
+        "https://www.sketch.com/",
+        "35625249",
+        "sketch.com",
+        [
+          {
+            "date": "2021-10-01T00:00:00+00:00",
+            "employee_count": 243,
+            "follower_count": null
+          },
+          {
+            "date": "2021-10-04T00:00:00+00:00",
+            "employee_count": 243,
+            "follower_count": null
+          },
+          {
+            "date": "2021-10-11T00:00:00+00:00",
+            "employee_count": 243,
+            "follower_count": null
+          },
+          {
+            "date": "2021-10-18T00:00:00+00:00",
+            "employee_count": 243,
+            "follower_count": null
+          },
+          {
+            "date": "2021-10-25T00:00:00+00:00",
+            "employee_count": 243,
+            "follower_count": null
+          },
+          {
+            "date": "2021-11-01T00:00:00+00:00",
+            "employee_count": 257,
+            "follower_count": null
+          },
+          {
+            "date": "2021-11-08T00:00:00+00:00",
+            "employee_count": 257,
+            "follower_count": null
+          },
+          {
+            "date": "2021-11-15T00:00:00+00:00",
+            "employee_count": 257,
+            "follower_count": null
+          },
+          {
+            "date": "2021-11-22T00:00:00+00:00",
+            "employee_count": 257,
+            "follower_count": null
+          },
+          {
+            "date": "2021-11-29T00:00:00+00:00",
+            "employee_count": 257,
+            "follower_count": null
+          },
+          {
+            "date": "2021-12-01T00:00:00+00:00",
+            "employee_count": 258,
+            "follower_count": null
+          },
+          {
+            "date": "2021-12-06T00:00:00+00:00",
+            "employee_count": 258,
+            "follower_count": null
+          },
+          {
+            "date": "2021-12-13T00:00:00+00:00",
+            "employee_count": 258,
+            "follower_count": null
+          },
+          {
+            "date": "2021-12-20T00:00:00+00:00",
+            "employee_count": 258,
+            "follower_count": null
+          },
+          {
+            "date": "2021-12-27T00:00:00+00:00",
+            "employee_count": 258,
+            "follower_count": null
+          },
+          {
+            "date": "2022-01-01T00:00:00+00:00",
+            "employee_count": 268,
+            "follower_count": null
+          },
+          {
+            "date": "2022-01-03T00:00:00+00:00",
+            "employee_count": 268,
+            "follower_count": null
+          },
+          {
+            "date": "2022-01-10T00:00:00+00:00",
+            "employee_count": 268,
+            "follower_count": null
+          },
+          {
+            "date": "2022-01-17T00:00:00+00:00",
+            "employee_count": 268,
+            "follower_count": null
+          },
+          {
+            "date": "2022-01-24T00:00:00+00:00",
+            "employee_count": 268,
+            "follower_count": null
+          },
+          {
+            "date": "2022-01-31T00:00:00+00:00",
+            "employee_count": 268,
+            "follower_count": null
+          },
+          {
+            "date": "2022-02-01T00:00:00+00:00",
+            "employee_count": 277,
+            "follower_count": null
+          },
+          {
+            "date": "2022-02-07T00:00:00+00:00",
+            "employee_count": 277,
+            "follower_count": null
+          },
+          {
+            "date": "2022-02-14T00:00:00+00:00",
+            "employee_count": 277,
+            "follower_count": null
+          },
+          {
+            "date": "2022-02-21T00:00:00+00:00",
+            "employee_count": 277,
+            "follower_count": null
+          },
+          {
+            "date": "2022-02-28T00:00:00+00:00",
+            "employee_count": 277,
+            "follower_count": null
+          },
+          {
+            "date": "2022-03-01T00:00:00+00:00",
+            "employee_count": 283,
+            "follower_count": null
+          },
+          {
+            "date": "2022-03-07T00:00:00+00:00",
+            "employee_count": 283,
+            "follower_count": null
+          },
+          {
+            "date": "2022-03-14T00:00:00+00:00",
+            "employee_count": 283,
+            "follower_count": null
+          },
+          {
+            "date": "2022-03-21T00:00:00+00:00",
+            "employee_count": 283,
+            "follower_count": null
+          },
+          {
+            "date": "2022-03-28T00:00:00+00:00",
+            "employee_count": 283,
+            "follower_count": null
+          },
+          {
+            "date": "2022-04-01T00:00:00+00:00",
+            "employee_count": 294,
+            "follower_count": null
+          },
+          {
+            "date": "2022-04-04T00:00:00+00:00",
+            "employee_count": 294,
+            "follower_count": null
+          },
+          {
+            "date": "2022-04-11T00:00:00+00:00",
+            "employee_count": 294,
+            "follower_count": null
+          },
+          {
+            "date": "2022-04-18T00:00:00+00:00",
+            "employee_count": 294,
+            "follower_count": null
+          },
+          {
+            "date": "2022-04-25T00:00:00+00:00",
+            "employee_count": 294,
+            "follower_count": null
+          },
+          {
+            "date": "2022-05-01T00:00:00+00:00",
+            "employee_count": 298,
+            "follower_count": null
+          },
+          {
+            "date": "2022-05-02T00:00:00+00:00",
+            "employee_count": 298,
+            "follower_count": null
+          },
+          {
+            "date": "2022-05-09T00:00:00+00:00",
+            "employee_count": 298,
+            "follower_count": null
+          },
+          {
+            "date": "2022-05-16T00:00:00+00:00",
+            "employee_count": 298,
+            "follower_count": null
+          },
+          {
+            "date": "2022-05-23T00:00:00+00:00",
+            "employee_count": 298,
+            "follower_count": null
+          },
+          {
+            "date": "2022-05-30T00:00:00+00:00",
+            "employee_count": 298,
+            "follower_count": null
+          },
+          {
+            "date": "2022-06-01T00:00:00+00:00",
+            "employee_count": 303,
+            "follower_count": null
+          },
+          {
+            "date": "2022-06-06T00:00:00+00:00",
+            "employee_count": 303,
+            "follower_count": null
+          },
+          {
+            "date": "2022-06-13T00:00:00+00:00",
+            "employee_count": 303,
+            "follower_count": null
+          },
+          {
+            "date": "2022-06-20T00:00:00+00:00",
+            "employee_count": 303,
+            "follower_count": null
+          },
+          {
+            "date": "2022-06-27T00:00:00+00:00",
+            "employee_count": 303,
+            "follower_count": null
+          },
+          {
+            "date": "2022-07-01T00:00:00+00:00",
+            "employee_count": 314,
+            "follower_count": null
+          },
+          {
+            "date": "2022-07-04T00:00:00+00:00",
+            "employee_count": 314,
+            "follower_count": null
+          },
+          {
+            "date": "2022-07-11T00:00:00+00:00",
+            "employee_count": 314,
+            "follower_count": null
+          },
+          {
+            "date": "2022-07-18T00:00:00+00:00",
+            "employee_count": 314,
+            "follower_count": null
+          },
+          {
+            "date": "2022-07-25T00:00:00+00:00",
+            "employee_count": 314,
+            "follower_count": null
+          },
+          {
+            "date": "2022-08-01T00:00:00+00:00",
+            "employee_count": 312,
+            "follower_count": null
+          },
+          {
+            "date": "2022-08-08T00:00:00+00:00",
+            "employee_count": 312,
+            "follower_count": null
+          },
+          {
+            "date": "2022-08-15T00:00:00+00:00",
+            "employee_count": 312,
+            "follower_count": null
+          },
+          {
+            "date": "2022-08-22T00:00:00+00:00",
+            "employee_count": 312,
+            "follower_count": null
+          },
+          {
+            "date": "2022-08-29T00:00:00+00:00",
+            "employee_count": 312,
+            "follower_count": null
+          },
+          {
+            "date": "2022-09-01T00:00:00+00:00",
+            "employee_count": 316,
+            "follower_count": null
+          },
+          {
+            "date": "2022-09-05T00:00:00+00:00",
+            "employee_count": 316,
+            "follower_count": null
+          },
+          {
+            "date": "2022-09-12T00:00:00+00:00",
+            "employee_count": 316,
+            "follower_count": null
+          },
+          {
+            "date": "2022-09-19T00:00:00+00:00",
+            "employee_count": 316,
+            "follower_count": null
+          },
+          {
+            "date": "2022-09-26T00:00:00+00:00",
+            "employee_count": 316,
+            "follower_count": null
+          },
+          {
+            "date": "2022-10-01T00:00:00+00:00",
+            "employee_count": 267,
+            "follower_count": null
+          },
+          {
+            "date": "2022-10-03T00:00:00+00:00",
+            "employee_count": 267,
+            "follower_count": null
+          },
+          {
+            "date": "2022-10-10T00:00:00+00:00",
+            "employee_count": 267,
+            "follower_count": null
+          },
+          {
+            "date": "2022-10-17T00:00:00+00:00",
+            "employee_count": 267,
+            "follower_count": null
+          },
+          {
+            "date": "2022-10-24T00:00:00+00:00",
+            "employee_count": 267,
+            "follower_count": null
+          },
+          {
+            "date": "2022-10-31T00:00:00+00:00",
+            "employee_count": 267,
+            "follower_count": null
+          },
+          {
+            "date": "2022-11-01T00:00:00+00:00",
+            "employee_count": 252,
+            "follower_count": null
+          },
+          {
+            "date": "2022-11-07T00:00:00+00:00",
+            "employee_count": 252,
+            "follower_count": null
+          },
+          {
+            "date": "2022-11-14T00:00:00+00:00",
+            "employee_count": 252,
+            "follower_count": null
+          },
+          {
+            "date": "2022-11-21T00:00:00+00:00",
+            "employee_count": 252,
+            "follower_count": null
+          },
+          {
+            "date": "2022-11-28T00:00:00+00:00",
+            "employee_count": 252,
+            "follower_count": null
+          },
+          {
+            "date": "2022-12-01T00:00:00+00:00",
+            "employee_count": 242,
+            "follower_count": null
+          },
+          {
+            "date": "2022-12-05T00:00:00+00:00",
+            "employee_count": 242,
+            "follower_count": null
+          },
+          {
+            "date": "2022-12-12T00:00:00+00:00",
+            "employee_count": 242,
+            "follower_count": null
+          },
+          {
+            "date": "2022-12-19T00:00:00+00:00",
+            "employee_count": 242,
+            "follower_count": null
+          },
+          {
+            "date": "2022-12-26T00:00:00+00:00",
+            "employee_count": 242,
+            "follower_count": null
+          },
+          {
+            "date": "2023-01-01T00:00:00+00:00",
+            "employee_count": 240,
+            "follower_count": null
+          },
+          {
+            "date": "2023-01-02T00:00:00+00:00",
+            "employee_count": 240,
+            "follower_count": null
+          },
+          {
+            "date": "2023-01-09T00:00:00+00:00",
+            "employee_count": 240,
+            "follower_count": null
+          },
+          {
+            "date": "2023-01-16T00:00:00+00:00",
+            "employee_count": 240,
+            "follower_count": null
+          },
+          {
+            "date": "2023-01-23T00:00:00+00:00",
+            "employee_count": 240,
+            "follower_count": null
+          },
+          {
+            "date": "2023-01-30T00:00:00+00:00",
+            "employee_count": 240,
+            "follower_count": null
+          },
+          {
+            "date": "2023-02-01T00:00:00+00:00",
+            "employee_count": 241,
+            "follower_count": null
+          },
+          {
+            "date": "2023-02-06T00:00:00+00:00",
+            "employee_count": 241,
+            "follower_count": null
+          },
+          {
+            "date": "2023-02-13T00:00:00+00:00",
+            "employee_count": 241,
+            "follower_count": null
+          },
+          {
+            "date": "2023-02-20T00:00:00+00:00",
+            "employee_count": 241,
+            "follower_count": null
+          },
+          {
+            "date": "2023-02-27T00:00:00+00:00",
+            "employee_count": 241,
+            "follower_count": null
+          },
+          {
+            "date": "2023-03-01T00:00:00+00:00",
+            "employee_count": 242,
+            "follower_count": null
+          },
+          {
+            "date": "2023-03-06T00:00:00+00:00",
+            "employee_count": 242,
+            "follower_count": null
+          },
+          {
+            "date": "2023-03-13T00:00:00+00:00",
+            "employee_count": 242,
+            "follower_count": null
+          },
+          {
+            "date": "2023-03-20T00:00:00+00:00",
+            "employee_count": 242,
+            "follower_count": null
+          },
+          {
+            "date": "2023-03-27T00:00:00+00:00",
+            "employee_count": 242,
+            "follower_count": null
+          },
+          {
+            "date": "2023-04-01T00:00:00+00:00",
+            "employee_count": 238,
+            "follower_count": null
+          },
+          {
+            "date": "2023-04-03T00:00:00+00:00",
+            "employee_count": 238,
+            "follower_count": null
+          },
+          {
+            "date": "2023-04-10T00:00:00+00:00",
+            "employee_count": 238,
+            "follower_count": null
+          },
+          {
+            "date": "2023-04-17T00:00:00+00:00",
+            "employee_count": 238,
+            "follower_count": null
+          },
+          {
+            "date": "2023-04-24T00:00:00+00:00",
+            "employee_count": 238,
+            "follower_count": null
+          },
+          {
+            "date": "2023-05-01T00:00:00+00:00",
+            "employee_count": 238,
+            "follower_count": null
+          },
+          {
+            "date": "2023-05-08T00:00:00+00:00",
+            "employee_count": 238,
+            "follower_count": null
+          },
+          {
+            "date": "2023-05-15T00:00:00+00:00",
+            "employee_count": 238,
+            "follower_count": null
+          },
+          {
+            "date": "2023-05-22T00:00:00+00:00",
+            "employee_count": 238,
+            "follower_count": null
+          },
+          {
+            "date": "2023-05-29T00:00:00+00:00",
+            "employee_count": 238,
+            "follower_count": null
+          },
+          {
+            "date": "2023-06-01T00:00:00+00:00",
+            "employee_count": 240,
+            "follower_count": null
+          },
+          {
+            "date": "2023-06-05T00:00:00+00:00",
+            "employee_count": 240,
+            "follower_count": null
+          },
+          {
+            "date": "2023-06-12T00:00:00+00:00",
+            "employee_count": 240,
+            "follower_count": null
+          },
+          {
+            "date": "2023-06-19T00:00:00+00:00",
+            "employee_count": 240,
+            "follower_count": null
+          },
+          {
+            "date": "2023-06-26T00:00:00+00:00",
+            "employee_count": 240,
+            "follower_count": null
+          },
+          {
+            "date": "2023-07-01T00:00:00+00:00",
+            "employee_count": 240,
+            "follower_count": null
+          },
+          {
+            "date": "2023-07-03T00:00:00+00:00",
+            "employee_count": 240,
+            "follower_count": null
+          },
+          {
+            "date": "2023-07-10T00:00:00+00:00",
+            "employee_count": 292,
+            "follower_count": 71247
+          },
+          {
+            "date": "2023-07-17T00:00:00+00:00",
+            "employee_count": 291,
+            "follower_count": 71299
+          },
+          {
+            "date": "2023-07-24T00:00:00+00:00",
+            "employee_count": 290,
+            "follower_count": 71338
+          },
+          {
+            "date": "2023-07-31T00:00:00+00:00",
+            "employee_count": 290,
+            "follower_count": 71338
+          },
+          {
+            "date": "2023-08-01T00:00:00+00:00",
+            "employee_count": 276,
+            "follower_count": 71429
+          },
+          {
+            "date": "2023-08-07T00:00:00+00:00",
+            "employee_count": 258,
+            "follower_count": 71453
+          },
+          {
+            "date": "2023-08-14T00:00:00+00:00",
+            "employee_count": 258,
+            "follower_count": 71453
+          },
+          {
+            "date": "2023-08-21T00:00:00+00:00",
+            "employee_count": 258,
+            "follower_count": 71453
+          },
+          {
+            "date": "2023-08-28T00:00:00+00:00",
+            "employee_count": 253,
+            "follower_count": 71577
+          },
+          {
+            "date": "2023-09-01T00:00:00+00:00",
+            "employee_count": 254,
+            "follower_count": 71580
+          },
+          {
+            "date": "2023-09-04T00:00:00+00:00",
+            "employee_count": 254,
+            "follower_count": 71580
+          },
+          {
+            "date": "2023-09-11T00:00:00+00:00",
+            "employee_count": 254,
+            "follower_count": 71612
+          },
+          {
+            "date": "2023-09-18T00:00:00+00:00",
+            "employee_count": 240,
+            "follower_count": 71677
+          },
+          {
+            "date": "2023-09-25T00:00:00+00:00",
+            "employee_count": 240,
+            "follower_count": 71677
+          },
+          {
+            "date": "2023-10-01T00:00:00+00:00",
+            "employee_count": 234,
+            "follower_count": 71733
+          },
+          {
+            "date": "2023-10-02T00:00:00+00:00",
+            "employee_count": 234,
+            "follower_count": 71733
+          },
+          {
+            "date": "2023-10-09T00:00:00+00:00",
+            "employee_count": 233,
+            "follower_count": 71753
+          },
+          {
+            "date": "2023-10-16T00:00:00+00:00",
+            "employee_count": 232,
+            "follower_count": 71775
+          },
+          {
+            "date": "2023-10-23T00:00:00+00:00",
+            "employee_count": 235,
+            "follower_count": 71806
+          },
+          {
+            "date": "2023-10-30T00:00:00+00:00",
+            "employee_count": 235,
+            "follower_count": null
+          },
+          {
+            "date": "2023-11-01T00:00:00+00:00",
+            "employee_count": 235,
+            "follower_count": 70563
+          },
+          {
+            "date": "2023-11-06T00:00:00+00:00",
+            "employee_count": 234,
+            "follower_count": 70266
+          },
+          {
+            "date": "2023-11-13T00:00:00+00:00",
+            "employee_count": 235,
+            "follower_count": 70280
+          },
+          {
+            "date": "2023-11-20T00:00:00+00:00",
+            "employee_count": 236,
+            "follower_count": 70298
+          },
+          {
+            "date": "2023-11-27T00:00:00+00:00",
+            "employee_count": 234,
+            "follower_count": 70295
+          },
+          {
+            "date": "2023-12-01T00:00:00+00:00",
+            "employee_count": 234,
+            "follower_count": 70305
+          },
+          {
+            "date": "2023-12-04T00:00:00+00:00",
+            "employee_count": 235,
+            "follower_count": 70327
+          },
+          {
+            "date": "2023-12-11T00:00:00+00:00",
+            "employee_count": 234,
+            "follower_count": 70350
+          },
+          {
+            "date": "2023-12-18T00:00:00+00:00",
+            "employee_count": 236,
+            "follower_count": 70370
+          },
+          {
+            "date": "2023-12-25T00:00:00+00:00",
+            "employee_count": 235,
+            "follower_count": 70385
+          },
+          {
+            "date": "2024-01-01T00:00:00+00:00",
+            "employee_count": 235,
+            "follower_count": 70407
+          },
+          {
+            "date": "2024-01-08T00:00:00+00:00",
+            "employee_count": 234,
+            "follower_count": 70456
+          },
+          {
+            "date": "2024-01-15T00:00:00+00:00",
+            "employee_count": 234,
+            "follower_count": 70494
+          },
+          {
+            "date": "2024-01-22T00:00:00+00:00",
+            "employee_count": 230,
+            "follower_count": 70574
+          },
+          {
+            "date": "2024-01-29T00:00:00+00:00",
+            "employee_count": 230,
+            "follower_count": 70616
+          },
+          {
+            "date": "2024-02-01T00:00:00+00:00",
+            "employee_count": 228,
+            "follower_count": 70636
+          },
+          {
+            "date": "2024-02-05T00:00:00+00:00",
+            "employee_count": 228,
+            "follower_count": 70636
+          },
+          {
+            "date": "2024-02-12T00:00:00+00:00",
+            "employee_count": 223,
+            "follower_count": 70626
+          },
+          {
+            "date": "2024-02-19T00:00:00+00:00",
+            "employee_count": 224,
+            "follower_count": 70643
+          },
+          {
+            "date": "2024-02-26T00:00:00+00:00",
+            "employee_count": 223,
+            "follower_count": 70643
+          }
+        ],
+        5
+      ],
+      [
+        680992,
+        "http://www.microstrategy.com",
+        "3643",
+        "microstrategy.com",
+        [
+          {
+            "date": "2021-08-01T00:00:00+00:00",
+            "employee_count": 3266,
+            "follower_count": null
+          },
+          {
+            "date": "2021-08-02T00:00:00+00:00",
+            "employee_count": 3266,
+            "follower_count": null
+          },
+          {
+            "date": "2021-08-09T00:00:00+00:00",
+            "employee_count": 3266,
+            "follower_count": null
+          },
+          {
+            "date": "2021-08-16T00:00:00+00:00",
+            "employee_count": 3266,
+            "follower_count": null
+          },
+          {
+            "date": "2021-08-23T00:00:00+00:00",
+            "employee_count": 3266,
+            "follower_count": null
+          },
+          {
+            "date": "2021-08-30T00:00:00+00:00",
+            "employee_count": 3266,
+            "follower_count": null
+          },
+          {
+            "date": "2021-09-01T00:00:00+00:00",
+            "employee_count": 3278,
+            "follower_count": null
+          },
+          {
+            "date": "2021-09-06T00:00:00+00:00",
+            "employee_count": 3278,
+            "follower_count": null
+          },
+          {
+            "date": "2021-09-13T00:00:00+00:00",
+            "employee_count": 3278,
+            "follower_count": null
+          },
+          {
+            "date": "2021-09-20T00:00:00+00:00",
+            "employee_count": 3278,
+            "follower_count": null
+          },
+          {
+            "date": "2021-09-27T00:00:00+00:00",
+            "employee_count": 3278,
+            "follower_count": null
+          },
+          {
+            "date": "2021-10-01T00:00:00+00:00",
+            "employee_count": 3305,
+            "follower_count": null
+          },
+          {
+            "date": "2021-10-04T00:00:00+00:00",
+            "employee_count": 3305,
+            "follower_count": null
+          },
+          {
+            "date": "2021-10-11T00:00:00+00:00",
+            "employee_count": 3305,
+            "follower_count": null
+          },
+          {
+            "date": "2021-10-18T00:00:00+00:00",
+            "employee_count": 3305,
+            "follower_count": null
+          },
+          {
+            "date": "2021-10-25T00:00:00+00:00",
+            "employee_count": 3305,
+            "follower_count": null
+          },
+          {
+            "date": "2021-11-01T00:00:00+00:00",
+            "employee_count": 3327,
+            "follower_count": null
+          },
+          {
+            "date": "2021-11-08T00:00:00+00:00",
+            "employee_count": 3327,
+            "follower_count": null
+          },
+          {
+            "date": "2021-11-15T00:00:00+00:00",
+            "employee_count": 3327,
+            "follower_count": null
+          },
+          {
+            "date": "2021-11-22T00:00:00+00:00",
+            "employee_count": 3327,
+            "follower_count": null
+          },
+          {
+            "date": "2021-11-29T00:00:00+00:00",
+            "employee_count": 3327,
+            "follower_count": null
+          },
+          {
+            "date": "2021-12-01T00:00:00+00:00",
+            "employee_count": 3331,
+            "follower_count": null
+          },
+          {
+            "date": "2021-12-06T00:00:00+00:00",
+            "employee_count": 3331,
+            "follower_count": null
+          },
+          {
+            "date": "2021-12-13T00:00:00+00:00",
+            "employee_count": 3331,
+            "follower_count": null
+          },
+          {
+            "date": "2021-12-20T00:00:00+00:00",
+            "employee_count": 3331,
+            "follower_count": null
+          },
+          {
+            "date": "2021-12-27T00:00:00+00:00",
+            "employee_count": 3331,
+            "follower_count": null
+          },
+          {
+            "date": "2022-01-01T00:00:00+00:00",
+            "employee_count": 3359,
+            "follower_count": null
+          },
+          {
+            "date": "2022-01-03T00:00:00+00:00",
+            "employee_count": 3359,
+            "follower_count": null
+          },
+          {
+            "date": "2022-01-10T00:00:00+00:00",
+            "employee_count": 3359,
+            "follower_count": null
+          },
+          {
+            "date": "2022-01-17T00:00:00+00:00",
+            "employee_count": 3359,
+            "follower_count": null
+          },
+          {
+            "date": "2022-01-24T00:00:00+00:00",
+            "employee_count": 3359,
+            "follower_count": null
+          },
+          {
+            "date": "2022-01-31T00:00:00+00:00",
+            "employee_count": 3359,
+            "follower_count": null
+          },
+          {
+            "date": "2022-02-01T00:00:00+00:00",
+            "employee_count": 3366,
+            "follower_count": null
+          },
+          {
+            "date": "2022-02-07T00:00:00+00:00",
+            "employee_count": 3366,
+            "follower_count": null
+          },
+          {
+            "date": "2022-02-14T00:00:00+00:00",
+            "employee_count": 3366,
+            "follower_count": null
+          },
+          {
+            "date": "2022-02-21T00:00:00+00:00",
+            "employee_count": 3366,
+            "follower_count": null
+          },
+          {
+            "date": "2022-02-28T00:00:00+00:00",
+            "employee_count": 3366,
+            "follower_count": null
+          },
+          {
+            "date": "2022-03-01T00:00:00+00:00",
+            "employee_count": 3388,
+            "follower_count": null
+          },
+          {
+            "date": "2022-03-07T00:00:00+00:00",
+            "employee_count": 3388,
+            "follower_count": null
+          },
+          {
+            "date": "2022-03-14T00:00:00+00:00",
+            "employee_count": 3388,
+            "follower_count": null
+          },
+          {
+            "date": "2022-03-21T00:00:00+00:00",
+            "employee_count": 3388,
+            "follower_count": null
+          },
+          {
+            "date": "2022-03-28T00:00:00+00:00",
+            "employee_count": 3388,
+            "follower_count": null
+          },
+          {
+            "date": "2022-04-01T00:00:00+00:00",
+            "employee_count": 3391,
+            "follower_count": null
+          },
+          {
+            "date": "2022-04-04T00:00:00+00:00",
+            "employee_count": 3391,
+            "follower_count": null
+          },
+          {
+            "date": "2022-04-11T00:00:00+00:00",
+            "employee_count": 3391,
+            "follower_count": null
+          },
+          {
+            "date": "2022-04-18T00:00:00+00:00",
+            "employee_count": 3391,
+            "follower_count": null
+          },
+          {
+            "date": "2022-04-25T00:00:00+00:00",
+            "employee_count": 3391,
+            "follower_count": null
+          },
+          {
+            "date": "2022-05-01T00:00:00+00:00",
+            "employee_count": 3409,
+            "follower_count": null
+          },
+          {
+            "date": "2022-05-02T00:00:00+00:00",
+            "employee_count": 3409,
+            "follower_count": null
+          },
+          {
+            "date": "2022-05-09T00:00:00+00:00",
+            "employee_count": 3409,
+            "follower_count": null
+          },
+          {
+            "date": "2022-05-16T00:00:00+00:00",
+            "employee_count": 3409,
+            "follower_count": null
+          },
+          {
+            "date": "2022-05-23T00:00:00+00:00",
+            "employee_count": 3409,
+            "follower_count": null
+          },
+          {
+            "date": "2022-05-30T00:00:00+00:00",
+            "employee_count": 3409,
+            "follower_count": null
+          },
+          {
+            "date": "2022-06-01T00:00:00+00:00",
+            "employee_count": 3414,
+            "follower_count": null
+          },
+          {
+            "date": "2022-06-06T00:00:00+00:00",
+            "employee_count": 3414,
+            "follower_count": null
+          },
+          {
+            "date": "2022-06-13T00:00:00+00:00",
+            "employee_count": 3414,
+            "follower_count": null
+          },
+          {
+            "date": "2022-06-20T00:00:00+00:00",
+            "employee_count": 3414,
+            "follower_count": null
+          },
+          {
+            "date": "2022-06-27T00:00:00+00:00",
+            "employee_count": 3414,
+            "follower_count": null
+          },
+          {
+            "date": "2022-07-01T00:00:00+00:00",
+            "employee_count": 3428,
+            "follower_count": null
+          },
+          {
+            "date": "2022-07-04T00:00:00+00:00",
+            "employee_count": 3428,
+            "follower_count": null
+          },
+          {
+            "date": "2022-07-11T00:00:00+00:00",
+            "employee_count": 3428,
+            "follower_count": null
+          },
+          {
+            "date": "2022-07-18T00:00:00+00:00",
+            "employee_count": 3428,
+            "follower_count": null
+          },
+          {
+            "date": "2022-07-25T00:00:00+00:00",
+            "employee_count": 3428,
+            "follower_count": null
+          },
+          {
+            "date": "2022-08-01T00:00:00+00:00",
+            "employee_count": 3429,
+            "follower_count": null
+          },
+          {
+            "date": "2022-08-08T00:00:00+00:00",
+            "employee_count": 3429,
+            "follower_count": null
+          },
+          {
+            "date": "2022-08-15T00:00:00+00:00",
+            "employee_count": 3429,
+            "follower_count": null
+          },
+          {
+            "date": "2022-08-22T00:00:00+00:00",
+            "employee_count": 3429,
+            "follower_count": null
+          },
+          {
+            "date": "2022-08-29T00:00:00+00:00",
+            "employee_count": 3429,
+            "follower_count": null
+          },
+          {
+            "date": "2022-09-01T00:00:00+00:00",
+            "employee_count": 3442,
+            "follower_count": null
+          },
+          {
+            "date": "2022-09-05T00:00:00+00:00",
+            "employee_count": 3442,
+            "follower_count": null
+          },
+          {
+            "date": "2022-09-12T00:00:00+00:00",
+            "employee_count": 3442,
+            "follower_count": null
+          },
+          {
+            "date": "2022-09-19T00:00:00+00:00",
+            "employee_count": 3442,
+            "follower_count": null
+          },
+          {
+            "date": "2022-09-26T00:00:00+00:00",
+            "employee_count": 3442,
+            "follower_count": null
+          },
+          {
+            "date": "2022-10-01T00:00:00+00:00",
+            "employee_count": 3446,
+            "follower_count": null
+          },
+          {
+            "date": "2022-10-03T00:00:00+00:00",
+            "employee_count": 3446,
+            "follower_count": null
+          },
+          {
+            "date": "2022-10-10T00:00:00+00:00",
+            "employee_count": 3446,
+            "follower_count": null
+          },
+          {
+            "date": "2022-10-17T00:00:00+00:00",
+            "employee_count": 3446,
+            "follower_count": null
+          },
+          {
+            "date": "2022-10-24T00:00:00+00:00",
+            "employee_count": 3446,
+            "follower_count": null
+          },
+          {
+            "date": "2022-10-31T00:00:00+00:00",
+            "employee_count": 3446,
+            "follower_count": null
+          },
+          {
+            "date": "2022-11-01T00:00:00+00:00",
+            "employee_count": 3471,
+            "follower_count": null
+          },
+          {
+            "date": "2022-11-07T00:00:00+00:00",
+            "employee_count": 3471,
+            "follower_count": null
+          },
+          {
+            "date": "2022-11-14T00:00:00+00:00",
+            "employee_count": 3471,
+            "follower_count": null
+          },
+          {
+            "date": "2022-11-21T00:00:00+00:00",
+            "employee_count": 3471,
+            "follower_count": null
+          },
+          {
+            "date": "2022-11-28T00:00:00+00:00",
+            "employee_count": 3471,
+            "follower_count": null
+          },
+          {
+            "date": "2022-12-01T00:00:00+00:00",
+            "employee_count": 3448,
+            "follower_count": null
+          },
+          {
+            "date": "2022-12-05T00:00:00+00:00",
+            "employee_count": 3448,
+            "follower_count": null
+          },
+          {
+            "date": "2022-12-12T00:00:00+00:00",
+            "employee_count": 3448,
+            "follower_count": null
+          },
+          {
+            "date": "2022-12-19T00:00:00+00:00",
+            "employee_count": 3448,
+            "follower_count": null
+          },
+          {
+            "date": "2022-12-26T00:00:00+00:00",
+            "employee_count": 3448,
+            "follower_count": null
+          },
+          {
+            "date": "2023-01-01T00:00:00+00:00",
+            "employee_count": 3463,
+            "follower_count": null
+          },
+          {
+            "date": "2023-01-02T00:00:00+00:00",
+            "employee_count": 3463,
+            "follower_count": null
+          },
+          {
+            "date": "2023-01-09T00:00:00+00:00",
+            "employee_count": 3463,
+            "follower_count": null
+          },
+          {
+            "date": "2023-01-16T00:00:00+00:00",
+            "employee_count": 3463,
+            "follower_count": null
+          },
+          {
+            "date": "2023-01-23T00:00:00+00:00",
+            "employee_count": 3463,
+            "follower_count": null
+          },
+          {
+            "date": "2023-01-30T00:00:00+00:00",
+            "employee_count": 3463,
+            "follower_count": null
+          },
+          {
+            "date": "2023-02-01T00:00:00+00:00",
+            "employee_count": 3470,
+            "follower_count": null
+          },
+          {
+            "date": "2023-02-06T00:00:00+00:00",
+            "employee_count": 3470,
+            "follower_count": null
+          },
+          {
+            "date": "2023-02-13T00:00:00+00:00",
+            "employee_count": 3470,
+            "follower_count": null
+          },
+          {
+            "date": "2023-02-20T00:00:00+00:00",
+            "employee_count": 3470,
+            "follower_count": null
+          },
+          {
+            "date": "2023-02-27T00:00:00+00:00",
+            "employee_count": 3470,
+            "follower_count": null
+          },
+          {
+            "date": "2023-03-01T00:00:00+00:00",
+            "employee_count": 3467,
+            "follower_count": null
+          },
+          {
+            "date": "2023-03-06T00:00:00+00:00",
+            "employee_count": 3467,
+            "follower_count": null
+          },
+          {
+            "date": "2023-03-13T00:00:00+00:00",
+            "employee_count": 3467,
+            "follower_count": null
+          },
+          {
+            "date": "2023-03-20T00:00:00+00:00",
+            "employee_count": 3467,
+            "follower_count": null
+          },
+          {
+            "date": "2023-03-27T00:00:00+00:00",
+            "employee_count": 3467,
+            "follower_count": null
+          },
+          {
+            "date": "2023-04-01T00:00:00+00:00",
+            "employee_count": 3470,
+            "follower_count": null
+          },
+          {
+            "date": "2023-04-03T00:00:00+00:00",
+            "employee_count": 3470,
+            "follower_count": null
+          },
+          {
+            "date": "2023-04-10T00:00:00+00:00",
+            "employee_count": 3470,
+            "follower_count": null
+          },
+          {
+            "date": "2023-04-17T00:00:00+00:00",
+            "employee_count": 3470,
+            "follower_count": null
+          },
+          {
+            "date": "2023-04-24T00:00:00+00:00",
+            "employee_count": 3470,
+            "follower_count": null
+          },
+          {
+            "date": "2023-05-01T00:00:00+00:00",
+            "employee_count": 3479,
+            "follower_count": null
+          },
+          {
+            "date": "2023-05-08T00:00:00+00:00",
+            "employee_count": 3479,
+            "follower_count": null
+          },
+          {
+            "date": "2023-05-15T00:00:00+00:00",
+            "employee_count": 3479,
+            "follower_count": null
+          },
+          {
+            "date": "2023-05-22T00:00:00+00:00",
+            "employee_count": 3479,
+            "follower_count": null
+          },
+          {
+            "date": "2023-05-29T00:00:00+00:00",
+            "employee_count": 3479,
+            "follower_count": null
+          },
+          {
+            "date": "2023-06-01T00:00:00+00:00",
+            "employee_count": 3484,
+            "follower_count": null
+          },
+          {
+            "date": "2023-06-05T00:00:00+00:00",
+            "employee_count": 3484,
+            "follower_count": null
+          },
+          {
+            "date": "2023-06-12T00:00:00+00:00",
+            "employee_count": 3484,
+            "follower_count": null
+          },
+          {
+            "date": "2023-06-19T00:00:00+00:00",
+            "employee_count": 3484,
+            "follower_count": null
+          },
+          {
+            "date": "2023-06-26T00:00:00+00:00",
+            "employee_count": 3484,
+            "follower_count": null
+          },
+          {
+            "date": "2023-07-01T00:00:00+00:00",
+            "employee_count": 3482,
+            "follower_count": null
+          },
+          {
+            "date": "2023-07-03T00:00:00+00:00",
+            "employee_count": 3482,
+            "follower_count": null
+          },
+          {
+            "date": "2023-07-10T00:00:00+00:00",
+            "employee_count": 3472,
+            "follower_count": 194951
+          },
+          {
+            "date": "2023-07-17T00:00:00+00:00",
+            "employee_count": 3463,
+            "follower_count": null
+          },
+          {
+            "date": "2023-07-24T00:00:00+00:00",
+            "employee_count": 3466,
+            "follower_count": 195483
+          },
+          {
+            "date": "2023-07-31T00:00:00+00:00",
+            "employee_count": 3466,
+            "follower_count": 195483
+          },
+          {
+            "date": "2023-08-01T00:00:00+00:00",
+            "employee_count": 3463,
+            "follower_count": 196567
+          },
+          {
+            "date": "2023-08-07T00:00:00+00:00",
+            "employee_count": 3469,
+            "follower_count": 196846
+          },
+          {
+            "date": "2023-08-14T00:00:00+00:00",
+            "employee_count": 3473,
+            "follower_count": 197196
+          },
+          {
+            "date": "2023-08-21T00:00:00+00:00",
+            "employee_count": 3457,
+            "follower_count": 197391
+          },
+          {
+            "date": "2023-08-28T00:00:00+00:00",
+            "employee_count": 3443,
+            "follower_count": 197800
+          },
+          {
+            "date": "2023-09-01T00:00:00+00:00",
+            "employee_count": 3443,
+            "follower_count": 197842
+          },
+          {
+            "date": "2023-09-04T00:00:00+00:00",
+            "employee_count": 3443,
+            "follower_count": 197842
+          },
+          {
+            "date": "2023-09-11T00:00:00+00:00",
+            "employee_count": 3440,
+            "follower_count": 198532
+          },
+          {
+            "date": "2023-09-18T00:00:00+00:00",
+            "employee_count": 3431,
+            "follower_count": 198877
+          },
+          {
+            "date": "2023-09-25T00:00:00+00:00",
+            "employee_count": 3431,
+            "follower_count": 198877
+          },
+          {
+            "date": "2023-10-01T00:00:00+00:00",
+            "employee_count": 3408,
+            "follower_count": 201809
+          },
+          {
+            "date": "2023-10-02T00:00:00+00:00",
+            "employee_count": 3408,
+            "follower_count": 201809
+          },
+          {
+            "date": "2023-10-09T00:00:00+00:00",
+            "employee_count": 3402,
+            "follower_count": 202936
+          },
+          {
+            "date": "2023-10-16T00:00:00+00:00",
+            "employee_count": 3405,
+            "follower_count": 203790
+          },
+          {
+            "date": "2023-10-23T00:00:00+00:00",
+            "employee_count": 3397,
+            "follower_count": 205640
+          },
+          {
+            "date": "2023-10-30T00:00:00+00:00",
+            "employee_count": 3397,
+            "follower_count": 207228
+          },
+          {
+            "date": "2023-11-01T00:00:00+00:00",
+            "employee_count": 3397,
+            "follower_count": 207977
+          },
+          {
+            "date": "2023-11-06T00:00:00+00:00",
+            "employee_count": 3399,
+            "follower_count": 205522
+          },
+          {
+            "date": "2023-11-13T00:00:00+00:00",
+            "employee_count": 3397,
+            "follower_count": 204410
+          },
+          {
+            "date": "2023-11-20T00:00:00+00:00",
+            "employee_count": 3395,
+            "follower_count": 204500
+          },
+          {
+            "date": "2023-11-27T00:00:00+00:00",
+            "employee_count": 3399,
+            "follower_count": 204605
+          },
+          {
+            "date": "2023-12-01T00:00:00+00:00",
+            "employee_count": 3396,
+            "follower_count": 204673
+          },
+          {
+            "date": "2023-12-04T00:00:00+00:00",
+            "employee_count": 3396,
+            "follower_count": 204749
+          },
+          {
+            "date": "2023-12-11T00:00:00+00:00",
+            "employee_count": 3394,
+            "follower_count": 205277
+          },
+          {
+            "date": "2023-12-18T00:00:00+00:00",
+            "employee_count": 3409,
+            "follower_count": 206548
+          },
+          {
+            "date": "2023-12-25T00:00:00+00:00",
+            "employee_count": 3397,
+            "follower_count": 207119
+          },
+          {
+            "date": "2024-01-01T00:00:00+00:00",
+            "employee_count": 3405,
+            "follower_count": 207810
+          },
+          {
+            "date": "2024-01-08T00:00:00+00:00",
+            "employee_count": 3402,
+            "follower_count": 208576
+          },
+          {
+            "date": "2024-01-15T00:00:00+00:00",
+            "employee_count": 3426,
+            "follower_count": 209746
+          },
+          {
+            "date": "2024-01-22T00:00:00+00:00",
+            "employee_count": 3415,
+            "follower_count": 210596
+          },
+          {
+            "date": "2024-01-29T00:00:00+00:00",
+            "employee_count": 3406,
+            "follower_count": 211112
+          },
+          {
+            "date": "2024-02-01T00:00:00+00:00",
+            "employee_count": 3406,
+            "follower_count": 211112
+          },
+          {
+            "date": "2024-02-05T00:00:00+00:00",
+            "employee_count": 3398,
+            "follower_count": 211743
+          },
+          {
+            "date": "2024-02-12T00:00:00+00:00",
+            "employee_count": 3385,
+            "follower_count": 211974
+          },
+          {
+            "date": "2024-02-19T00:00:00+00:00",
+            "employee_count": 3387,
+            "follower_count": 212161
+          },
+          {
+            "date": "2024-02-26T00:00:00+00:00",
+            "employee_count": 3391,
+            "follower_count": 212385
+          },
+          {
+            "date": "2024-03-01T00:00:00+00:00",
+            "employee_count": 3384,
+            "follower_count": 212564
+          }
+        ],
+        5
+      ]
+    ],
+    "is_trial_user": false
+  }
+  ```

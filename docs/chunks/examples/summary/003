@@ -1,0 +1,1 @@
+This chunk details the "Decision Makers/People Info" endpoint of the Crustdata Dataset API. It provides examples for retrieving decision-maker profiles based on company ID, specific titles, LinkedIn flagship URLs, or LinkedIn URNs. The chunk includes the list of decision maker titles, cURL and Python code snippets for each use case, and a link to a sample response.

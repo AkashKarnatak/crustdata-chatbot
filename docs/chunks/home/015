@@ -1,0 +1,27 @@
+# API Usage Endpoints
+
+## Get remaining credits
+
+* **Request**
+
+  A plain GET request without any query params.
+
+  Required: authentication token `auth_token` for user identification.
+
+  ```json
+  curl --location 'https://api.crustdata.com/user/credits' \
+  --header 'Accept: application/json, text/plain, */*' \
+  --header 'Accept-Language: en-US,en;q=0.9' \
+  --header 'Authorization: Token $auth_token' \
+  --header 'Content-Type: application/json'
+  ```
+
+* **Response**
+
+  Returns the remaining credits for the current billing period
+
+  ```json
+  {
+      "credits": 1000000
+  }
+  ```
